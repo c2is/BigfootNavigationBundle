@@ -1,0 +1,5 @@
+services:
+    kernel.listener.bigfoot_navigation_menu_listener:
+        class: Bigfoot\Bundle\NavigationBundle\Listener\MenuListener
+        tags:
+            - { name: kernel.event_listener, event: bigfoot.menu.generate, method: onMenuGenerate }
