@@ -11,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Item controller.
  *
- * @Route("/admin/menu/item")
+ * @Route("/menu/item")
  */
 class ItemController extends CrudController
 {
