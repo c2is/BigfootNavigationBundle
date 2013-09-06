@@ -24,7 +24,8 @@ class ItemParameter
     /**
      * @var integer
      *
-     * @ORM\Column(name="item", type="integer")
+     * @ORM\ManyToOne(targetEntity="Item")
+     * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
      */
     private $item;
 
@@ -46,7 +47,7 @@ class ItemParameter
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -56,10 +57,10 @@ class ItemParameter
     /**
      * Set item
      *
-     * @param integer $item
+     * @param Item $item
      * @return ItemParameter
      */
-    public function setItem($item)
+    public function setItem(Item $item)
     {
         $this->item = $item;
     
@@ -69,7 +70,7 @@ class ItemParameter
     /**
      * Get item
      *
-     * @return integer 
+     * @return Item
      */
     public function getItem()
     {

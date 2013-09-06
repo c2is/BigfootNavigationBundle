@@ -20,6 +20,7 @@ class MenuListener
         if ('sidebar_menu' == $menu->getName()) {
             $navigation = new Item('sidebar_navigation', 'Navigation');
             $navigation->addChild(new Item('sidebar_navigation_menu', 'Menu management', 'admin_menu'));
+            $navigation->addChild(new Item('sidebar_navigation_item', 'Menu item management', 'admin_menu_item'));
             $menu->addItem($navigation);
         }
     }

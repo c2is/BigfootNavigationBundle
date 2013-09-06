@@ -2,7 +2,9 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Item
@@ -31,24 +33,58 @@ class Item
     /**
      * @var string
      *
+     * @Gedmo\Slug(fields={"name"}, updatable=true, unique=true)
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
 
     /**
-     * @var integer
+     * @var Menu
      *
-     * @ORM\Column(name="menu", type="integer")
+     * @Gedmo\SortableGroup
+     * @ORM\ManyToOne(targetEntity="Menu", inversedBy="items")
+     * @ORM\JoinColumn(name="menu_id", referencedColumnName="id")
      */
     private $menu;
 
     /**
-     * @var integer
+     * @var Item
      *
-     * @ORM\Column(name="parent", type="integer")
+     * @ORM\ManyToOne(targetEntity="Item", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
     private $parent;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Item", mappedBy="parent")
+     */
+    private $children;
+
+    /**
+     * @var integer
+     *
+     * @Gedmo\SortablePosition
+     * @ORM\Column(name="position", type="integer")
+     */
+    private $position;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
     /**
      * Get id
@@ -132,10 +168,10 @@ class Item
     /**
      * Set parent
      *
-     * @param integer $parent
+     * @param Item $parent
      * @return Item
      */
-    public function setParent($parent)
+    public function setParent(Item $parent)
     {
         $this->parent = $parent;
     
@@ -145,10 +181,66 @@ class Item
     /**
      * Get parent
      *
-     * @return integer 
+     * @return Item
      */
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * @param ArrayCollection $children
+     * @return $this
+     */
+    public function setChildren(ArrayCollection $children)
+    {
+        $this->children = $children;
+        return $this;
+    }
+
+    /**
+     * @param Item $children
+     * @return $this
+     */
+    public function addChildren(Item $children)
+    {
+        $this->children->add($children);
+        return $this;
+    }
+
+    /**
+     * @param Item $children
+     * @return $this
+     */
+    public function removeChildren(Item $children)
+    {
+        $this->children->removeElement($children);
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param $position
+     * @return $this
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 }

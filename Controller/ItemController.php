@@ -9,18 +9,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * Menu controller.
+ * Item controller.
  *
- * @Route("/menu")
+ * @Route("/admin/menu/item")
  */
-class MenuController extends CrudController
+class ItemController extends CrudController
 {
     /**
      * @return string
      */
     protected function getName()
     {
-        return 'admin_menu';
+        return 'admin_menu_item';
     }
 
     /**
@@ -28,7 +28,7 @@ class MenuController extends CrudController
      */
     protected function getEntity()
     {
-        return 'BigfootNavigationBundle:Menu';
+        return 'BigfootNavigationBundle:Item';
     }
 
     protected function getFields()
@@ -39,9 +39,9 @@ class MenuController extends CrudController
         );
     }
     /**
-     * Lists all Menu entities.
+     * Lists all Item entities.
      *
-     * @Route("/", name="admin_menu")
+     * @Route("/", name="admin_menu_item")
      * @Method("GET")
      * @Template("BigfootCoreBundle:crud:index.html.twig")
      */
@@ -50,9 +50,9 @@ class MenuController extends CrudController
         return $this->doIndex();
     }
     /**
-     * Creates a new Menu entity.
+     * Creates a new Item entity.
      *
-     * @Route("/", name="admin_menu_create")
+     * @Route("/", name="admin_menu_item_create")
      * @Method("POST")
      * @Template("BigfootCoreBundle:crud:new.html.twig")
      */
@@ -63,9 +63,9 @@ class MenuController extends CrudController
     }
 
     /**
-     * Displays a form to create a new Menu entity.
+     * Displays a form to create a new Item entity.
      *
-     * @Route("/new", name="admin_menu_new")
+     * @Route("/new", name="admin_menu_item_new")
      * @Method("GET")
      * @Template("BigfootCoreBundle:crud:new.html.twig")
      */
@@ -76,9 +76,9 @@ class MenuController extends CrudController
     }
 
     /**
-     * Displays a form to edit an existing Menu entity.
+     * Displays a form to edit an existing Item entity.
      *
-     * @Route("/{id}/edit", name="admin_menu_edit")
+     * @Route("/{id}/edit", name="admin_menu_item_edit")
      * @Method("GET")
      * @Template("BigfootCoreBundle:crud:edit.html.twig")
      */
@@ -89,9 +89,9 @@ class MenuController extends CrudController
     }
 
     /**
-     * Edits an existing Menu entity.
+     * Edits an existing Item entity.
      *
-     * @Route("/{id}", name="admin_menu_update")
+     * @Route("/{id}", name="admin_menu_item_update")
      * @Method("PUT")
      * @Template("BigfootCoreBundle:crud:edit.html.twig")
      */
@@ -101,9 +101,9 @@ class MenuController extends CrudController
         return $this->doUpdate($request, $id);
     }
     /**
-     * Deletes a Menu entity.
+     * Deletes a Item entity.
      *
-     * @Route("/{id}", name="admin_menu_delete")
+     * @Route("/{id}", name="admin_menu_item_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)

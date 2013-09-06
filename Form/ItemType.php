@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class MenuType extends AbstractType
+class ItemType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -16,6 +16,8 @@ class MenuType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('menu')
+            ->add('parent')
         ;
     }
     
@@ -25,7 +27,7 @@ class MenuType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Bigfoot\Bundle\NavigationBundle\Entity\Menu'
+            'data_class' => 'Bigfoot\Bundle\NavigationBundle\Entity\Item'
         ));
     }
 
@@ -34,6 +36,6 @@ class MenuType extends AbstractType
      */
     public function getName()
     {
-        return 'bigfoot_bundle_navigationbundle_menu';
+        return 'bigfoot_bundle_navigationbundle_item';
     }
 }
