@@ -1,0 +1,22 @@
+{
+    "name": "bigfoot/navigation-bundle",
+    "type": "symfony-bundle",
+    "description": "Bigfoot navigation bundle",
+    "keywords": [],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Guillaume Manen",
+            "email": "g.manen@c2is.fr"
+        }
+    ],
+    "require": {
+        "bigfoot/core-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Bigfoot\\Bundle\\NavigationBundle": "" }
+    },
+    "target-dir": "Bigfoot/Bundle/NavigationBundle",
+    "minimum-stability": "dev"
+}
+
