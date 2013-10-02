@@ -18,9 +18,9 @@ class MenuListener
     {
         $menu = $event->getMenu();
         if ('sidebar_menu' == $menu->getName()) {
-            $navigation = new Item('sidebar_navigation', 'Navigation');
-            $navigation->addChild(new Item('sidebar_navigation_menu', 'Menu management', 'admin_menu'));
-            $navigation->addChild(new Item('sidebar_navigation_item', 'Menu item management', 'admin_menu_item'));
+            $navigation = new Item('sidebar_navigation', 'Navigation', null, array(), array(), 'sitemap');
+            $navigation->addChild(new Item('sidebar_navigation_menu', 'Menu', 'admin_menu', array(), array(), null));
+            $navigation->addChild(new Item('sidebar_navigation_item', 'Menu item', 'admin_menu_item', array(), array(), null));
             $menu->addItem($navigation);
         }
     }
