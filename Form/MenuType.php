@@ -2,20 +2,50 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Form;
 
+use Bigfoot\Bundle\NavigationBundle\Form\DataTransformer\ItemsToJsonTransformer;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * Class MenuType
+ * @package Bigfoot\Bundle\NavigationBundle\Form
+ */
 class MenuType extends AbstractType
 {
-        /**
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $entityManager;
+
+    /**
+     * Constructor.
+     *
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $transformer = new ItemsToJsonTransformer($this->entityManager);
+
         $builder
             ->add('name')
+            ->add($builder->create('items', 'hidden', array(
+                    'attr' => array(
+                        'class' => 'treeView'
+                    )
+                ))
+                ->addModelTransformer($transformer)
+            )
         ;
     }
     
@@ -34,6 +64,6 @@ class MenuType extends AbstractType
      */
     public function getName()
     {
-        return 'bigfoot_bundle_navigationbundle_menu';
+        return 'bigfoot_menu_item';
     }
 }

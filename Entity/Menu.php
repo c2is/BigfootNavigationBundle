@@ -41,7 +41,7 @@ class Menu
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Item", mappedBy="menu")
+     * @ORM\OneToMany(targetEntity="Item", mappedBy="menu", cascade={"persist"})
      */
     private $items;
 

@@ -38,6 +38,12 @@ class MenuController extends CrudController
             'name' => 'Name',
         );
     }
+
+    protected function getFormType()
+    {
+        return 'bigfoot_menu_item';
+    }
+
     /**
      * Lists all Menu entities.
      *

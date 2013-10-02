@@ -3,3 +3,9 @@ services:
         class: Bigfoot\Bundle\NavigationBundle\Listener\MenuListener
         tags:
             - { name: kernel.event_listener, event: bigfoot.menu.generate, method: onMenuGenerate }
+    form.type.bigfoot_menu_item:
+        class: Bigfoot\Bundle\NavigationBundle\Form\MenuType
+        arguments:
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: form.type, alias: bigfoot_menu_item }

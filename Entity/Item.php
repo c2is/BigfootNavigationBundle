@@ -50,6 +50,7 @@ class Item
     /**
      * @var Item
      *
+     * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="Item", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
@@ -171,7 +172,7 @@ class Item
      * @param Item $parent
      * @return Item
      */
-    public function setParent(Item $parent)
+    public function setParent(Item $parent = null)
     {
         $this->parent = $parent;
     
