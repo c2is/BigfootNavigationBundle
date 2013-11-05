@@ -24,7 +24,7 @@ class ItemParameter
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Item")
+     * @ORM\ManyToOne(targetEntity="Item", inversedBy="parameters")
      * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
      */
     private $item;
@@ -43,6 +43,12 @@ class ItemParameter
      */
     private $value;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
 
     /**
      * Get id
@@ -121,5 +127,28 @@ class ItemParameter
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return string
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

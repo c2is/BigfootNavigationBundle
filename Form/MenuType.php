@@ -41,8 +41,9 @@ class MenuType extends AbstractType
             ->add('name')
             ->add($builder->create('items', 'hidden', array(
                     'attr' => array(
-                        'class' => 'treeView'
-                    )
+                        'class' => 'treeView',
+                        'data-new-url' => '/admin_dev.php/admin/menu/item/new',
+                    ),
                 ))
                 ->addModelTransformer($transformer)
             )
@@ -64,6 +65,6 @@ class MenuType extends AbstractType
      */
     public function getName()
     {
-        return 'bigfoot_menu_item';
+        return 'bigfoot_menu';
     }
 }

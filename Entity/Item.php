@@ -66,6 +66,20 @@ class Item
     /**
      * @var integer
      *
+     * @ORM\OneToMany(targetEntity="ItemParameter", mappedBy="item")
+     */
+    private $parameters;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="route", type="string", length=255)
+     */
+    private $route;
+
+    /**
+     * @var integer
+     *
      * @Gedmo\SortablePosition
      * @ORM\Column(name="position", type="integer")
      */
@@ -77,6 +91,7 @@ class Item
     public function __construct()
     {
         $this->children = new ArrayCollection();
+        $this->parameters = new ArrayCollection();
     }
 
     /**
@@ -225,6 +240,62 @@ class Item
     public function getChildren()
     {
         return $this->children;
+    }
+
+    /**
+     * @param ArrayCollection $parameters
+     * @return $this
+     */
+    public function setParameters(ArrayCollection $parameters)
+    {
+        $this->parameters = $parameters;
+        return $this;
+    }
+
+    /**
+     * @param Item $parameter
+     * @return $this
+     */
+    public function addParameter(ItemParameter $parameter)
+    {
+        $this->parameters->add($parameter);
+        return $this;
+    }
+
+    /**
+     * @param Item $parameter
+     * @return $this
+     */
+    public function removeParameter(ItemParameter $parameter)
+    {
+        $this->parameters->removeElement($parameter);
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * @param $route
+     * @return $this
+     */
+    public function setRoute($route)
+    {
+        $this->route = $route;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRoute()
+    {
+        return $this->route;
     }
 
     /**

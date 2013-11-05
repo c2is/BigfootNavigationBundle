@@ -2,6 +2,11 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Controller;
 
+use Bigfoot\Bundle\NavigationBundle\Entity\Item;
+use Bigfoot\Bundle\NavigationBundle\Entity\ItemParameter;
+use Bigfoot\Bundle\NavigationBundle\Form\ItemParameterType;
+use Bigfoot\Bundle\NavigationBundle\Form\ItemType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Bigfoot\Bundle\CoreBundle\Crud\CrudController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -38,6 +43,12 @@ class ItemController extends CrudController
             'name' => 'Name',
         );
     }
+
+    protected function getFormType()
+    {
+        return 'bigfoot_menu_item';
+    }
+
     /**
      * Lists all Item entities.
      *
@@ -58,7 +69,6 @@ class ItemController extends CrudController
      */
     public function createAction(Request $request)
     {
-
         return $this->doCreate($request);
     }
 
@@ -67,7 +77,7 @@ class ItemController extends CrudController
      *
      * @Route("/new", name="admin_menu_item_new")
      * @Method("GET")
-     * @Template("BigfootCoreBundle:crud:new.html.twig")
+     * @Template("BigfootNavigationBundle:item:edit.html.twig")
      */
     public function newAction()
     {
@@ -80,7 +90,7 @@ class ItemController extends CrudController
      *
      * @Route("/{id}/edit", name="admin_menu_item_edit")
      * @Method("GET")
-     * @Template("BigfootCoreBundle:crud:edit.html.twig")
+     * @Template("BigfootNavigationBundle:item:edit.html.twig")
      */
     public function editAction($id)
     {
@@ -100,6 +110,7 @@ class ItemController extends CrudController
 
         return $this->doUpdate($request, $id);
     }
+
     /**
      * Deletes a Item entity.
      *
@@ -108,7 +119,38 @@ class ItemController extends CrudController
      */
     public function deleteAction(Request $request, $id)
     {
+        return $this->doDelete($request, $id);
+    }
 
-    return $this->doDelete($request, $id);
-}
+    /**
+     * Lists all parameters for a given route.
+     *
+     * @Route("/parameters/{route}", name="admin_menu_item_route_parameters", defaults={"route": null})
+     * @Method("GET")
+     * @Template("BigfootNavigationBundle:includes:parameters.html.twig")
+     */
+    public function listParametersAction(Request $request, $route)
+    {
+        $parameters = array();
+
+        $routes = $this->get('bigfoot.route_manager')->getRoutes();
+        if (isset($routes[$route]) and array_key_exists('parameters', $routeOptions = $routes[$route]->getOptions())) {
+            $parameters = $routeOptions['parameters'];
+        }
+
+        $item = new Item();
+        foreach ($parameters as $parameter => $type) {
+            $objParameter = new ItemParameter();
+            $objParameter->setParameter($parameter);
+            $objParameter->setType($type);
+
+            $item->addParameter($objParameter);
+        }
+
+        $form = $this->createForm(new ItemType($this->get('bigfoot.route_manager')), $item);
+
+        return array(
+            'form' => $form->createView(),
+        );
+    }
 }
