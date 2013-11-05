@@ -33,7 +33,6 @@ class ItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $routes = $this->routeManager->getArrayRoutes();
-        $routeManager = $this->routeManager;
 
         $builder
             ->add('route','choice', array(
@@ -51,7 +50,8 @@ class ItemType extends AbstractType
                 'prototype'     => true,
                 'allow_add'     => true,
                 'allow_delete'  => true,
-                'label'         => 'Parameters'
+                'label'         => 'Parameters',
+                'by_reference'  => false,
             ));
         ;
     }

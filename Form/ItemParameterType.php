@@ -20,6 +20,8 @@ class ItemParameterType extends AbstractType
             ->add('parameter', 'text', array(
                 'read_only' => true,
             ))
+            ->add('value')
+            ->add('type', 'hidden')
             ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) {
                 $form = $event->getForm();
                 $data = $event->getData();

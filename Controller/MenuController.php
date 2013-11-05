@@ -41,7 +41,7 @@ class MenuController extends CrudController
 
     protected function getFormType()
     {
-        return 'bigfoot_menu_item';
+        return 'bigfoot_menu';
     }
 
     /**

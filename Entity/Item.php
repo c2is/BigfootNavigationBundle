@@ -66,7 +66,7 @@ class Item
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="ItemParameter", mappedBy="item")
+     * @ORM\OneToMany(targetEntity="ItemParameter", mappedBy="item", cascade={"persist"})
      */
     private $parameters;
 
@@ -258,6 +258,7 @@ class Item
      */
     public function addParameter(ItemParameter $parameter)
     {
+        $parameter->setItem($this);
         $this->parameters->add($parameter);
         return $this;
     }

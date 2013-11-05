@@ -60,6 +60,7 @@ class ItemController extends CrudController
     {
         return $this->doIndex();
     }
+
     /**
      * Creates a new Item entity.
      *
