@@ -120,9 +120,7 @@ class ItemsToJsonTransformer implements DataTransformerInterface
         $toReturn = new ArrayCollection();
 
         $this->recursiveReverseTransform(json_decode($json), $toReturn);
-foreach($toReturn as $item) {
-    var_dump($item->getPosition(), $item->getName());
-}
+
         return $toReturn;
     }
 
