@@ -46,9 +46,23 @@ class ItemParameter
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
      */
     private $type;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="value_field", type="string", length=255, nullable=true)
+     */
+    private $valueField;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="label_field", type="string", length=255, nullable=true)
+     */
+    private $labelField;
 
     /**
      * Get id
@@ -150,5 +164,51 @@ class ItemParameter
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set valueField
+     *
+     * @param string $type
+     * @return string
+     */
+    public function setValueField($valueField)
+    {
+        $this->valueField = $valueField;
+
+        return $this;
+    }
+
+    /**
+     * Get valueField
+     *
+     * @return string
+     */
+    public function getValueField()
+    {
+        return $this->valueField;
+    }
+
+    /**
+     * Set labelField
+     *
+     * @param string $type
+     * @return string
+     */
+    public function setLabelField($labelField)
+    {
+        $this->labelField = $labelField;
+
+        return $this;
+    }
+
+    /**
+     * Get labelField
+     *
+     * @return string
+     */
+    public function getLabelField()
+    {
+        return $this->labelField;
     }
 }

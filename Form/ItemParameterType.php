@@ -2,6 +2,7 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -23,6 +24,8 @@ class ItemParameterType extends AbstractType
             ))
             ->add('value')
             ->add('type', 'hidden')
+            ->add('labelField', 'hidden')
+            ->add('valueField', 'hidden')
             ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) {
                 $form = $event->getForm();
                 $data = $event->getData();
@@ -32,9 +35,18 @@ class ItemParameterType extends AbstractType
                 }
 
                 if ($data->getType()) {
-                    $form->add('value', 'entity', array(
-                        'class' => $data->getType(),
-                    ));
+                    $valueParameters = array('class' => $data->getType());
+                    if ($property = $data->getLabelField()) {
+                        $valueParameters['property'] = $property;
+                        $valueParameters['query_builder'] = function(EntityRepository $er) use ($property) {
+                            $queryBuilder =  $er->createQueryBuilder('v')
+                                ->orderBy(sprintf('v.%s', $property), 'ASC');
+
+                            return $queryBuilder;
+                        };
+                    }
+
+                    $form->add('value', 'entity', $valueParameters);
                 } else {
                     $form->add('value', 'text');
                 }
