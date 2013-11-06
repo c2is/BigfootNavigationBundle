@@ -127,13 +127,16 @@ class ItemsToJsonTransformer implements DataTransformerInterface
     public function recursiveReverseTransform($items, $collection, $parent = null)
     {
         $repository = $this->entityManager->getRepository('BigfootNavigationBundle:Item');
+        $i = 1;
         foreach ($items as $item) {
             $toAdd = $repository->findOneById($item->id);
             if (array_key_exists('children', $item)) {
                 $this->recursiveReverseTransform($item->children, $collection, $toAdd);
             }
             $toAdd->setParent($parent);
+            $toAdd->setPosition($i);
             $collection->add($toAdd);
+            $i++;
         }
     }
 }

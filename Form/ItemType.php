@@ -45,9 +45,9 @@ class ItemType extends AbstractType
             ->add('name')
             ->add('menu')
             ->add('parent')
-            ->add('parameters', 'collection', array(
+            ->add('parameters', 'parameters_collection', array(
                 'type'          => new ItemParameterType(),
-                'prototype'     => true,
+                'prototype'     => false,
                 'allow_add'     => true,
                 'allow_delete'  => true,
                 'label'         => 'Parameters',

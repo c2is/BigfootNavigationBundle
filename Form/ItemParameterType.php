@@ -19,6 +19,7 @@ class ItemParameterType extends AbstractType
         $builder
             ->add('parameter', 'text', array(
                 'read_only' => true,
+                'label'     => 'Name'
             ))
             ->add('value')
             ->add('type', 'hidden')

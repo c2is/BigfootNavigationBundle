@@ -15,3 +15,7 @@ services:
             - @bigfoot.route_manager
         tags:
             - { name: form.type, alias: bigfoot_menu_item }
+    bigfoot.form.type.parameters_collection:
+        class: Bigfoot\Bundle\NavigationBundle\Form\Type\ParametersCollectionType
+        tags:
+            - { name: form.type, alias: parameters_collection }
