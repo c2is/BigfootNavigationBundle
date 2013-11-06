@@ -66,7 +66,7 @@ class Item
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="ItemParameter", mappedBy="item", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ItemParameter", mappedBy="item", cascade={"persist", "remove"})
      */
     private $parameters;
 
