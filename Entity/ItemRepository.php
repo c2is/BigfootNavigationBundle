@@ -2,7 +2,7 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Entity;
 
-use Doctrine\ORM\EntityRepository;
+use Gedmo\Sortable\Entity\Repository\SortableRepository as EntityRepository;
 
 /**
  * ItemRepository
