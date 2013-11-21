@@ -47,6 +47,7 @@ class MenuType extends AbstractType
                 ))
                 ->addModelTransformer($transformer)
             )
+            ->add('translation', 'translatable_entity')
         ;
     }
     

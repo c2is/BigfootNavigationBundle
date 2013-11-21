@@ -52,7 +52,8 @@ class ItemType extends AbstractType
                 'allow_delete'  => true,
                 'label'         => 'Parameters',
                 'by_reference'  => false,
-            ));
+            ))
+            ->add('translation', 'translatable_entity')
         ;
     }
     
