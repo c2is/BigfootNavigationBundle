@@ -112,7 +112,7 @@ class ItemController extends CrudController
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->get('doctrine')->getManager();
+        $em = $this->container->get('doctrine')->getManager();
 
         $entity = $em->getRepository($this->getEntity())->find($id);
 
@@ -135,7 +135,7 @@ class ItemController extends CrudController
             $em->persist($entity);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add(
+            $this->container->get('session')->getFlashBag()->add(
                 'success',
                 $this->container->get('templating')->render('BigfootCoreBundle:includes:flash.html.twig', array(
                     'icon' => 'ok',

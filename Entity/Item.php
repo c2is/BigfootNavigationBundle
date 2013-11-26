@@ -86,6 +86,12 @@ class Item
     private $position;
 
     /**
+     * @var string
+     * @ORM\Column(name="attribute", type="string", length=255)
+     */
+    private $attribute;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -315,6 +321,29 @@ class Item
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set attribute
+     *
+     * @param string $attribute
+     * @return Item
+     */
+    public function setAttribute($attribute)
+    {
+        $this->attribute = $attribute;
+
+        return $this;
+    }
+
+    /**
+     * Get attribute
+     *
+     * @return string
+     */
+    public function getAttribute()
+    {
+        return $this->attribute;
     }
 
 }

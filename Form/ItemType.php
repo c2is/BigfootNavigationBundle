@@ -43,6 +43,7 @@ class ItemType extends AbstractType
                 'empty_value' => 'Choose a route',
             ))
             ->add('name')
+            ->add('attribute')
             ->add('menu')
             ->add('parent')
             ->add('parameters', 'parameters_collection', array(
