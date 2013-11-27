@@ -63,6 +63,7 @@ class ItemType extends AbstractType
                 'label'         => 'Parameters',
                 'by_reference'  => false,
             ))
+            ->add('image','bigfoot_media', array('required' => false))
             ->add('translation', 'translatable_entity')
         ;
     }

@@ -210,7 +210,7 @@ class ItemController extends CrudController
             $item->addParameter($objParameter);
         }
 
-        $form = $this->container->get('form.factory')->create(new ItemType($this->container->get('bigfoot.route_manager')), $item);
+        $form = $this->container->get('form.factory')->create(new ItemType($this->container->get('bigfoot.route_manager'),$this->container->get('doctrine')->getEntityManager()), $item);
 
         return array(
             'form' => $form->createView(),

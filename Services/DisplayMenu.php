@@ -29,7 +29,7 @@ class DisplayMenu
         $this->container = $container;
     }
 
-    public function displayMenuAction($menu_slug, $current_route, $template)
+    public function displayMenuAction($menu_slug, $current_uri, $template)
     {
         $em = $this->container->get('doctrine')->getManager();
         $queryBuilder = $em->getRepository('BigfootNavigationBundle:Item')
@@ -56,10 +56,15 @@ class DisplayMenu
             }
 
             $externalLink = $item->getExternalLink();
+            $uri = '';
 
             if ($externalLink != '') {
                 $externalLink = (strstr($externalLink,'www') && !strstr($externalLink,'http://')) ? 'http://'.$externalLink : $externalLink;
             }
+            else {
+                $uri = $this->container->get('router')->generate($item->getRoute(),$tabParameters);
+            }
+
 
             $arrayPath[] = array(
                 'label'         =>  $item->getName(),
@@ -67,6 +72,7 @@ class DisplayMenu
                 'parameters'    =>  $tabParameters,
                 'attribute'     =>  $item->getAttribute(),
                 'external_link' =>  $externalLink,
+                'uri'           =>  $uri,
             );
         }
 
@@ -74,10 +80,11 @@ class DisplayMenu
 
         foreach ($arrayPath as $path) {
 
-            $current = ($current_route == $path['route']) ? true : false;
+            $current = ($current_uri == $path['route']) ? true : false;
 
             $arrayMenu[] = array(
                 'route'         => $path['route'],
+                'uri'           => $path['uri'],
                 'current'       => $current,
                 'label'         => $path['label'],
                 'parameters'    => $path['parameters'],

@@ -98,6 +98,13 @@ class Item
     private $externalLink;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -373,6 +380,29 @@ class Item
     public function getExternalLink()
     {
         return $this->externalLink;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     * @return Page
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 
 }
