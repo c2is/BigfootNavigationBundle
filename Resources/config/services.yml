@@ -1,3 +1,5 @@
+parameters:
+    bigfoot.display_menu.class: 'Bigfoot\Bundle\NavigationBundle\Services\DisplayMenu'
 services:
     kernel.listener.bigfoot_navigation_menu_listener:
         class: Bigfoot\Bundle\NavigationBundle\Listener\MenuListener
@@ -19,3 +21,6 @@ services:
         class: Bigfoot\Bundle\NavigationBundle\Form\Type\ParametersCollectionType
         tags:
             - { name: form.type, alias: parameters_collection }
+    bigfoot.display_menu:
+        class: '%bigfoot.display_menu.class%'
+        arguments: [@service_container]

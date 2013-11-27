@@ -41,9 +41,11 @@ class ItemType extends AbstractType
                     'class' => 'menu-item-route-choice',
                 ),
                 'empty_value' => 'Choose a route',
+                'required' => false,
             ))
             ->add('name')
-            ->add('attribute')
+            ->add('external_link','text',array('required' => false))
+            ->add('attribute','text',array('required' => false))
             ->add('menu')
             ->add('parent')
             ->add('parameters', 'parameters_collection', array(

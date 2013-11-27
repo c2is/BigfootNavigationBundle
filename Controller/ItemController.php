@@ -198,13 +198,16 @@ class ItemController extends CrudController
     {
         $parameters = array();
 
-        $routes = $this->get('bigfoot.route_manager')->getRoutes();
+        $routes = $this->container->get('bigfoot.route_manager')->getRoutes();
         if (isset($routes[$route]) and array_key_exists('parameters', $routeOptions = $routes[$route]->getOptions())) {
             $parameters = $routeOptions['parameters'];
         }
 
+//        var_dump($parameters);die;
+
         $item = new Item();
         foreach ($parameters as $parameter) {
+
             $objParameter = new ItemParameter();
             $objParameter->setParameter($parameter['name']);
             $objParameter->setType(isset($parameter['type']) ? $parameter['type'] : null);
@@ -214,7 +217,7 @@ class ItemController extends CrudController
             $item->addParameter($objParameter);
         }
 
-        $form = $this->container->get('form.factory')->create(new ItemType($this->get('bigfoot.route_manager')), $item);
+        $form = $this->container->get('form.factory')->create(new ItemType($this->container->get('bigfoot.route_manager')), $item);
 
         return array(
             'form' => $form->createView(),

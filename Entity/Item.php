@@ -73,7 +73,7 @@ class Item
     /**
      * @var string
      *
-     * @ORM\Column(name="route", type="string", length=255)
+     * @ORM\Column(name="route", type="string", length=255, nullable=true)
      */
     private $route;
 
@@ -87,9 +87,15 @@ class Item
 
     /**
      * @var string
-     * @ORM\Column(name="attribute", type="string", length=255)
+     * @ORM\Column(name="attribute", type="string", length=255, nullable=true)
      */
     private $attribute;
+
+    /**
+     * @var string
+     * @ORM\Column(name="external_link", type="string", length=255, nullable=true)
+     */
+    private $externalLink;
 
     /**
      * Constructor.
@@ -344,6 +350,29 @@ class Item
     public function getAttribute()
     {
         return $this->attribute;
+    }
+
+    /**
+     * Set externalLink
+     *
+     * @param string $externalLink
+     * @return Item
+     */
+    public function setExternalLink($externalLink)
+    {
+        $this->externalLink = $externalLink;
+
+        return $this;
+    }
+
+    /**
+     * Get externalLink
+     *
+     * @return string
+     */
+    public function getExternalLink()
+    {
+        return $this->externalLink;
     }
 
 }
