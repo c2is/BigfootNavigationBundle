@@ -124,13 +124,6 @@ class ItemController extends CrudController
         $editForm = $this->container->get('form.factory')->create($this->getFormType(), $entity);
         $editForm->submit($request);
 
-        foreach ($entity->getParameters() as $parameter) {
-            if ($parameter->getType()) {var_dump($parameter->getValueField());
-                $getValueMethod = sprintf('get%s', ucfirst($parameter->getValueField()));
-                $parameter->setValue($parameter->getValue()->$getValueMethod());
-            }
-        }
-
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();

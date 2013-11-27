@@ -3,6 +3,7 @@
 namespace Bigfoot\Bundle\NavigationBundle\Form;
 
 use Bigfoot\Bundle\CoreBundle\Route\RouteManager;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -17,13 +18,19 @@ class ItemType extends AbstractType
     protected $routeManager;
 
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $entityManager;
+
+    /**
      * Constructor
      *
      * @param RouteManager $routeManager
      */
-    public function __construct(RouteManager $routeManager)
+    public function __construct(RouteManager $routeManager, EntityManager $entityManager)
     {
         $this->routeManager = $routeManager;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -49,7 +56,7 @@ class ItemType extends AbstractType
             ->add('menu')
             ->add('parent')
             ->add('parameters', 'parameters_collection', array(
-                'type'          => new ItemParameterType(),
+                'type'          => new ItemParameterType($this->entityManager),
                 'prototype'     => false,
                 'allow_add'     => true,
                 'allow_delete'  => true,

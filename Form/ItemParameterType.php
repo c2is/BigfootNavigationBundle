@@ -2,6 +2,7 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Form;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,6 +12,22 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ItemParameterType extends AbstractType
 {
+
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $entityManager;
+
+    /**
+     * Constructor.
+     *
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -35,18 +52,23 @@ class ItemParameterType extends AbstractType
                 }
 
                 if ($data->getType()) {
-                    $valueParameters = array('class' => $data->getType());
                     if ($property = $data->getLabelField()) {
-                        $valueParameters['property'] = $property;
-                        $valueParameters['query_builder'] = function(EntityRepository $er) use ($property) {
-                            $queryBuilder =  $er->createQueryBuilder('v')
-                                ->orderBy(sprintf('v.%s', $property), 'ASC');
+                        $valueField = $data->getValueField();
+                        $results =  $this->entityManager->getRepository($data->getType())->createQueryBuilder('v')
+                            ->select(sprintf('v.%s, v.%s',$valueField , $property))
+                            ->orderBy(sprintf('v.%s', $property), 'ASC')
+                            ->getQuery()->getArrayResult();
 
-                            return $queryBuilder;
-                        };
+                        $choices = array();
+                        foreach ($results as $result) {
+                            $choices[$result[$valueField]] = $result[$property];
+                        }
                     }
 
-                    $form->add('value', 'entity', $valueParameters);
+
+                    $form->add('value', 'choice', array(
+                        'choices' => $choices,
+                    ));
                 } else {
                     $form->add('value', 'text');
                 }
