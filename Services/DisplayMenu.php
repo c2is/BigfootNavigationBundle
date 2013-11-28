@@ -36,7 +36,7 @@ class DisplayMenu
             ->createQueryBuilder('c');
         $items = $queryBuilder
             ->leftJoin('c.menu', 'm')
-            ->where('m.slug = :menu_slug')
+            ->where('m.slug = :menu_slug and c.parent is null')
             ->orderBy('c.position')
             ->setParameter('menu_slug', $menu_slug)
             ->getQuery()->getResult()
