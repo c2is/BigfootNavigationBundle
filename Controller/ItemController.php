@@ -88,7 +88,52 @@ class ItemController extends CrudController
     public function newAction()
     {
 
-        return $this->doNew();
+        $entity = new Item();
+
+        if ($this->getRequest()->query->get('preview') && $this->getRequest()->query->get('route') && $this->getRequest()->query->get('value')) {
+
+            $route = $this->getRequest()->query->get('route');
+            $tabValue = unserialize($this->getRequest()->query->get('value'));
+
+            $routes = $this->container->get('bigfoot.route_manager')->getRoutes();
+            if (isset($routes[$route]) and array_key_exists('parameters', $routeOptions = $routes[$route]->getOptions())) {
+                $parameters = $routeOptions['parameters'];
+            }
+
+            $entity->setRoute($route);
+            $i=0;
+            foreach ($parameters as $parameter) {
+                $objParameter = new ItemParameter();
+                $objParameter->setParameter($parameter['name']);
+                $objParameter->setType($parameter['type']);
+                $objParameter->setLabelField($parameter['label']);
+                $objParameter->setValueField($parameter['value']);
+                $objParameter->setValue($tabValue[$i]);
+                $entity->addParameter($objParameter);
+                $i++;
+            }
+        }
+
+        $form   = $this->createForm($this->getFormType(), $entity);
+
+        return array(
+            'form'         => $form->createView(),
+            'form_title'   => sprintf('%s creation', $this->getEntityLabel()),
+            'form_action'  => $this->generateUrl($this->getRouteNameForAction('create')),
+            'form_submit'  => 'Create',
+            'cancel_route' => $this->getRouteNameForAction('index'),
+            'isAjax'       => $this->getRequest()->isXmlHttpRequest(),
+            'breadcrumbs'  => array(
+                array(
+                    'url'   => $this->generateUrl($this->getRouteNameForAction('index')),
+                    'label' => $this->getEntityLabelPlural()
+                ),
+                array(
+                    'url'   => $this->generateUrl($this->getRouteNameForAction('new')),
+                    'label' => sprintf('%s creation', $this->getEntityLabel())
+                ),
+            ),
+        );
     }
 
     /**
