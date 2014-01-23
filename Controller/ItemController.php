@@ -242,8 +242,6 @@ class ItemController extends CrudController
             $parameters = $routeOptions['parameters'];
         }
 
-//        var_dump($parameters);die;
-
         $item = new Item();
         foreach ($parameters as $parameter) {
 
