@@ -1,10 +1,6 @@
 parameters:
     bigfoot.display_menu.class: 'Bigfoot\Bundle\NavigationBundle\Services\DisplayMenu'
 services:
-    kernel.listener.bigfoot_navigation_menu_listener:
-        class: Bigfoot\Bundle\NavigationBundle\Listener\MenuListener
-        tags:
-            - { name: kernel.event_listener, event: bigfoot.menu.generate, method: onMenuGenerate }
     form.type.bigfoot_menu:
         class: Bigfoot\Bundle\NavigationBundle\Form\MenuType
         arguments:
@@ -27,3 +23,9 @@ services:
             class: Bigfoot\Bundle\NavigationBundle\Form\ItemParameterType
             arguments:
                 - @doctrine.orm.entity_manager
+
+    # Menu Listener
+    bigfoot_navigation.listener.menu:
+        class: Bigfoot\Bundle\NavigationBundle\Listener\MenuListener
+        tags:
+            - { name: kernel.event_subscriber }

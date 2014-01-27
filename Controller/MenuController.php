@@ -37,7 +37,7 @@ class MenuController extends CrudController
     protected function getFields()
     {
         return array(
-            'id' => 'ID',
+            'id'   => 'ID',
             'name' => 'Name',
         );
     }
