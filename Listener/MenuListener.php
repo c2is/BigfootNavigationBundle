@@ -2,26 +2,86 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Listener;
 
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
 use Bigfoot\Bundle\CoreBundle\Event\MenuEvent;
-use Bigfoot\Bundle\CoreBundle\Theme\Menu\Item;
 
 /**
- * Class MenuListener
- * @package Bigfoot\Bundle\NavigationBundle\Listener
+ * Menu Listener
  */
-class MenuListener
+class MenuListener implements EventSubscriberInterface
 {
     /**
-     * @param MenuEvent $event
+     * Get subscribed events
+     *
+     * @return array
      */
-    public function onMenuGenerate(MenuEvent $event)
+    public static function getSubscribedEvents()
     {
-        $menu = $event->getMenu();
-        if ('sidebar_menu' == $menu->getName()) {
-            $navigation = new Item('sidebar_navigation', 'Navigation', null, array(), array(), 'sitemap');
-            $navigation->addChild(new Item('sidebar_navigation_menu', 'Menu', 'admin_menu', array(), array(), null));
-            $navigation->addChild(new Item('sidebar_navigation_item', 'Menu item', 'admin_menu_item', array(), array(), null));
-            $menu->addItem($navigation);
-        }
+        return array(
+            MenuEvent::GENERATE_MAIN => 'onGenerateMain',
+        );
+    }
+
+    /**
+     * @param GenericEvent $event
+     */
+    public function onGenerateMain(GenericEvent $event)
+    {
+        $menu          = $event->getSubject();
+        $structureMenu = $menu->getChild('structure');
+
+        $navigationMenu = $structureMenu->addChild(
+            'navigation_menu',
+            array(
+                'label'          => 'Navigation',
+                'url'            => '#',
+                'linkAttributes' => array(
+                    'class' => 'dropdown-toggle',
+                    'icon'  => 'sitemap',
+                )
+            )
+        );
+
+        $navigationMenu->setChildrenAttributes(
+            array(
+                'class' => 'submenu',
+            )
+        );
+
+        $navigationMenu->addChild(
+            'menu',
+            array(
+                'label'  => 'Menu',
+                'route'  => 'admin_menu',
+                'extras' => array(
+                    'routes' => array(
+                        'admin_menu_new',
+                        'admin_menu_edit'
+                    )
+                ),
+                'linkAttributes' => array(
+                    'icon' => 'double-angle-right',
+                )
+            )
+        );
+
+        $navigationMenu->addChild(
+            'menu_item',
+            array(
+                'label'  => 'Menu item',
+                'route'  => 'admin_menu_item',
+                'extras' => array(
+                    'routes' => array(
+                        'admin_menu_item_new',
+                        'admin_menu_item_edit'
+                    )
+                ),
+                'linkAttributes' => array(
+                    'icon' => 'double-angle-right',
+                )
+            )
+        );
     }
 }
