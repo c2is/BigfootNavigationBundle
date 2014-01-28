@@ -122,13 +122,13 @@ class Item
 
     /**
      * @Gedmo\Blameable(on="create")
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="created_by", type="string", nullable=true)
      */
     protected $createdBy;
 
     /**
      * @Gedmo\Blameable(on="update")
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="updated_by", type="string", nullable=true)
      */
     protected $updatedBy;
 
