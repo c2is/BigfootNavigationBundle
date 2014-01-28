@@ -1,6 +1,6 @@
 <?php
 
-namespace Bigfoot\Bundle\NavigationBundle\Entity;
+namespace Bigfoot\Bundle\NavigationBundle\Entity\Menu;
 
 use Gedmo\Sortable\Entity\Repository\SortableRepository as EntityRepository;
 

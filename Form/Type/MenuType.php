@@ -1,16 +1,16 @@
 <?php
 
-namespace Bigfoot\Bundle\NavigationBundle\Form;
+namespace Bigfoot\Bundle\NavigationBundle\Form\Type;
 
-use Bigfoot\Bundle\NavigationBundle\Form\DataTransformer\ItemsToJsonTransformer;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityManager;
+
+use Bigfoot\Bundle\NavigationBundle\Form\DataTransformer\ItemsToJsonTransformer;
 
 /**
- * Class MenuType
- * @package Bigfoot\Bundle\NavigationBundle\Form
+ * Menu Type
  */
 class MenuType extends AbstractType
 {
@@ -20,7 +20,7 @@ class MenuType extends AbstractType
     protected $entityManager;
 
     /**
-     * Constructor.
+     * Construct MenuType
      *
      * @param EntityManager $entityManager
      */
@@ -35,30 +35,35 @@ class MenuType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new ItemsToJsonTransformer($this->entityManager);
-
         $builder
             ->add('name')
-            ->add($builder->create('items', 'hidden', array(
+            ->add(
+                'items',
+                'hidden',
+                array(
                     'attr' => array(
-                        'class' => 'treeView',
+                        'class'        => 'treeView',
                         'data-new-url' => '/admin_dev.php/admin/menu/item/new',
                     ),
-                ))
-                ->addModelTransformer($transformer)
+                )
             )
-            ->add('translation', 'translatable_entity')
-        ;
+            ->add('translation', 'translatable_entity');
+
+        $builder
+            ->get('items')
+            ->addModelTransformer(new ItemsToJsonTransformer($this->entityManager));
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Bigfoot\Bundle\NavigationBundle\Entity\Menu'
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'Bigfoot\Bundle\NavigationBundle\Entity\Menu'
+            )
+        );
     }
 
     /**

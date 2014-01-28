@@ -67,7 +67,6 @@ class MenuController extends CrudController
      */
     public function createAction(Request $request)
     {
-
         return $this->doCreate($request);
     }
 
@@ -80,7 +79,6 @@ class MenuController extends CrudController
      */
     public function newAction()
     {
-
         return $this->doNew();
     }
 
@@ -89,11 +87,10 @@ class MenuController extends CrudController
      *
      * @Route("/{id}/edit", name="admin_menu_edit")
      * @Method("GET")
-     * @Template("BigfootCoreBundle:crud:edit.html.twig")
+     * @Template()
      */
     public function editAction($id)
     {
-
         return $this->doEdit($id);
     }
 
@@ -106,18 +103,16 @@ class MenuController extends CrudController
      */
     public function updateAction(Request $request, $id)
     {
-
         return $this->doUpdate($request, $id);
     }
     /**
      * Deletes a Menu entity.
      *
-     * @Route("/{id}", name="admin_menu_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="admin_menu_delete")
+     * @Method("GET|DELETE")
      */
     public function deleteAction(Request $request, $id)
     {
-
-    return $this->doDelete($request, $id);
-}
+        return $this->doDelete($request, $id);
+    }
 }

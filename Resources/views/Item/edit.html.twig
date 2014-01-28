@@ -1,9 +1,19 @@
 {% extends bigfoot_theme_bundle~'::base.form.html.twig' %}
 
 {% block form %}
+
+    {{ form_row(form.menu) }}
+
+    {{ form_row(form.parent) }}
+
+    {{ form_row(form.name) }}
+
     {{ form_row(form.route) }}
+
     <div id="menu-item-route-parameters" data-url="{{ path('admin_menu_item_route_parameters') }}">
         {{ form_row(form.parameters) }}
     </div>
+
     {{ form_rest(form) }}
+
 {% endblock %}

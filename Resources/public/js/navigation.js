@@ -1,5 +1,5 @@
-$(document).ready(function() {
-    var $container = $('#menu-item-route-parameters');
+$(function() {
+    var container = $('#menu-item-route-parameters');
 
     $('select.menu-item-route-choice').on('change', function() {
         displayMenuItemRouteParameters($(this).val());
@@ -8,18 +8,18 @@ $(document).ready(function() {
 
 function displayMenuItemRouteParameters(route)
 {
-    var $container = $('#menu-item-route-parameters');
+    var container = $('#menu-item-route-parameters');
 
     $.ajax({
-        url: $container.data('url')+'/'+route,
-        type: 'GET',
-        cache: false,
+        url:     container.data('url') + '/' + route,
+        type:    'GET',
+        cache:   false,
         success: function(data) {
-            var $prototypeContainer = $('#bigfoot_menu_item_parameters', $container);
+            var prototypeContainer = $('#bigfoot_menu_item_parameters', container);
 
-            $prototypeContainer.empty();
-            $prototypeContainer.append(data);
-            $('.chosen-select', $prototypeContainer).chosen();
+            prototypeContainer.empty();
+            prototypeContainer.append(data);
+            $('.chosen-select', prototypeContainer).chosen();
         }
     });
 }

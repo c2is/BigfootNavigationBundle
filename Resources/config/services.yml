@@ -1,31 +1,37 @@
-parameters:
-    bigfoot.display_menu.class: 'Bigfoot\Bundle\NavigationBundle\Services\DisplayMenu'
 services:
-    form.type.bigfoot_menu:
-        class: Bigfoot\Bundle\NavigationBundle\Form\MenuType
-        arguments:
-            - @doctrine.orm.entity_manager
-        tags:
-            - { name: form.type, alias: bigfoot_menu }
-    form.type.bigfoot_menu_item:
-        class: Bigfoot\Bundle\NavigationBundle\Form\ItemType
-        arguments: [@bigfoot.route_manager, @doctrine.orm.entity_manager]
-        tags:
-            - { name: form.type, alias: bigfoot_menu_item }
-    bigfoot.form.type.parameters_collection:
-        class: Bigfoot\Bundle\NavigationBundle\Form\Type\ParametersCollectionType
-        tags:
-            - { name: form.type, alias: parameters_collection }
-    bigfoot.display_menu:
-        class: '%bigfoot.display_menu.class%'
-        arguments: [@service_container]
-    form.type.bigfoot_item_parameter:
-            class: Bigfoot\Bundle\NavigationBundle\Form\ItemParameterType
-            arguments:
-                - @doctrine.orm.entity_manager
-
     # Menu Listener
     bigfoot_navigation.listener.menu:
         class: Bigfoot\Bundle\NavigationBundle\Listener\MenuListener
         tags:
             - { name: kernel.event_subscriber }
+
+    # Menu Type
+    bigfoot_navigation.form.type.menu:
+        class: Bigfoot\Bundle\NavigationBundle\Form\Type\MenuType
+        arguments:
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: form.type, alias: bigfoot_menu }
+
+    # Menu Item Type
+    bigfoot_navigation.form.type.menu_item:
+        class: Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\ItemType
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @bigfoot.route_manager
+        tags:
+            - { name: form.type, alias: bigfoot_menu_item }
+
+    # Menu Item Parameter Type
+    bigfoot_navigation.form.type.menu_item_parameter:
+        class: Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\Item\ParameterType
+        arguments:
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: form.type, alias: bigfoot_menu_item_parameter }
+
+    # Menu Item Parameter Collection Type
+    bigfoot_navigation.form.type.menu_item_parameter_collection:
+        class: Bigfoot\Bundle\NavigationBundle\Form\Type\ParametersCollectionType
+        tags:
+            - { name: form.type, alias: bigfoot_menu_item_parameter_collection }
