@@ -89,30 +89,30 @@ class ItemController extends CrudController
     {
         $entity = new Item();
 
-        // if ($this->getRequest()->query->get('preview') && $this->getRequest()->query->get('route') && $this->getRequest()->query->get('value')) {
+        if ($this->getRequest()->query->get('preview') && $this->getRequest()->query->get('route') && $this->getRequest()->query->get('value')) {
 
-        //     $route = $this->getRequest()->query->get('route');
-        //     $tabValue = unserialize($this->getRequest()->query->get('value'));
+            $route = $this->getRequest()->query->get('route');
+            $tabValue = unserialize($this->getRequest()->query->get('value'));
 
-        //     $routes = $this->get('bigfoot.route_manager')->getRoutes();
-        //     if (isset($routes[$route]) and array_key_exists('parameters', $routeOptions = $routes[$route]->getOptions())) {
-        //         $parameters = $routeOptions['parameters'];
-        //     }
+            $routes = $this->get('bigfoot.route_manager')->getRoutes();
+            if (isset($routes[$route]) and array_key_exists('parameters', $routeOptions = $routes[$route]->getOptions())) {
+                $parameters = $routeOptions['parameters'];
+            }
 
-        //     $entity->setRoute($route);
-        //     $i = 0;
+            $entity->setRoute($route);
+            $i = 0;
 
-        //     foreach ($parameters as $parameter) {
-        //         $objParameter = new Parameter();
-        //         $objParameter->setParameter($parameter['name']);
-        //         $objParameter->setType($parameter['type']);
-        //         $objParameter->setLabelField($parameter['label']);
-        //         $objParameter->setValueField($parameter['value']);
-        //         $objParameter->setValue($tabValue[$i]);
-        //         $entity->addParameter($objParameter);
-        //         $i++;
-        //     }
-        // }
+            foreach ($parameters as $parameter) {
+                $objParameter = new Parameter();
+                $objParameter->setParameter($parameter['name']);
+                $objParameter->setType($parameter['type']);
+                $objParameter->setLabelField($parameter['label']);
+                $objParameter->setValueField($parameter['value']);
+                $objParameter->setValue($tabValue[$i]);
+                $entity->addParameter($objParameter);
+                $i++;
+            }
+        }
 
         $form = $this->createForm($this->getFormType(), $entity);
 
@@ -145,7 +145,6 @@ class ItemController extends CrudController
      */
     public function editAction($id)
     {
-
         return $this->doEdit($id);
     }
 

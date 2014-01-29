@@ -2,13 +2,17 @@
 
 {% block form %}
 
-    {{ form_widget(form.name) }}
+    {{ form_row(form.name) }}
 
-    <a class="m-trigger btn btn-primary btn-sm" href="{{ path('admin_menu_item_new') }}" data-toggle="modal" data-target="#add-item">
-        Add a new item
-    </a>
+    <div class="form-group">
+        <div class="col-xs-10 col-sm-5 pull-right">
+            <a href="{{ path('admin_menu_item_new') }}" class="modal-trigger btn btn-primary btn-sm" data-toggle="modal" data-target="#add-item">
+                Add a new item
+            </a>
+        </div>
+    </div>
 
-    {{ form_widget(form.items) }}
+    {{ form_row(form.items) }}
 
     {{ form_rest(form) }}
 

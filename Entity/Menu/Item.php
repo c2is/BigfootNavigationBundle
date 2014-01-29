@@ -2,6 +2,7 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Entity\Menu;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -29,6 +30,7 @@ class Item
 
     /**
      * @var string
+     * @Assert\NotBlank()
      * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255)
      */
