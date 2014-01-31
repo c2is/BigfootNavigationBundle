@@ -34,6 +34,8 @@ class ItemParameterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $entityManager = $this->entityManager;
+
         $builder
             ->add('parameter', 'text', array(
                 'read_only' => true,
@@ -43,7 +45,7 @@ class ItemParameterType extends AbstractType
             ->add('type', 'hidden')
             ->add('labelField', 'hidden')
             ->add('valueField', 'hidden')
-            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) {
+            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) use ($entityManager) {
                 $form = $event->getForm();
                 $data = $event->getData();
 
@@ -54,7 +56,7 @@ class ItemParameterType extends AbstractType
                 if ($data->getType()) {
                     if ($property = $data->getLabelField()) {
                         $valueField = $data->getValueField();
-                        $results =  $this->entityManager->getRepository($data->getType())->createQueryBuilder('v')
+                        $results = $entityManager->getRepository($data->getType())->createQueryBuilder('v')
                             ->select(sprintf('v.%s, v.%s',$valueField , $property))
                             ->orderBy(sprintf('v.%s', $property), 'ASC')
                             ->getQuery()->getArrayResult();
