@@ -49,6 +49,15 @@ class ItemType extends AbstractType
             ->add('parent')
             ->add('name', 'text', array('required' => true))
             ->add(
+                'linkType',
+                'checkbox',
+                array(
+                    'label'    => 'External link',
+                    'value'    => 0,
+                    'mapped'   => false
+                )
+            )
+            ->add(
                 'route',
                 'choice',
                 array(
@@ -60,6 +69,7 @@ class ItemType extends AbstractType
                         'class' => 'menu-item-route-choice',
                 ),
             ))
+            ->add('externalLink', 'text', array('required' => false))
             ->add(
                 'parameters',
                 'bigfoot_menu_item_parameter_collection',
@@ -68,11 +78,10 @@ class ItemType extends AbstractType
                     'prototype'    => false,
                     'allow_add'    => true,
                     'allow_delete' => true,
-                    'label'        => 'Parameters',
+                    'label'        => '',
                     'by_reference' => false,
                 )
             )
-            ->add('external_link', 'text', array('required' => false))
             ->add('attributes')
             ->add('image', 'bigfoot_media', array('required' => false))
             ->add('description', 'text', array('required' => true))

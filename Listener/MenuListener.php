@@ -29,8 +29,7 @@ class MenuListener implements EventSubscriberInterface
      */
     public function onGenerateMain(GenericEvent $event)
     {
-        $data = $event->getSubject();
-        $menu = $data['menu'];
+        $menu          = $event->getSubject();
         $structureMenu = $menu->getChild('structure');
 
         $navigationMenu = $structureMenu->addChild(

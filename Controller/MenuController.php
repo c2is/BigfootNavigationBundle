@@ -63,7 +63,7 @@ class MenuController extends CrudController
      *
      * @Route("/", name="admin_menu_create")
      * @Method("POST")
-     * @Template("BigfootCoreBundle:crud:new.html.twig")
+     * @Template("BigfootCoreBundle:crud:form.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -75,7 +75,7 @@ class MenuController extends CrudController
      *
      * @Route("/new", name="admin_menu_new")
      * @Method("GET")
-     * @Template("BigfootCoreBundle:crud:new.html.twig")
+     * @Template("BigfootCoreBundle:crud:form.html.twig")
      */
     public function newAction()
     {
@@ -99,7 +99,7 @@ class MenuController extends CrudController
      *
      * @Route("/{id}", name="admin_menu_update")
      * @Method("PUT")
-     * @Template("BigfootCoreBundle:crud:edit.html.twig")
+     * @Template("BigfootCoreBundle:crud:form.html.twig")
      */
     public function updateAction(Request $request, $id)
     {

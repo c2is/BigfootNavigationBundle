@@ -1,4 +1,4 @@
-{% extends bigfoot_theme_bundle~'::base.form.html.twig' %}
+{% extends 'BigfootCoreBundle:crud:form.html.twig' %}
 
 {% block form %}
     {{ form_row(form.menu) }}
@@ -6,6 +6,8 @@
     {{ form_row(form.parent) }}
 
     {{ form_row(form.name) }}
+
+    {{ form_row(form.linkType) }}
 
     {{ form_row(form.route) }}
 
@@ -19,6 +21,40 @@
         $(function() {
             $(".chosen-select").chosen();
             setTranslatableFields();
+
+            $('#bigfoot_menu_item_externalLink')
+                .attr('disabled','disabled')
+                .parent()
+                    .hide();
+
+            $('#bigfoot_menu_item_linkType')
+                .on('click', function (event) {
+                    if ($(this).is(':checked')) {
+                        $('#bigfoot_menu_item_route')
+                            .attr('disabled','disabled')
+                            .parent()
+                                .hide();
+
+                        $('#menu-item-route-parameters').hide();
+
+                        $('#bigfoot_menu_item_externalLink')
+                            .removeAttr('disabled')
+                            .parent()
+                                .show();
+                    } else {
+                        $('#bigfoot_menu_item_route')
+                            .removeAttr('disabled')
+                            .parent()
+                                .show();
+
+                        $('#menu-item-route-parameters').show();
+
+                        $('#bigfoot_menu_item_externalLink')
+                            .attr('disabled','disabled')
+                            .parent()
+                                .hide();
+                    }
+            });
         });
     </script>
 {% endblock %}
