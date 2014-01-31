@@ -1,7 +1,6 @@
-{% extends bigfoot_theme_bundle~'::base.form.html.twig' %}
+{% extends 'BigfootCoreBundle:crud:form.html.twig' %}
 
 {% block form %}
-
     {{ form_row(form.name) }}
 
     <div class="form-group">
@@ -31,5 +30,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
