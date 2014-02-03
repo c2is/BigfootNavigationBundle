@@ -93,10 +93,10 @@ class ItemController extends CrudController
 
         if ($this->getRequest()->query->get('preview') && $this->getRequest()->query->get('route') && $this->getRequest()->query->get('value')) {
 
-            $route = $this->getRequest()->query->get('route');
+            $route    = $this->getRequest()->query->get('route');
             $tabValue = unserialize($this->getRequest()->query->get('value'));
+            $routes   = $this->get('bigfoot.route_manager')->getRoutes();
 
-            $routes = $this->get('bigfoot.route_manager')->getRoutes();
             if (isset($routes[$route]) and array_key_exists('parameters', $routeOptions = $routes[$route]->getOptions())) {
                 $parameters = $routeOptions['parameters'];
             }
