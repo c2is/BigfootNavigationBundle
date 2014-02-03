@@ -1,4 +1,4 @@
-{% extends 'BigfootCoreBundle:crud:form.html.twig' %}
+{% extends bigfoot_theme_bundle ~ ':Crud:form.html.twig' %}
 
 {% block form %}
     {{ form_row(form.menu) }}
@@ -19,6 +19,7 @@
 
     <script>
         $(function() {
+
             $(".chosen-select").chosen();
             setTranslatableFields();
 
@@ -29,6 +30,8 @@
 
             $('#bigfoot_menu_item_linkType')
                 .on('click', function (event) {
+                    console.log('lol');
+
                     if ($(this).is(':checked')) {
                         $('#bigfoot_menu_item_route')
                             .attr('disabled','disabled')
@@ -55,6 +58,7 @@
                                 .hide();
                     }
             });
+
         });
     </script>
 {% endblock %}

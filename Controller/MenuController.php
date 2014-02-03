@@ -47,12 +47,16 @@ class MenuController extends CrudController
         return 'bigfoot_menu';
     }
 
+    public function getFormTemplate()
+    {
+        return $this->getEntity().':edit.html.twig';
+    }
+
     /**
      * Lists all Menu entities.
      *
      * @Route("/", name="admin_menu")
      * @Method("GET")
-     * @Template("BigfootCoreBundle:crud:index.html.twig")
      */
     public function indexAction()
     {
@@ -63,7 +67,6 @@ class MenuController extends CrudController
      *
      * @Route("/", name="admin_menu_create")
      * @Method("POST")
-     * @Template("BigfootCoreBundle:crud:form.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -75,7 +78,6 @@ class MenuController extends CrudController
      *
      * @Route("/new", name="admin_menu_new")
      * @Method("GET")
-     * @Template("BigfootCoreBundle:crud:form.html.twig")
      */
     public function newAction()
     {
@@ -87,7 +89,6 @@ class MenuController extends CrudController
      *
      * @Route("/{id}/edit", name="admin_menu_edit")
      * @Method("GET")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -98,8 +99,7 @@ class MenuController extends CrudController
      * Edits an existing Menu entity.
      *
      * @Route("/{id}", name="admin_menu_update")
-     * @Method("PUT")
-     * @Template("BigfootCoreBundle:crud:form.html.twig")
+     * @Method("GET|PUT")
      */
     public function updateAction(Request $request, $id)
     {

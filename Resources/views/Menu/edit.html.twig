@@ -1,11 +1,11 @@
-{% extends 'BigfootCoreBundle:crud:form.html.twig' %}
+{% extends bigfoot_theme_bundle ~ ':Crud:form.html.twig' %}
 
 {% block form %}
     {{ form_row(form.name) }}
 
     <div class="form-group">
         <div class="col-xs-10 col-sm-5 pull-right">
-            <a href="{{ path('admin_menu_item_new') }}" class="modal-trigger btn btn-primary btn-sm" data-toggle="modal" data-target="#add-item">
+            <a href="{{ path('admin_menu_item_new', { 'modal': true }) }}" class="modal-trigger btn btn-primary btn-sm" data-toggle="modal" data-target="#add-item">
                 Add a new item
             </a>
         </div>

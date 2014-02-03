@@ -54,7 +54,8 @@ class ItemType extends AbstractType
                 array(
                     'label'    => 'External link',
                     'value'    => 0,
-                    'mapped'   => false
+                    'mapped'   => false,
+                    'required' => false
                 )
             )
             ->add(
