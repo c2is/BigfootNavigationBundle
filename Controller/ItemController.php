@@ -55,12 +55,16 @@ class ItemController extends CrudController
         return 'bigfoot_menu_item';
     }
 
+    public function getFormTemplate()
+    {
+        return 'BigfootNavigationBundle:Item:edit.html.twig';
+    }
+
     /**
      * Lists all Item entities.
      *
      * @Route("/", name="admin_menu_item")
      * @Method("GET")
-     * @Template("BigfootCoreBundle:crud:index.html.twig")
      */
     public function indexAction()
     {
@@ -72,7 +76,6 @@ class ItemController extends CrudController
      *
      * @Route("/", name="admin_menu_item_create")
      * @Method("POST")
-     * @Template("BigfootCoreBundle:crud:form.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -84,7 +87,6 @@ class ItemController extends CrudController
      *
      * @Route("/new/{type}", defaults={"type" = "form"}, name="admin_menu_item_new")
      * @Method("GET")
-     * @Template("BigfootNavigationBundle:Item:edit.html.twig")
      */
     public function newAction(Request $request)
     {
@@ -121,10 +123,11 @@ class ItemController extends CrudController
             'form'         => $form->createView(),
             'form_title'   => sprintf('%s creation', $this->getEntityLabel()),
             'form_action'  => $this->generateUrl($this->getRouteNameForAction('create')),
-            'form_method'  => $request->getMethod(),
+            'form_method'  => 'POST',
             'form_submit'  => 'Create',
             'cancel_route' => $this->getRouteNameForAction('index'),
-            'isAjax'       => $this->getRequest()->isXmlHttpRequest(),
+            'isAjax'       => $request->isXmlHttpRequest(),
+            'modal'        => $request->query->get('modal'),
             'breadcrumbs'  => array(
                 array(
                     'url'   => $this->generateUrl($this->getRouteNameForAction('index')),
@@ -143,7 +146,6 @@ class ItemController extends CrudController
      *
      * @Route("/{id}/edit", name="admin_menu_item_edit")
      * @Method("GET")
-     * @Template()
      */
     public function editAction(Request $request, $id)
     {
@@ -155,7 +157,6 @@ class ItemController extends CrudController
      *
      * @Route("/{id}", name="admin_menu_item_update")
      * @Method("PUT")
-     * @Template("BigfootCoreBundle:crud:form.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
