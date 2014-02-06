@@ -133,6 +133,11 @@ class Item
     protected $updatedBy;
 
     /**
+     * @Gedmo\Locale
+     */
+    private $locale;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -524,5 +529,16 @@ class Item
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+
+    /**
+     * @param string $locale
+     * @return $this
+     */
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
     }
 }
