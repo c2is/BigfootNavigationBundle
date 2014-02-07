@@ -45,6 +45,7 @@ class ItemController extends CrudController
     {
         return array(
             'id'   => 'ID',
+            'menu' => 'Menu',
             'name' => 'Name',
         );
     }
@@ -166,7 +167,6 @@ class ItemController extends CrudController
             throw new NotFoundHttpException(sprintf('Unable to find %s entity.', $this->getEntity()));
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->container->get('form.factory')->create($this->getFormType(), $entity);
         $editForm->submit($request);
 
@@ -199,7 +199,6 @@ class ItemController extends CrudController
             'form_action'           => $this->container->get('router')->generate($this->getRouteNameForAction('update'), array('id' => $entity->getId())),
             'form_cancel_route'     => $this->getRouteNameForAction('index'),
             'form_title'            => sprintf('%s edit', $this->getEntityLabel()),
-            'delete_form'           => $deleteForm->createView(),
             'delete_form_action'    => $this->container->get('router')->generate($this->getRouteNameForAction('delete'), array('id' => $entity->getId())),
             'isAjax'                => $this->get('request')->isXmlHttpRequest(),
             'breadcrumbs'       => array(
