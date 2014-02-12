@@ -70,12 +70,29 @@ class MenuListener implements EventSubscriberInterface
         $navigationMenu->addChild(
             'menu_item',
             array(
-                'label'  => 'Menu item',
+                'label'  => 'Item',
                 'route'  => 'admin_menu_item',
                 'extras' => array(
                     'routes' => array(
                         'admin_menu_item_new',
                         'admin_menu_item_edit'
+                    )
+                ),
+                'linkAttributes' => array(
+                    'icon' => 'double-angle-right',
+                )
+            )
+        );
+
+        $navigationMenu->addChild(
+            'menu_item_attribute',
+            array(
+                'label'  => 'Attribute',
+                'route'  => 'admin_menu_item_attribute',
+                'extras' => array(
+                    'routes' => array(
+                        'admin_menu_item_attribute_new',
+                        'admin_menu_item_attribute_edit'
                     )
                 ),
                 'linkAttributes' => array(

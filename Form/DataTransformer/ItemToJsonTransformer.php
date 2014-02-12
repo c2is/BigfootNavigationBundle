@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
 
-class ItemsToJsonTransformer implements DataTransformerInterface
+class ItemToJsonTransformer implements DataTransformerInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -100,7 +100,6 @@ class ItemsToJsonTransformer implements DataTransformerInterface
 
     public function recursiveReverseTransform($items, $collection, $parent = null)
     {
-        $i          = 0;
         $repository = $this->entityManager->getRepository('BigfootNavigationBundle:Menu\Item');
 
         foreach ($items as $item) {
@@ -110,10 +109,7 @@ class ItemsToJsonTransformer implements DataTransformerInterface
                 $this->recursiveReverseTransform($item->children, $collection, $toAdd);
             }
 
-            $toAdd->setParent($parent);
-            $toAdd->setPosition($i);
             $collection->add($toAdd);
-            $i++;
         }
     }
 }

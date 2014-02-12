@@ -10,6 +10,8 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter as ItemParameter;
+
 class ParameterType extends AbstractType
 {
     /**
@@ -18,7 +20,7 @@ class ParameterType extends AbstractType
     protected $entityManager;
 
     /**
-     * Constructor.
+     * Construct ParameterType
      *
      * @param EntityManager $entityManager
      */
@@ -33,54 +35,76 @@ class ParameterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $entityManager = $this->entityManager;
+        $parameter = $options['data'];
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) {
+                $itemParameter = new ItemParameter();
+
+                $event->setData($itemParameter);
+            }
+        );
 
         $builder
+            ->add(
+                'id',
+                'hidden',
+                array(
+                    'data'      => $parameter->getId(),
+                    'read_only' => true,
+                    'mapped'    => false,
+                )
+            )
             ->add(
                 'name',
                 'text',
                 array(
+                    'data'      => $parameter->getName(),
                     'read_only' => true,
-                    'label'     => 'Name'
+                    'mapped'    => false,
                 )
             )
-            ->add('value')
-            ->add('type', 'hidden')
-            ->add('labelField', 'hidden')
-            ->add('valueField', 'hidden')
-            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) use ($entityManager) {
-                $form = $event->getForm();
-                $data = $event->getData();
+            ->add('value', 'text', array('required' => false));
 
-                if (!$data) {
-                    return null;
-                }
+        if ($parameter->getType()) {
+            $builder->add(
+                'value',
+                'choice',
+                array(
+                    'choices'  => $this->findAllValues($parameter),
+                    'required' => true,
+                )
+            );
+        }
+    }
 
-                if ($data->getType()) {
-                    if ($property = $data->getLabelField()) {
-                        $valueField = $data->getValueField();
+    /**
+     * @return array
+     */
+    public function findAllValues($parameter)
+    {
+        $type       = $parameter->getType();
+        $valueField = $parameter->getValueField();
+        $labelField = $parameter->getLabelField();
 
-                        $results = $entityManager
-                            ->getRepository($data->getType())
-                            ->createQueryBuilder('v')
-                            ->select(sprintf('v.%s, v.%s',$valueField , $property))
-                            ->orderBy(sprintf('v.%s', $property), 'ASC')
-                            ->getQuery()->getArrayResult();
+        $results = $this->entityManager
+            ->getRepository($type)
+            ->createQueryBuilder('v')
+            ->select(sprintf('v.id, v.%s, v.%s', $valueField, $labelField))
+            ->orderBy(sprintf('v.%s', $labelField), 'ASC')
+            ->getQuery()
+            ->getArrayResult();
 
-                        $choices = array();
+        $choices = array();
 
-                        foreach ($results as $result) {
-                            $choices[$result[$valueField]] = $result[$property];
-                        }
-                    }
+        foreach ($results as $result) {
+            if (isset($result['id'])) {
+                $choices[$result['id']] = $result[$labelField];
+            }
+        }
 
-                    $form->add('value', 'choice', array(
-                        'choices' => $choices,
-                    ));
-                } else {
-                    $form->add('value', 'text');
-                }
-            });
+        return $choices;
     }
 
     /**
@@ -100,6 +124,6 @@ class ParameterType extends AbstractType
      */
     public function getName()
     {
-        return 'bigfoot_menu_item_parameter';
+        return 'admin_menu_item_parameter';
     }
 }

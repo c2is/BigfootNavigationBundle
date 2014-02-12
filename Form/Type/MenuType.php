@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityManager;
 
-use Bigfoot\Bundle\NavigationBundle\Form\DataTransformer\ItemsToJsonTransformer;
+use Bigfoot\Bundle\NavigationBundle\Form\DataTransformer\ItemToJsonTransformer;
 
 /**
  * Menu Type
@@ -36,22 +36,19 @@ class MenuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', 'text', array('required' => false))
             ->add(
                 'items',
                 'hidden',
                 array(
-                    'attr' => array(
-                        'class'        => 'treeView',
-                        'data-new-url' => '/admin_dev.php/admin/menu/item/new',
-                    ),
+                    'attr' => array('class' => 'treeView'),
                 )
             )
             ->add('translation', 'translatable_entity');
 
         $builder
             ->get('items')
-            ->addModelTransformer(new ItemsToJsonTransformer($this->entityManager));
+            ->addModelTransformer(new ItemToJsonTransformer($this->entityManager));
     }
 
     /**
@@ -71,6 +68,6 @@ class MenuType extends AbstractType
      */
     public function getName()
     {
-        return 'bigfoot_menu';
+        return 'admin_menu';
     }
 }

@@ -1,0 +1,29 @@
+{% extends modal is defined and modal != null
+    ? bigfoot_theme_bundle ~ ':crud:form_modal.html.twig'
+    : bigfoot_theme_bundle ~ ':crud:form.html.twig' %}
+
+{% block form %}
+    {{ form_row(form.menu) }}
+
+    {{ form_row(form.parent) }}
+
+    {{ form_row(form.name) }}
+
+    {{ form_row(form.linkType) }}
+
+    {{ form_row(form.route) }}
+
+    <div id="menu-item-route-parameters">
+        {% if form.parameters is defined %}
+            {{ form_row(form.parameters) }}
+        {% endif %}
+    </div>
+
+    {{ form_rest(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('bundles/bigfootnavigation/js/item.js') }}"></script>
+{% endblock %}
