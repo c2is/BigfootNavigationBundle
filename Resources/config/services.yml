@@ -1,4 +1,10 @@
 services:
+    # Menu Item Manager
+    bigfoot_navigation.manager.menu_item:
+        class: Bigfoot\Bundle\NavigationBundle\Manager\Menu\ItemManager
+        arguments:
+            - @doctrine.orm.entity_manager
+
     # Menu Listener
     bigfoot_navigation.listener.menu:
         class: Bigfoot\Bundle\NavigationBundle\Listener\MenuListener
@@ -11,16 +17,16 @@ services:
         arguments:
             - @doctrine.orm.entity_manager
         tags:
-            - { name: form.type, alias: bigfoot_menu }
+            - { name: form.type, alias: admin_menu }
 
     # Menu Item Type
     bigfoot_navigation.form.type.menu_item:
         class: Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\ItemType
         arguments:
             - @doctrine.orm.entity_manager
-            - @bigfoot.route_manager
+            - @bigfoot_core.manager.route
         tags:
-            - { name: form.type, alias: bigfoot_menu_item }
+            - { name: form.type, alias: admin_menu_item }
 
     # Menu Item Parameter Type
     bigfoot_navigation.form.type.menu_item_parameter:
@@ -28,10 +34,16 @@ services:
         arguments:
             - @doctrine.orm.entity_manager
         tags:
-            - { name: form.type, alias: bigfoot_menu_item_parameter }
+            - { name: form.type, alias: admin_menu_item_parameter }
 
-    # Menu Item Parameter Collection Type
-    bigfoot_navigation.form.type.menu_item_parameter_collection:
-        class: Bigfoot\Bundle\NavigationBundle\Form\Type\ParametersCollectionType
+    # Menu Item Attribute Type
+    bigfoot_navigation.form.type.menu_item_attribute:
+        class: Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\Item\AttributeType
         tags:
-            - { name: form.type, alias: bigfoot_menu_item_parameter_collection }
+            - { name: form.type, alias: admin_menu_item_attribute }
+
+    # Route Parameter Type
+    bigfoot_navigation.form.type.route_parameter:
+        class: Bigfoot\Bundle\NavigationBundle\Form\Type\Route\ParameterType
+        tags:
+            - { name: form.type, alias: admin_route_parameter }

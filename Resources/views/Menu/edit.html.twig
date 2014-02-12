@@ -1,4 +1,4 @@
-{% extends bigfoot_theme_bundle ~ ':Crud:form.html.twig' %}
+{% extends bigfoot_theme_bundle ~ ':crud:form.html.twig' %}
 
 {% block form %}
     {{ form_row(form.name) }}
@@ -13,21 +13,17 @@
 
     {{ form_row(form.items) }}
 
+    {% if treeViews is defined %}
+        {{ treeViews|raw }}
+    {% endif %}
+
     {{ form_rest(form) }}
 
-    <div id="add-item" class="modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Add a new item</h4>
-                </div>
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary modal-save">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include 'BigfootAceThemeBundle:layout:modal.html.twig' with { 'name': 'add-item', 'title': 'Add new item' } %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('bundles/bigfootnavigation/js/menu.js') }}"></script>
 {% endblock %}

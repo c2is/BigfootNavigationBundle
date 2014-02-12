@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityManager;
 
-use Bigfoot\Bundle\CoreBundle\Route\RouteManager;
+use Bigfoot\Bundle\CoreBundle\Manager\RouteManager;
 use Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\Item\ParameterType;
 
 class ItemType extends AbstractType
@@ -42,50 +42,68 @@ class ItemType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $routes = $this->routeManager->getArrayRoutes();
+        $entityManager    = $this->entityManager;
+        $routeManager     = $this->routeManager;
+        $routes           = $routeManager->getArrayRoutes();
 
         $builder
             ->add('menu')
             ->add('parent')
-            ->add('name', 'text', array('required' => true))
+            ->add('name', 'text', array('required' => false))
             ->add(
                 'linkType',
                 'checkbox',
                 array(
                     'label'    => 'External link',
-                    'value'    => 0,
+                    'data'     => ($options['data']->getExternalLink()) ? true : false,
                     'mapped'   => false,
                     'required' => false
                 )
             )
             ->add(
                 'route',
-                'choice',
+                'entity',
                 array(
-                    'choices'     => $routes,
+                    'class'       => 'Bigfoot\Bundle\NavigationBundle\Entity\Route',
                     'label'       => 'Link category',
                     'empty_value' => 'Choose a route',
                     'required'    => false,
                     'attr'        => array(
                         'class' => 'menu-item-route-choice',
-                ),
-            ))
-            ->add('externalLink', 'text', array('required' => false))
-            ->add(
-                'parameters',
-                'bigfoot_menu_item_parameter_collection',
-                array(
-                    'type'         => 'bigfoot_menu_item_parameter',
-                    'prototype'    => false,
-                    'allow_add'    => true,
-                    'allow_delete' => true,
-                    'label'        => '',
-                    'by_reference' => false,
+                    ),
                 )
             )
+            ->add('externalLink', 'text', array('required' => false));
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function(FormEvent $event) use ($entityManager) {
+                $form  = $event->getForm();
+                $route = $event->getData()->getRoute();
+
+                if ($route) {
+                    $dbRoute = $entityManager->getRepository('BigfootNavigationBundle:Route')->findOneByName($route->getName());
+
+                    if ($dbRoute) {
+                        $form->add(
+                            'parameters',
+                            'admin_route_parameter',
+                            array(
+                                'mapped' => false,
+                                'data'   => array(
+                                    'route'  => $dbRoute,
+                                )
+                            )
+                        );
+                    }
+                }
+            }
+        );
+
+        $builder
             ->add('attributes')
             ->add('image', 'bigfoot_media', array('required' => false))
-            ->add('description', 'text', array('required' => true))
+            ->add('description', 'text', array('required' => false))
             ->add('translation', 'translatable_entity');
     }
 
@@ -106,6 +124,6 @@ class ItemType extends AbstractType
      */
     public function getName()
     {
-        return 'bigfoot_menu_item';
+        return 'admin_menu_item';
     }
 }

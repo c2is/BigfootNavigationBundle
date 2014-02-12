@@ -5,6 +5,7 @@ namespace Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
 use Doctrine\ORM\Mapping as ORM;
 
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
+use Bigfoot\Bundle\NavigationBundle\Entity\Route\Parameter as RouteParameter;
 
 /**
  * Parameter
@@ -24,45 +25,31 @@ class Parameter
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item", inversedBy="parameters")
      */
-    private $name;
+    private $item;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Route\Parameter", inversedBy="parameters")
+     */
+    private $parameter;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="value", type="string", length=255)
+     * @ORM\Column(name="value", type="string", length=255, nullable=true)
      */
     private $value;
 
     /**
-     * @var string
+     * toString Parameter
      *
-     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     * @return string
      */
-    private $type;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="value_field", type="string", length=255, nullable=true)
-     */
-    private $valueField;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="label_field", type="string", length=255, nullable=true)
-     */
-    private $labelField;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item", inversedBy="parameters")
-     * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
-     */
-    private $item;
+    public function __toString()
+    {
+        return $this->parameter->getValueField().':'.$this->value;
+    }
 
     /**
      * Get id
@@ -75,33 +62,10 @@ class Parameter
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     * @return Itemname
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * Set value
      *
      * @param string $value
-     * @return ItemParameter
+     * @return Parameter
      */
     public function setValue($value)
     {
@@ -121,81 +85,12 @@ class Parameter
     }
 
     /**
-     * Set type
-     *
-     * @param string $type
-     * @return string
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set valueField
-     *
-     * @param string $type
-     * @return string
-     */
-    public function setValueField($valueField)
-    {
-        $this->valueField = $valueField;
-
-        return $this;
-    }
-
-    /**
-     * Get valueField
-     *
-     * @return string
-     */
-    public function getValueField()
-    {
-        return $this->valueField;
-    }
-
-    /**
-     * Set labelField
-     *
-     * @param string $type
-     * @return string
-     */
-    public function setLabelField($labelField)
-    {
-        $this->labelField = $labelField;
-
-        return $this;
-    }
-
-    /**
-     * Get labelField
-     *
-     * @return string
-     */
-    public function getLabelField()
-    {
-        return $this->labelField;
-    }
-
-    /**
      * Set item
      *
      * @param Item $item
-     * @return ItemParameter
+     * @return Parameter
      */
-    public function setItem(Item $item)
+    public function setItem(Item $item = null)
     {
         $this->item = $item;
 
@@ -210,5 +105,28 @@ class Parameter
     public function getItem()
     {
         return $this->item;
+    }
+
+    /**
+     * Set parameter
+     *
+     * @param RouteParameter $parameter
+     * @return Parameter
+     */
+    public function setParameter(RouteParameter $parameter = null)
+    {
+        $this->parameter = $parameter;
+
+        return $this;
+    }
+
+    /**
+     * Get parameter
+     *
+     * @return RouteParameter
+     */
+    public function getParameter()
+    {
+        return $this->parameter;
     }
 }

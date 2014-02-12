@@ -2,6 +2,7 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -27,6 +28,8 @@ class Menu
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
      * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255)
      */
@@ -154,6 +157,32 @@ class Menu
      */
     public function getItems()
     {
-        return $this->items;
+        $items = array();
+
+        foreach ($this->items as $item) {
+            $items[$item->getPosition()] = $item;
+        }
+
+        ksort($items);
+
+        return $items;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getLvl1Items()
+    {
+        $items = array();
+
+        foreach ($this->items as $item) {
+            if (!$item->getParent()) {
+                $items[$item->getPosition()] = $item;
+            }
+        }
+
+        ksort($items);
+
+        return $items;
     }
 }

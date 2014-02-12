@@ -44,7 +44,7 @@ class MenuController extends CrudController
 
     protected function getFormType()
     {
-        return 'bigfoot_menu';
+        return 'admin_menu';
     }
 
     public function getFormTemplate()
@@ -53,66 +53,69 @@ class MenuController extends CrudController
     }
 
     /**
-     * Lists all Menu entities.
+     * Lists Menu entities.
      *
      * @Route("/", name="admin_menu")
-     * @Method("GET")
      */
     public function indexAction()
     {
         return $this->doIndex();
     }
-    /**
-     * Creates a new Menu entity.
-     *
-     * @Route("/", name="admin_menu_create")
-     * @Method("POST")
-     */
-    public function createAction(Request $request)
-    {
-        return $this->doCreate($request);
-    }
 
     /**
-     * Displays a form to create a new Menu entity.
+     * New Menu entity.
      *
      * @Route("/new", name="admin_menu_new")
-     * @Method("GET")
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
-        return $this->doNew();
+        return $this->doNew($request);
     }
 
     /**
-     * Displays a form to edit an existing Menu entity.
+     * Edit Menu entity.
      *
-     * @Route("/{id}/edit", name="admin_menu_edit")
-     * @Method("GET")
+     * @Route("/edit/{id}", name="admin_menu_edit")
      */
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
-        return $this->doEdit($id);
+        return $this->doEdit($request, $id);
     }
 
     /**
-     * Edits an existing Menu entity.
+     * Delete Menu entity.
      *
-     * @Route("/{id}", name="admin_menu_update")
-     * @Method("GET|PUT")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        return $this->doUpdate($request, $id);
-    }
-    /**
-     * Deletes a Menu entity.
-     *
-     * @Route("/{id}/delete", name="admin_menu_delete")
-     * @Method("GET|DELETE")
+     * @Route("/delete/{id}", name="admin_menu_delete")
      */
     public function deleteAction(Request $request, $id)
     {
         return $this->doDelete($request, $id);
+    }
+
+    /**
+     * Render form
+     */
+    protected function renderForm($form, $action, $menu = null)
+    {
+        $treeViews = $this->renderView(
+            $this->getThemeBundle().':navigation:nestable.html.twig',
+            array(
+                'items'  => $menu->getLvl1Items(),
+                'output' => 'admin_menu_items'
+            )
+        );
+
+        return $this->render(
+            $this->getFormTemplate(),
+            array(
+                'form'         => $form->createView(),
+                'form_method'  => 'POST',
+                'form_title'   => sprintf('%s creation', $this->getEntityLabel()),
+                'form_action'  => $action,
+                'form_submit'  => 'Submit',
+                'cancel_route' => $this->getRouteNameForAction('index'),
+                'treeViews'    => $treeViews,
+            )
+        );
     }
 }

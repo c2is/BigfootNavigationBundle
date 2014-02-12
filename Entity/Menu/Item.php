@@ -8,8 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu;
-use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter;
+use Bigfoot\Bundle\NavigationBundle\Entity\Route;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Attribute;
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter;
 
 /**
  * Item
@@ -30,6 +31,7 @@ class Item
 
     /**
      * @var string
+     *
      * @Assert\NotBlank()
      * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255)
@@ -38,6 +40,7 @@ class Item
 
     /**
      * @var string
+     *
      * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text")
      */
@@ -70,23 +73,9 @@ class Item
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Item", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="Item", mappedBy="parent", cascade={"remove"})
      */
     private $children;
-
-    /**
-     * @var integer
-     *
-     * @ORM\OneToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter", mappedBy="item", cascade={"persist", "remove"})
-     */
-    private $parameters;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="route", type="string", length=255, nullable=true)
-     */
-    private $route;
 
     /**
      * @var integer
@@ -98,12 +87,15 @@ class Item
 
     /**
      * @var string
+     *
      * @ORM\Column(name="attribute", type="string", length=255, nullable=true)
      */
     private $attribute;
 
     /**
      * @var string
+     *
+     * @Assert\Url()
      * @ORM\Column(name="external_link", type="string", length=255, nullable=true)
      */
     private $externalLink;
@@ -116,10 +108,22 @@ class Item
     private $image;
 
     /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Route", inversedBy="items")
+     */
+    private $route;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Attribute", inversedBy="items")
      * @ORM\JoinTable(name="bigfoot_menu_item_attribute_join")
      */
     private $attributes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter", mappedBy="item", cascade={"remove"})
+     */
+    private $parameters;
 
     /**
      * Construct Item
@@ -127,8 +131,8 @@ class Item
     public function __construct()
     {
         $this->children   = new ArrayCollection();
-        $this->parameters = new ArrayCollection();
         $this->attributes = new ArrayCollection();
+        $this->parameters = new ArrayCollection();
     }
 
     /**
@@ -303,49 +307,28 @@ class Item
     }
 
     /**
-     * @param ArrayCollection $parameters
-     * @return $this
-     */
-    public function setParameters(ArrayCollection $parameters)
-    {
-        $this->parameters = $parameters;
-        return $this;
-    }
-
-    /**
-     * @param Item $parameter
-     * @return $this
-     */
-    public function addParameter(Parameter $parameter)
-    {
-        $parameter->setItem($this);
-        $this->parameters->add($parameter);
-        return $this;
-    }
-
-    /**
-     * @param Item $parameter
-     * @return $this
-     */
-    public function removeParameter(Parameter $parameter)
-    {
-        $this->parameters->removeElement($parameter);
-        return $this;
-    }
-
-    /**
      * @return ArrayCollection
      */
-    public function getParameters()
+    public function getOrderedChildren()
     {
-        return $this->parameters;
+        $items = array();
+
+        foreach ($this->children as $item) {
+            if (!$item->getParent() != $this->getId()) {
+                $items[$item->getPosition()] = $item;
+            }
+        }
+
+        ksort($items);
+
+        return $items;
     }
 
     /**
      * @param $route
      * @return $this
      */
-    public function setRoute($route)
+    public function setRoute($route = null)
     {
         $this->route = $route;
         return $this;
@@ -462,4 +445,60 @@ class Item
         return $this->image;
     }
 
+
+    /**
+     * Set attribute
+     *
+     * @param string $attribute
+     * @return Item
+     */
+    public function setAttribute($attribute)
+    {
+        $this->attribute = $attribute;
+
+        return $this;
+    }
+
+    /**
+     * Get attribute
+     *
+     * @return string
+     */
+    public function getAttribute()
+    {
+        return $this->attribute;
+    }
+
+    /**
+     * Add parameters
+     *
+     * @param Parameter $parameters
+     * @return Item
+     */
+    public function addParameter($parameter)
+    {
+        $this->parameters[] = $parameter;
+
+        return $this;
+    }
+
+    /**
+     * Remove parameter
+     *
+     * @param Parameter $parameter
+     */
+    public function removeParameter(Parameter $parameter)
+    {
+        $this->parameters->removeElement($parameter);
+    }
+
+    /**
+     * Get parameters
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
 }
