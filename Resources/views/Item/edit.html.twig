@@ -1,7 +1,6 @@
 {% extends bigfoot_theme_bundle~'::base.form.html.twig' %}
 
 {% block form %}
-
     {{ form_row(form.menu) }}
 
     {{ form_row(form.parent) }}
@@ -16,4 +15,10 @@
 
     {{ form_rest(form) }}
 
+    <script>
+        $(function() {
+            $(".chosen-select").chosen();
+            setTranslatableFields();
+        });
+    </script>
 {% endblock %}

@@ -47,7 +47,7 @@ class ItemType extends AbstractType
         $builder
             ->add('menu')
             ->add('parent')
-            ->add('name')
+            ->add('name', 'text', array('required' => true))
             ->add(
                 'route',
                 'choice',
