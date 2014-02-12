@@ -36,9 +36,9 @@ class Attribute
     private $id;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="attr_type", type="string", length=255)
+     * @ORM\Column(name="attr_type", type="smallint")
      */
     private $type;
 
@@ -102,7 +102,6 @@ class Attribute
      */
     public function addItem(Item $item)
     {
-        $item->setItem($this);
         $this->items->add($item);
         return $this;
     }
@@ -138,7 +137,7 @@ class Attribute
     /**
      * Set type
      *
-     * @param string $type
+     * @param int $type
      * @return Attribute
      */
     public function setType($type)
@@ -151,7 +150,7 @@ class Attribute
     /**
      * Get type
      *
-     * @return string
+     * @return int
      */
     public function getType()
     {

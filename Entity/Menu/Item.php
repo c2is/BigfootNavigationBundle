@@ -42,7 +42,7 @@ class Item
      * @var string
      *
      * @Gedmo\Translatable
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
@@ -406,7 +406,7 @@ class Item
      */
     public function addAttribute(Attribute $attribute)
     {
-        $attribute->setItem($this);
+        $attribute->addItem($this);
         $this->attributes->add($attribute);
         return $this;
     }
@@ -427,6 +427,21 @@ class Item
     public function getAttributes()
     {
         return $this->attributes;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getAttributesByType($type)
+    {
+        $toReturn = new ArrayCollection();
+
+        foreach ($this->attributes as $attribute) {
+            if ($attribute->getType() == $type) {
+                $toReturn->add($attribute);
+            }
+        }
+        return $toReturn;
     }
 
     /**
