@@ -2,6 +2,7 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Form\Type\Menu;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -25,6 +26,11 @@ class ItemType extends AbstractType
     protected $routeManager;
 
     /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * Construct Item Type
      *
      * @param EntityManager $entityManager
@@ -36,19 +42,29 @@ class ItemType extends AbstractType
         $this->routeManager  = $routeManager;
     }
 
+    public function setRequest(Request $request = null)
+    {
+        $this->request = $request;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $entityManager    = $this->entityManager;
-        $routeManager     = $this->routeManager;
-        $routes           = $routeManager->getArrayRoutes();
+        $entityManager = $this->entityManager;
+        $routeManager  = $this->routeManager;
+        $routes        = $routeManager->getArrayRoutes();
+        $modal         = ($this->request->query->get('modal')) ?: false;
+
+        if (!$modal) {
+            $builder
+                ->add('menu')
+                ->add('parent');
+        }
 
         $builder
-            ->add('menu')
-            ->add('parent')
             ->add('name', 'text', array('required' => false))
             ->add(
                 'linkType',

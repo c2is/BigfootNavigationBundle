@@ -111,23 +111,33 @@ $(function() {
                 .prepend("<div class='alert alert-block alert-success'>" + responseText.message + '</div>');
 
             var
-                idParent  = responseText.content.parent,
-                content   = responseText.content.view,
-                container = $('.dd.nestable');
+                itemId      = responseText.content.itemId,
+                itemName    = responseText.content.itemName,
+                idParent    = responseText.content.parent,
+                content     = responseText.content.view,
+                container   = $('.dd.nestable'),
+                currentItem = container.find("[data-id='" + itemId + "']");
 
-            if (container.find('.dd-list').length === 0) {
-                container.append('<ol class="dd-list">' + content + '</ol>');
-            } else if (typeof idParent === "undefined" || idParent === null) {
-                container.find('.dd-list:first').append(content);
-            } else {
-                var li = container.find("[data-id='" + idParent + "']");
+            if (currentItem.length == 1) {
+                currentItem
+                    .find('.dd-handle:first')
+                    .html(itemName);
+            } else{
+                if (container.find('.dd-list').length === 0) {
+                    container.append('<ol class="dd-list">' + content + '</ol>');
+                } else if (typeof idParent === "undefined" || idParent === null) {
+                    container.find('.dd-list:first').append(content);
+                } else {
+                    var li = container.find("[data-id='" + idParent + "']");
 
-                if (li.find('.dd-list').length === 0) {
-                    li.append('<ol class="dd-list">' + content + '</ol>');
-                } else{
-                    li.find('.dd-list:first').append(content);
+                    if (li.find('.dd-list').length === 0) {
+                        li.append('<ol class="dd-list">' + content + '</ol>');
+                    } else{
+                        li.find('.dd-list:first').append(content);
+                    }
                 }
             }
+
 
             modal.modal('hide');
         } else {

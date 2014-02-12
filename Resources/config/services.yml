@@ -25,6 +25,8 @@ services:
         arguments:
             - @doctrine.orm.entity_manager
             - @bigfoot_core.manager.route
+        calls:
+            - [setRequest, ["@?request="]]
         tags:
             - { name: form.type, alias: admin_menu_item }
 
