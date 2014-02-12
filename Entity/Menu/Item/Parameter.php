@@ -1,16 +1,18 @@
 <?php
 
-namespace Bigfoot\Bundle\NavigationBundle\Entity;
+namespace Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
+
 /**
- * ItemParameter
+ * Parameter
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Bigfoot\Bundle\NavigationBundle\Entity\ItemParameterRepository")
+ * @ORM\Table(name="bigfoot_menu_item_parameter")
+ * @ORM\Entity(repositoryClass="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\ParameterRepository")
  */
-class ItemParameter
+class Parameter
 {
     /**
      * @var integer
@@ -22,19 +24,11 @@ class ItemParameter
     private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\ManyToOne(targetEntity="Item", inversedBy="parameters")
-     * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
-     */
-    private $item;
-
-    /**
      * @var string
      *
-     * @ORM\Column(name="parameter", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    private $parameter;
+    private $name;
 
     /**
      * @var string
@@ -65,6 +59,12 @@ class ItemParameter
     private $labelField;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item", inversedBy="parameters")
+     * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
+     */
+    private $item;
+
+    /**
      * Get id
      *
      * @return integer
@@ -75,49 +75,26 @@ class ItemParameter
     }
 
     /**
-     * Set item
+     * Set name
      *
-     * @param Item $item
-     * @return ItemParameter
+     * @param string $name
+     * @return Itemname
      */
-    public function setItem(Item $item)
+    public function setName($name)
     {
-        $this->item = $item;
-    
+        $this->name = $name;
+
         return $this;
     }
 
     /**
-     * Get item
+     * Get name
      *
-     * @return Item
+     * @return string
      */
-    public function getItem()
+    public function getName()
     {
-        return $this->item;
-    }
-
-    /**
-     * Set parameter
-     *
-     * @param string $parameter
-     * @return ItemParameter
-     */
-    public function setParameter($parameter)
-    {
-        $this->parameter = $parameter;
-    
-        return $this;
-    }
-
-    /**
-     * Get parameter
-     *
-     * @return string 
-     */
-    public function getParameter()
-    {
-        return $this->parameter;
+        return $this->name;
     }
 
     /**
@@ -129,14 +106,14 @@ class ItemParameter
     public function setValue($value)
     {
         $this->value = $value;
-    
+
         return $this;
     }
 
     /**
      * Get value
      *
-     * @return string 
+     * @return string
      */
     public function getValue()
     {
@@ -210,5 +187,28 @@ class ItemParameter
     public function getLabelField()
     {
         return $this->labelField;
+    }
+
+    /**
+     * Set item
+     *
+     * @param Item $item
+     * @return ItemParameter
+     */
+    public function setItem(Item $item)
+    {
+        $this->item = $item;
+
+        return $this;
+    }
+
+    /**
+     * Get item
+     *
+     * @return Item
+     */
+    public function getItem()
+    {
+        return $this->item;
     }
 }

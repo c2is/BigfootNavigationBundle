@@ -1,6 +1,6 @@
 <?php
 
-namespace Bigfoot\Bundle\NavigationBundle\Form;
+namespace Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\Item;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -10,9 +10,8 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ItemParameterType extends AbstractType
+class ParameterType extends AbstractType
 {
-
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -34,16 +33,22 @@ class ItemParameterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $entityManager = $this->entityManager;
+
         $builder
-            ->add('parameter', 'text', array(
-                'read_only' => true,
-                'label'     => 'Name'
-            ))
+            ->add(
+                'name',
+                'text',
+                array(
+                    'read_only' => true,
+                    'label'     => 'Name'
+                )
+            )
             ->add('value')
             ->add('type', 'hidden')
             ->add('labelField', 'hidden')
             ->add('valueField', 'hidden')
-            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) {
+            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) use ($entityManager) {
                 $form = $event->getForm();
                 $data = $event->getData();
 
@@ -54,17 +59,20 @@ class ItemParameterType extends AbstractType
                 if ($data->getType()) {
                     if ($property = $data->getLabelField()) {
                         $valueField = $data->getValueField();
-                        $results =  $this->entityManager->getRepository($data->getType())->createQueryBuilder('v')
+
+                        $results = $entityManager
+                            ->getRepository($data->getType())
+                            ->createQueryBuilder('v')
                             ->select(sprintf('v.%s, v.%s',$valueField , $property))
                             ->orderBy(sprintf('v.%s', $property), 'ASC')
                             ->getQuery()->getArrayResult();
 
                         $choices = array();
+
                         foreach ($results as $result) {
                             $choices[$result[$valueField]] = $result[$property];
                         }
                     }
-
 
                     $form->add('value', 'choice', array(
                         'choices' => $choices,
@@ -73,17 +81,18 @@ class ItemParameterType extends AbstractType
                     $form->add('value', 'text');
                 }
             });
-        ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Bigfoot\Bundle\NavigationBundle\Entity\ItemParameter'
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter'
+            )
+        );
     }
 
     /**

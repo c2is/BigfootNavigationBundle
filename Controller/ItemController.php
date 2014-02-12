@@ -12,10 +12,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
 use Bigfoot\Bundle\CoreBundle\Controller\CrudController;
-use Bigfoot\Bundle\NavigationBundle\Entity\Item;
-use Bigfoot\Bundle\NavigationBundle\Entity\ItemParameter;
-use Bigfoot\Bundle\NavigationBundle\Form\ItemParameterType;
-use Bigfoot\Bundle\NavigationBundle\Form\ItemType;
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter;
+use Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\ItemType;
+use Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\Item\ParameterType;
 
 /**
  * Item controller.
@@ -38,7 +38,7 @@ class ItemController extends CrudController
      */
     protected function getEntity()
     {
-        return 'BigfootNavigationBundle:Item';
+        return 'BigfootNavigationBundle:Menu\Item';
     }
 
     protected function getFields()
@@ -84,38 +84,38 @@ class ItemController extends CrudController
      *
      * @Route("/new", name="admin_menu_item_new")
      * @Method("GET")
-     * @Template("BigfootNavigationBundle:item:edit.html.twig")
+     * @Template("BigfootNavigationBundle:Item:edit.html.twig")
      */
     public function newAction()
     {
-
         $entity = new Item();
 
-        if ($this->getRequest()->query->get('preview') && $this->getRequest()->query->get('route') && $this->getRequest()->query->get('value')) {
+        // if ($this->getRequest()->query->get('preview') && $this->getRequest()->query->get('route') && $this->getRequest()->query->get('value')) {
 
-            $route = $this->getRequest()->query->get('route');
-            $tabValue = unserialize($this->getRequest()->query->get('value'));
+        //     $route = $this->getRequest()->query->get('route');
+        //     $tabValue = unserialize($this->getRequest()->query->get('value'));
 
-            $routes = $this->container->get('bigfoot.route_manager')->getRoutes();
-            if (isset($routes[$route]) and array_key_exists('parameters', $routeOptions = $routes[$route]->getOptions())) {
-                $parameters = $routeOptions['parameters'];
-            }
+        //     $routes = $this->get('bigfoot.route_manager')->getRoutes();
+        //     if (isset($routes[$route]) and array_key_exists('parameters', $routeOptions = $routes[$route]->getOptions())) {
+        //         $parameters = $routeOptions['parameters'];
+        //     }
 
-            $entity->setRoute($route);
-            $i=0;
-            foreach ($parameters as $parameter) {
-                $objParameter = new ItemParameter();
-                $objParameter->setParameter($parameter['name']);
-                $objParameter->setType($parameter['type']);
-                $objParameter->setLabelField($parameter['label']);
-                $objParameter->setValueField($parameter['value']);
-                $objParameter->setValue($tabValue[$i]);
-                $entity->addParameter($objParameter);
-                $i++;
-            }
-        }
+        //     $entity->setRoute($route);
+        //     $i = 0;
 
-        $form   = $this->createForm($this->getFormType(), $entity);
+        //     foreach ($parameters as $parameter) {
+        //         $objParameter = new Parameter();
+        //         $objParameter->setParameter($parameter['name']);
+        //         $objParameter->setType($parameter['type']);
+        //         $objParameter->setLabelField($parameter['label']);
+        //         $objParameter->setValueField($parameter['value']);
+        //         $objParameter->setValue($tabValue[$i]);
+        //         $entity->addParameter($objParameter);
+        //         $i++;
+        //     }
+        // }
+
+        $form = $this->createForm($this->getFormType(), $entity);
 
         return array(
             'form'         => $form->createView(),
@@ -142,12 +142,12 @@ class ItemController extends CrudController
      *
      * @Route("/{id}/edit", name="admin_menu_item_edit")
      * @Method("GET")
-     * @Template("BigfootNavigationBundle:item:edit.html.twig")
+     * @Template()
      */
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
 
-        return $this->doEdit($id);
+        return $this->doEdit($request, $id);
     }
 
     /**
@@ -159,7 +159,7 @@ class ItemController extends CrudController
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->container->get('doctrine')->getManager();
+        $em = $this->get('doctrine')->getManager();
 
         $entity = $em->getRepository($this->getEntity())->find($id);
 
@@ -167,22 +167,23 @@ class ItemController extends CrudController
             throw new NotFoundHttpException(sprintf('Unable to find %s entity.', $this->getEntity()));
         }
 
-        $editForm = $this->container->get('form.factory')->create($this->getFormType(), $entity);
+        $editForm = $this->get('form.factory')->create($this->getFormType(), $entity);
+
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
 
-            $this->container->get('session')->getFlashBag()->add(
+            $this->get('session')->getFlashBag()->add(
                 'success',
-                $this->container->get('templating')->render('BigfootCoreBundle:includes:flash.html.twig', array(
+                $this->get('templating')->render('BigfootCoreBundle:includes:flash.html.twig', array(
                     'icon' => 'ok',
                     'heading' => 'Success!',
                     'message' => sprintf('The %s has been updated.', $this->getEntityName()),
                     'actions' => array(
                         array(
-                            'route' => $this->container->get('router')->generate($this->getRouteNameForAction('index')),
+                            'route' => $this->get('router')->generate($this->getRouteNameForAction('index')),
                             'label' => 'Back to the listing',
                             'type'  => 'success',
                         ),
@@ -190,24 +191,24 @@ class ItemController extends CrudController
                 ))
             );
 
-            return new RedirectResponse($this->container->get('router')->generate($this->getRouteNameForAction('edit'), array('id' => $id)));
+            return new RedirectResponse($this->get('router')->generate($this->getRouteNameForAction('edit'), array('id' => $id)));
         }
 
         return array(
             'form'                  => $editForm->createView(),
             'form_method'           => 'PUT',
-            'form_action'           => $this->container->get('router')->generate($this->getRouteNameForAction('update'), array('id' => $entity->getId())),
+            'form_action'           => $this->get('router')->generate($this->getRouteNameForAction('update'), array('id' => $entity->getId())),
             'form_cancel_route'     => $this->getRouteNameForAction('index'),
             'form_title'            => sprintf('%s edit', $this->getEntityLabel()),
-            'delete_form_action'    => $this->container->get('router')->generate($this->getRouteNameForAction('delete'), array('id' => $entity->getId())),
+            'delete_form_action'    => $this->get('router')->generate($this->getRouteNameForAction('delete'), array('id' => $entity->getId())),
             'isAjax'                => $this->get('request')->isXmlHttpRequest(),
             'breadcrumbs'       => array(
                 array(
-                    'url'   => $this->container->get('router')->generate($this->getRouteNameForAction('index')),
+                    'url'   => $this->get('router')->generate($this->getRouteNameForAction('index')),
                     'label' => $this->getEntityLabelPlural()
                 ),
                 array(
-                    'url'   => $this->container->get('router')->generate($this->getRouteNameForAction('edit'), array('id' => $entity->getId())),
+                    'url'   => $this->get('router')->generate($this->getRouteNameForAction('edit'), array('id' => $entity->getId())),
                     'label' => sprintf('%s edit', $this->getEntityLabel())
                 ),
             ),
@@ -218,7 +219,7 @@ class ItemController extends CrudController
      * Deletes a Item entity.
      *
      * @Route("/{id}", name="admin_menu_item_delete")
-     * @Method("DELETE")
+     * @Method("GET|DELETE")
      */
     public function deleteAction(Request $request, $id)
     {
@@ -236,7 +237,7 @@ class ItemController extends CrudController
     {
         $parameters = array();
 
-        $routes = $this->container->get('bigfoot.route_manager')->getRoutes();
+        $routes = $this->get('bigfoot.route_manager')->getRoutes();
         if (isset($routes[$route]) and array_key_exists('parameters', $routeOptions = $routes[$route]->getOptions())) {
             $parameters = $routeOptions['parameters'];
         }
@@ -244,7 +245,7 @@ class ItemController extends CrudController
         $item = new Item();
         foreach ($parameters as $parameter) {
 
-            $objParameter = new ItemParameter();
+            $objParameter = new Parameter();
             $objParameter->setParameter($parameter['name']);
             $objParameter->setType(isset($parameter['type']) ? $parameter['type'] : null);
             $objParameter->setLabelField(isset($parameter['label']) ? $parameter['label'] : null);
@@ -253,7 +254,7 @@ class ItemController extends CrudController
             $item->addParameter($objParameter);
         }
 
-        $form = $this->container->get('form.factory')->create(new ItemType($this->container->get('bigfoot.route_manager'),$this->container->get('doctrine')->getEntityManager()), $item);
+        $form = $this->get('form.factory')->create('bigfoot_menu_item', $item);
 
         return array(
             'form' => $form->createView(),

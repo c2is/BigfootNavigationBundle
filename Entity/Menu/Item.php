@@ -1,16 +1,20 @@
 <?php
 
-namespace Bigfoot\Bundle\NavigationBundle\Entity;
+namespace Bigfoot\Bundle\NavigationBundle\Entity\Menu;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu;
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter;
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Attribute;
+
 /**
  * Item
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Bigfoot\Bundle\NavigationBundle\Entity\ItemRepository")
+ * @ORM\Table(name="bigfoot_menu_item")
+ * @ORM\Entity(repositoryClass="Bigfoot\Bundle\NavigationBundle\Entity\Menu\ItemRepository")
  */
 class Item
 {
@@ -32,6 +36,13 @@ class Item
 
     /**
      * @var string
+     * @Gedmo\Translatable
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @var string
      *
      * @Gedmo\Slug(fields={"name"}, updatable=true, unique=true)
      * @ORM\Column(name="slug", type="string", length=255)
@@ -42,8 +53,7 @@ class Item
      * @var Menu
      *
      * @Gedmo\SortableGroup
-     * @ORM\ManyToOne(targetEntity="Menu", inversedBy="items")
-     * @ORM\JoinColumn(name="menu_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu", inversedBy="items")
      */
     private $menu;
 
@@ -52,7 +62,6 @@ class Item
      *
      * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="Item", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
     private $parent;
 
@@ -66,7 +75,7 @@ class Item
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="ItemParameter", mappedBy="item", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter", mappedBy="item", cascade={"persist", "remove"})
      */
     private $parameters;
 
@@ -87,12 +96,6 @@ class Item
 
     /**
      * @var string
-     * @ORM\Column(name="attribute", type="string", length=255, nullable=true)
-     */
-    private $attribute;
-
-    /**
-     * @var string
      * @ORM\Column(name="external_link", type="string", length=255, nullable=true)
      */
     private $externalLink;
@@ -105,7 +108,15 @@ class Item
     private $image;
 
     /**
-     * @var datetime $created
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Attribute", inversedBy="items")
+     * @ORM\JoinTable(name="bigfoot_menu_item_attribute_join")
+     */
+    private $attributes;
+
+    /**
+     * @var \Datetime $created
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
@@ -113,7 +124,7 @@ class Item
     protected $created;
 
     /**
-     * @var datetime $updated
+     * @var \Datetime $updated
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
@@ -138,12 +149,13 @@ class Item
     private $locale;
 
     /**
-     * Constructor.
+     * Construct Item
      */
     public function __construct()
     {
-        $this->children = new ArrayCollection();
+        $this->children   = new ArrayCollection();
         $this->parameters = new ArrayCollection();
+        $this->attributes = new ArrayCollection();
     }
 
     /**
@@ -185,6 +197,29 @@ class Item
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Item
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**
@@ -308,7 +343,7 @@ class Item
      * @param Item $parameter
      * @return $this
      */
-    public function addParameter(ItemParameter $parameter)
+    public function addParameter(Parameter $parameter)
     {
         $parameter->setItem($this);
         $this->parameters->add($parameter);
@@ -319,7 +354,7 @@ class Item
      * @param Item $parameter
      * @return $this
      */
-    public function removeParameter(ItemParameter $parameter)
+    public function removeParameter(Parameter $parameter)
     {
         $this->parameters->removeElement($parameter);
         return $this;
@@ -370,26 +405,42 @@ class Item
     }
 
     /**
-     * Set attribute
-     *
-     * @param string $attribute
-     * @return Item
+     * @param ArrayCollection $attributes
+     * @return $this
      */
-    public function setAttribute($attribute)
+    public function setAttributes(ArrayCollection $attributes)
     {
-        $this->attribute = $attribute;
-
+        $this->attributes = $attributes;
         return $this;
     }
 
     /**
-     * Get attribute
-     *
-     * @return string
+     * @param Item $attribute
+     * @return $this
      */
-    public function getAttribute()
+    public function addAttribute(Attribute $attribute)
     {
-        return $this->attribute;
+        $attribute->setItem($this);
+        $this->attributes->add($attribute);
+        return $this;
+    }
+
+    /**
+     * @param Item $attribute
+     * @return $this
+     */
+    public function removeAttribute(Attribute $attribute)
+    {
+        $this->attributes->removeElement($attribute);
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 
     /**

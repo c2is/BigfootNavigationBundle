@@ -15,7 +15,7 @@ class ParametersCollectionType extends AbstractType
      */
     public function getName()
     {
-        return 'parameters_collection';
+        return 'bigfoot_menu_item_parameter_collection';
     }
 
     public function getParent()

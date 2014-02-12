@@ -6,10 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
+
 /**
  * Menu
  *
- * @ORM\Table()
+ * @ORM\Table(name="bigfoot_menu")
  * @ORM\Entity(repositoryClass="Bigfoot\Bundle\NavigationBundle\Entity\MenuRepository")
  */
 class Menu
@@ -41,12 +43,12 @@ class Menu
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Item", mappedBy="menu", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item", mappedBy="menu", cascade={"persist"})
      */
     private $items;
 
     /**
-     * Constructor.
+     * Construct Menu
      */
     public function __construct()
     {
@@ -64,7 +66,7 @@ class Menu
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -80,14 +82,14 @@ class Menu
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -103,14 +105,14 @@ class Menu
     public function setSlug($slug)
     {
         $this->slug = $slug;
-    
+
         return $this;
     }
 
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {

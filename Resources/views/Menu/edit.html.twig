@@ -1,0 +1,31 @@
+{% extends bigfoot_theme_bundle~'::base.form.html.twig' %}
+
+{% block form %}
+
+    {{ form_widget(form.name) }}
+
+    <a class="m-trigger btn btn-primary btn-sm" href="{{ path('admin_menu_item_new') }}" data-toggle="modal" data-target="#add-item">
+        Add a new item
+    </a>
+
+    {{ form_widget(form.items) }}
+
+    {{ form_rest(form) }}
+
+    <div id="add-item" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add a new item</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary modal-save">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
