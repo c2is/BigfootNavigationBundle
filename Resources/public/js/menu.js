@@ -34,7 +34,7 @@ $(function() {
     /**
      * Delete menu item tree
      */
-    $('.delete-menu-item-tree').on('click', function (event) {
+    $(this).on('click', '.delete-menu-item-tree', function (event) {
         event.preventDefault();
 
         var link = $(this);

@@ -118,7 +118,7 @@ $(function() {
                 container   = $('.dd.nestable'),
                 currentItem = container.find("[data-id='" + itemId + "']");
 
-            if (currentItem.length == 1) {
+            if (currentItem.length) {
                 currentItem
                     .find('.dd-handle:first')
                     .html(itemName);
@@ -126,18 +126,21 @@ $(function() {
                 if (container.find('.dd-list').length === 0) {
                     container.append('<ol class="dd-list">' + content + '</ol>');
                 } else if (typeof idParent === "undefined" || idParent === null) {
-                    container.find('.dd-list:first').append(content);
+                    container
+                        .find('.dd-list:first')
+                        .append(content);
                 } else {
                     var li = container.find("[data-id='" + idParent + "']");
 
                     if (li.find('.dd-list').length === 0) {
                         li.append('<ol class="dd-list">' + content + '</ol>');
                     } else{
-                        li.find('.dd-list:first').append(content);
+                        li
+                            .find('.dd-list:first')
+                            .append(content);
                     }
                 }
             }
-
 
             modal.modal('hide');
         } else {

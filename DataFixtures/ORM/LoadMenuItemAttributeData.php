@@ -28,7 +28,7 @@ class LoadMenuItemAttributeData extends AbstractFixture implements ContainerAwar
     {
         $attribute = new Attribute();
         $attribute
-            ->setType('element')
+            ->setType(Attribute::ELEMENT)
             ->setName('class')
             ->setLabel('Active element')
             ->setValue('active');
@@ -40,7 +40,7 @@ class LoadMenuItemAttributeData extends AbstractFixture implements ContainerAwar
 
         $attribute = new Attribute();
         $attribute
-            ->setType('link')
+            ->setType(Attribute::LINK)
             ->setName('class')
             ->setLabel('Active link')
             ->setValue('active');
@@ -52,7 +52,7 @@ class LoadMenuItemAttributeData extends AbstractFixture implements ContainerAwar
 
         $attribute = new Attribute();
         $attribute
-            ->setType('child')
+            ->setType(Attribute::CHILD)
             ->setName('class')
             ->setLabel('Active child')
             ->setValue('active');
