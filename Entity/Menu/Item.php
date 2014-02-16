@@ -365,7 +365,7 @@ class Item
     }
 
     /**
-     * @return int
+     * @return Route
      */
     public function getRoute()
     {
