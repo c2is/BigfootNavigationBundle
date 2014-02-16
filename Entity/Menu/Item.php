@@ -445,6 +445,73 @@ class Item
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function getElementAttributes()
+    {
+        return $this->getAttributesByType(Attribute::ELEMENT);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getLinkAttributes()
+    {
+        return $this->getAttributesByType(Attribute::LINK);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getChildAttributes()
+    {
+        return $this->getAttributesByType(Attribute::CHILD);
+    }
+
+    /**
+     * @param $type
+     * @return array
+     */
+    public function getArrayAttributesByType($type) {
+        $toReturn = array();
+
+        foreach ($this->attributes as $attribute) {
+            if ($attribute->getType() == $type) {
+                if (!isset($toReturn[$attribute->getName()])) {
+                    $toReturn[$attribute->getName()] = array();
+                }
+                $toReturn[$attribute->getName()][] = $attribute->getValue();
+            }
+        }
+
+        return $toReturn;
+    }
+
+    /**
+     * @return array
+     */
+    public function getElementArrayAttributes()
+    {
+        return $this->getArrayAttributesByType(Attribute::ELEMENT);
+    }
+
+    /**
+     * @return array
+     */
+    public function getLinkArrayAttributes()
+    {
+        return $this->getArrayAttributesByType(Attribute::LINK);
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildArrayAttributes()
+    {
+        return $this->getArrayAttributesByType(Attribute::CHILD);
+    }
+
+    /**
      * Set externalLink
      *
      * @param string $externalLink

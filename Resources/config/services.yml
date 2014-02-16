@@ -49,3 +49,9 @@ services:
         class: Bigfoot\Bundle\NavigationBundle\Form\Type\Route\ParameterType
         tags:
             - { name: form.type, alias: admin_route_parameter }
+    # Twig extensions
+    bigfoot.twig.menu_extension:
+        class: Bigfoot\Bundle\NavigationBundle\Twig\MenuExtension
+        arguments: [ @doctrine.orm.entity_manager, @router ]
+        tags:
+            - { name: twig.extension }

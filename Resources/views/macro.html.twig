@@ -1,0 +1,25 @@
+{% macro element_attributes(item) %}
+    {% for attrname, attrlist in item.elementArrayAttributes %}{{ attrname }}="{{ attrlist | join(' ') }}" {% endfor %}
+{% endmacro %}
+
+{% macro link_attributes(item) %}
+    {% for attrname, attrlist in item.linkArrayAttributes %}{{ attrname }}="{{ attrlist | join(' ') }}" {% endfor %}
+{% endmacro %}
+
+{% macro child_attributes(item) %}
+    {% for attrname, attrlist in item.childArrayAttributes %}{{ attrname }}="{{ attrlist | join(' ') }}" {% endfor %}
+{% endmacro %}
+
+{% macro link(item) %}
+    {%- set url = '#' -%}
+    {%- if item.externalLink -%}
+        {%- set url = item.externalLink -%}
+    {%- else -%}
+        {%- set routeParameters = {} -%}
+        {% for itemParameter in item.parameters %}
+            {% set parameterName = itemParameter.parameter.name %}
+        {% endfor %}
+        {%- set url = path(item.route.name, routeParameters) -%}
+    {%- endif -%}
+    {{ url }}
+{% endmacro %}
