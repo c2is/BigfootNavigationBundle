@@ -50,6 +50,6 @@ class MenuExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'bigfoot_menu';
+        return 'bigfoot_navigation_menu';
     }
 }
