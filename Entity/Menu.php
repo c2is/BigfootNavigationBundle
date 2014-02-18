@@ -38,7 +38,7 @@ class Menu
     /**
      * @var string
      *
-     * @Gedmo\Slug(fields={"name"}, updatable=true, unique=true)
+     * @Gedmo\Slug(fields={"name"}, updatable=false, unique=true)
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
