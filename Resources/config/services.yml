@@ -4,6 +4,15 @@ services:
         class: Bigfoot\Bundle\NavigationBundle\Manager\Menu\ItemManager
         arguments:
             - @doctrine.orm.entity_manager
+<<<<<<< HEAD
+=======
+    # Menu Item Url Manager
+    bigfoot_navigation.manager.menu_item_url:
+        class: Bigfoot\Bundle\NavigationBundle\Manager\Menu\Item\UrlManager
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @router
+>>>>>>> refs/heads/master
 
     # Menu Listener
     bigfoot_navigation.listener.menu:
@@ -49,3 +58,12 @@ services:
         class: Bigfoot\Bundle\NavigationBundle\Form\Type\Route\ParameterType
         tags:
             - { name: form.type, alias: admin_route_parameter }
+<<<<<<< HEAD
+=======
+    # Twig extensions
+    bigfoot.twig.menu_extension:
+        class: Bigfoot\Bundle\NavigationBundle\Twig\MenuExtension
+        arguments: [ @bigfoot_navigation.manager.menu_item_url ]
+        tags:
+            - { name: twig.extension }
+>>>>>>> refs/heads/master

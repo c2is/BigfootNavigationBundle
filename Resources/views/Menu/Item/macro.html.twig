@@ -1,0 +1,11 @@
+{% macro element_attributes(item) %}
+    {% for attrname, attrlist in item.elementArrayAttributes %}{{ attrname }}="{{ attrlist | join(' ') }}" {% endfor %}
+{% endmacro %}
+
+{% macro link_attributes(item) %}
+    {% for attrname, attrlist in item.linkArrayAttributes %}{{ attrname }}="{{ attrlist | join(' ') }}" {% endfor %}
+{% endmacro %}
+
+{% macro child_attributes(item) %}
+    {% for attrname, attrlist in item.childArrayAttributes %}{{ attrname }}="{{ attrlist | join(' ') }}" {% endfor %}
+{% endmacro %}

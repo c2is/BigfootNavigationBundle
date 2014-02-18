@@ -38,7 +38,7 @@ class Menu
     /**
      * @var string
      *
-     * @Gedmo\Slug(fields={"name"}, updatable=true, unique=true)
+     * @Gedmo\Slug(fields={"name"}, updatable=false, unique=true)
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
@@ -51,6 +51,16 @@ class Menu
     private $items;
 
     /**
+<<<<<<< HEAD
+=======
+     * @var string
+     *
+     * @Gedmo\Locale
+     */
+    private $locale;
+
+    /**
+>>>>>>> refs/heads/master
      * Construct Menu
      */
     public function __construct()
@@ -184,5 +194,15 @@ class Menu
         ksort($items);
 
         return $items;
+<<<<<<< HEAD
+=======
+    }
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+>>>>>>> refs/heads/master
     }
 }
