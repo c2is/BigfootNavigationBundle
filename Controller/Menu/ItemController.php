@@ -140,9 +140,9 @@ class ItemController extends CrudController
     /**
      * Handle success response.
      */
-    protected function handleSuccessResponse($item = null, $action = null)
+    protected function handleSuccessResponse($action, $item = null)
     {
-        if (!$item) {
+        if ($action == 'delete') {
             return $this->renderAjax(true, 'Success, please wait...');
         }
 

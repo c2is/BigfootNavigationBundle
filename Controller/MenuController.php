@@ -95,7 +95,7 @@ class MenuController extends CrudController
     /**
      * Render form
      */
-    protected function renderForm($form, $action, $menu = null)
+    protected function renderForm($form, $action, $menu)
     {
         $treeViews = $this->renderView(
             $this->getThemeBundle().':navigation:nestable.html.twig',
@@ -108,14 +108,14 @@ class MenuController extends CrudController
         return $this->render(
             $this->getFormTemplate(),
             array(
-                'form'         => $form->createView(),
-                'form_method'  => 'POST',
-                'form_title'   => sprintf('%s creation', $this->getEntityLabel()),
-                'form_action'  => $action,
-                'form_submit'  => 'Submit',
-                'menu'         => $menu,
-                'cancel_route' => $this->getRouteNameForAction('index'),
-                'treeViews'    => $treeViews,
+                'form'              => $form->createView(),
+                'form_method'       => 'POST',
+                'form_title'        => sprintf('%s creation', $this->getEntityLabel()),
+                'form_action'       => $action,
+                'form_submit'       => 'Submit',
+                'form_cancel_route' => $this->getRouteNameForAction('index'),
+                'menu'              => $menu,
+                'treeViews'         => $treeViews,
             )
         );
     }
