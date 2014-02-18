@@ -51,6 +51,13 @@ class Menu
     private $items;
 
     /**
+     * @var string
+     *
+     * @Gedmo\Locale
+     */
+    private $locale;
+
+    /**
      * Construct Menu
      */
     public function __construct()
@@ -184,5 +191,12 @@ class Menu
         ksort($items);
 
         return $items;
+    }
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
     }
 }

@@ -144,16 +144,16 @@ class Item
     protected $updatedBy;
 
     /**
-     * @Gedmo\Locale
-     */
-    private $locale;
-
-    /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter", mappedBy="item", cascade={"remove"})
      */
     private $parameters;
+
+    /**
+     * @Gedmo\Locale
+     */
+    private $locale;
 
     /**
      * Construct Item
