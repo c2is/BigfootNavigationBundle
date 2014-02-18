@@ -29,10 +29,6 @@ class Route
     /**
      * @var string
      *
-<<<<<<< HEAD
-     * @Gedmo\Translatable
-=======
->>>>>>> refs/heads/master
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;

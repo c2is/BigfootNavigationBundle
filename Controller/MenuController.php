@@ -113,10 +113,7 @@ class MenuController extends CrudController
                 'form_title'   => sprintf('%s creation', $this->getEntityLabel()),
                 'form_action'  => $action,
                 'form_submit'  => 'Submit',
-<<<<<<< HEAD
-=======
                 'menu'         => $menu,
->>>>>>> refs/heads/master
                 'cancel_route' => $this->getRouteNameForAction('index'),
                 'treeViews'    => $treeViews,
             )

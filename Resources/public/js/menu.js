@@ -34,11 +34,7 @@ $(function() {
     /**
      * Delete menu item tree
      */
-<<<<<<< HEAD
-    $('.delete-menu-item-tree').on('click', function (event) {
-=======
     $(this).on('click', '.delete-menu-item-tree', function (event) {
->>>>>>> refs/heads/master
         event.preventDefault();
 
         var link = $(this);

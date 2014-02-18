@@ -36,15 +36,9 @@ class Attribute
     private $id;
 
     /**
-<<<<<<< HEAD
-     * @var string
-     *
-     * @ORM\Column(name="attr_type", type="string", length=255)
-=======
      * @var int
      *
      * @ORM\Column(name="attr_type", type="smallint")
->>>>>>> refs/heads/master
      */
     private $type;
 
@@ -108,10 +102,6 @@ class Attribute
      */
     public function addItem(Item $item)
     {
-<<<<<<< HEAD
-        $item->setItem($this);
-=======
->>>>>>> refs/heads/master
         $this->items->add($item);
         return $this;
     }
@@ -147,11 +137,7 @@ class Attribute
     /**
      * Set type
      *
-<<<<<<< HEAD
-     * @param string $type
-=======
      * @param int $type
->>>>>>> refs/heads/master
      * @return Attribute
      */
     public function setType($type)
@@ -164,11 +150,7 @@ class Attribute
     /**
      * Get type
      *
-<<<<<<< HEAD
-     * @return string
-=======
      * @return int
->>>>>>> refs/heads/master
      */
     public function getType()
     {

@@ -54,27 +54,6 @@ HELP
                 $dbRoute = $entityManager->getRepository('BigfootNavigationBundle:Route')->findOneByName($key);
 
                 if ($dbRoute) {
-<<<<<<< HEAD
-                    foreach ($options['parameters'] as $parameter) {
-                        $dbParameter = $entityManager->getRepository('BigfootNavigationBundle:Route\Parameter')->findOneByRouteName($dbRoute, $parameter['name']);
-
-                        if ($dbParameter) {
-                            $dbParameter
-                                ->setName($parameter['name'])
-                                ->setType($parameter['type'])
-                                ->setLabelField($parameter['label'])
-                                ->setValueField($parameter['value']);
-                        } else {
-                            $nParameter = new Parameter();
-                            $nParameter
-                                ->setName($parameter['name'])
-                                ->setType($parameter['type'])
-                                ->setLabelField($parameter['label'])
-                                ->setValueField($parameter['value'])
-                                ->setRoute($dbRoute);
-
-                            $this->getEntityManager()->persist($nParameter);
-=======
                     if (isset($options['parameters'])) {
                         foreach ($options['parameters'] as $parameter) {
                             $dbParameter = $entityManager->getRepository('BigfootNavigationBundle:Route\Parameter')->findOneByRouteName($dbRoute, $parameter['name']);
@@ -96,7 +75,6 @@ HELP
 
                                 $this->getEntityManager()->persist($nParameter);
                             }
->>>>>>> refs/heads/master
                         }
                     }
                 } else {

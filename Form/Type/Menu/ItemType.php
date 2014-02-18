@@ -57,8 +57,6 @@ class ItemType extends AbstractType
         $routeManager  = $this->routeManager;
         $routes        = $routeManager->getArrayRoutes();
         $modal         = ($this->request->query->get('modal')) ?: false;
-<<<<<<< HEAD
-=======
         $referer       = $this->request->headers->get('referer');
         $menuId        = substr($referer, (strrpos($referer, '/') + 1));
 
@@ -66,7 +64,6 @@ class ItemType extends AbstractType
             $menu = $this->entityManager->getRepository('BigfootNavigationBundle:Menu')->find($menuId);
             $options['data']->setMenu($menu);
         }
->>>>>>> refs/heads/master
 
         if (!$modal) {
             $builder
