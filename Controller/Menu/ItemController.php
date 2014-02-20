@@ -158,6 +158,6 @@ class ItemController extends CrudController
             'view'     => $itemView
         );
 
-        return $this->renderAjax(true, 'Success, please wait...', $content, $action);
+        return $this->renderAjax(true, 'Success, please wait...', $content);
     }
 }

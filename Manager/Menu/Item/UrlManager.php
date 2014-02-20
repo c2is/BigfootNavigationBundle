@@ -25,8 +25,8 @@ class UrlManager
      */
     public function __construct(EntityManager $entityManager, RouterInterface $router)
     {
-        $this->entityManager    = $entityManager;
-        $this->router           = $router;
+        $this->entityManager = $entityManager;
+        $this->router        = $router;
     }
 
     public function getUrl(Item $item)
@@ -43,11 +43,12 @@ class UrlManager
              */
             foreach ($item->getParameters() as $itemParameter) {
                 $routeParameter = $itemParameter->getParameter();
-                $parameterName = $routeParameter->getName();
+                $parameterName  = $routeParameter->getName();
+
                 if ($routeParameter->getType()) {
-                    $repository = $this->entityManager->getRepository($routeParameter->getType());
-                    $entity = $repository->find($itemParameter->getValue());
-                    $getter = sprintf('get%s', ucfirst($routeParameter->getValueField()));
+                    $repository     = $this->entityManager->getRepository($routeParameter->getType());
+                    $entity         = $repository->find($itemParameter->getValue());
+                    $getter         = sprintf('get%s', ucfirst($routeParameter->getValueField()));
                     $parameterValue = $entity->$getter();
                 } else {
                     $parameterValue = $itemParameter->getValue();

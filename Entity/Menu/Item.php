@@ -42,7 +42,7 @@ class Item
      * @var string
      *
      * @Gedmo\Translatable
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
@@ -88,13 +88,6 @@ class Item
     /**
      * @var string
      *
-     * @ORM\Column(name="attribute", type="string", length=255, nullable=true)
-     */
-    private $attribute;
-
-    /**
-     * @var string
-     *
      * @Assert\Url()
      * @ORM\Column(name="external_link", type="string", length=255, nullable=true)
      */
@@ -108,22 +101,59 @@ class Item
     private $image;
 
     /**
-     * @var integer
+     * @var Route
      *
      * @ORM\ManyToOne(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Route", inversedBy="items")
      */
     private $route;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\ManyToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Attribute", inversedBy="items")
      * @ORM\JoinTable(name="bigfoot_menu_item_attribute_join")
      */
     private $attributes;
 
     /**
+     * @var \Datetime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    protected $created;
+
+    /**
+     * @var \Datetime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    protected $updated;
+
+    /**
+     * @Gedmo\Blameable(on="create")
+     * @ORM\Column(name="created_by", type="string", nullable=true)
+     */
+    protected $createdBy;
+
+    /**
+     * @Gedmo\Blameable(on="update")
+     * @ORM\Column(name="updated_by", type="string", nullable=true)
+     */
+    protected $updatedBy;
+
+    /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter", mappedBy="item", cascade={"remove"})
      */
     private $parameters;
+
+    /**
+     * @Gedmo\Locale
+     */
+    private $locale;
 
     /**
      * Construct Item
@@ -335,7 +365,7 @@ class Item
     }
 
     /**
-     * @return int
+     * @return Route
      */
     public function getRoute()
     {
@@ -376,7 +406,7 @@ class Item
      */
     public function addAttribute(Attribute $attribute)
     {
-        $attribute->setItem($this);
+        $attribute->addItem($this);
         $this->attributes->add($attribute);
         return $this;
     }
@@ -397,6 +427,88 @@ class Item
     public function getAttributes()
     {
         return $this->attributes;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getAttributesByType($type)
+    {
+        $toReturn = new ArrayCollection();
+
+        foreach ($this->attributes as $attribute) {
+            if ($attribute->getType() == $type) {
+                $toReturn->add($attribute);
+            }
+        }
+        return $toReturn;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getElementAttributes()
+    {
+        return $this->getAttributesByType(Attribute::ELEMENT);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getLinkAttributes()
+    {
+        return $this->getAttributesByType(Attribute::LINK);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getChildAttributes()
+    {
+        return $this->getAttributesByType(Attribute::CHILD);
+    }
+
+    /**
+     * @param $type
+     * @return array
+     */
+    public function getArrayAttributesByType($type) {
+        $toReturn = array();
+
+        foreach ($this->attributes as $attribute) {
+            if ($attribute->getType() == $type) {
+                if (!isset($toReturn[$attribute->getName()])) {
+                    $toReturn[$attribute->getName()] = array();
+                }
+                $toReturn[$attribute->getName()][] = $attribute->getValue();
+            }
+        }
+
+        return $toReturn;
+    }
+
+    /**
+     * @return array
+     */
+    public function getElementArrayAttributes()
+    {
+        return $this->getArrayAttributesByType(Attribute::ELEMENT);
+    }
+
+    /**
+     * @return array
+     */
+    public function getLinkArrayAttributes()
+    {
+        return $this->getArrayAttributesByType(Attribute::LINK);
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildArrayAttributes()
+    {
+        return $this->getArrayAttributesByType(Attribute::CHILD);
     }
 
     /**
@@ -447,32 +559,100 @@ class Item
 
 
     /**
-     * Set attribute
+     * Set created
      *
-     * @param string $attribute
+     * @param \DateTime $created
      * @return Item
      */
-    public function setAttribute($attribute)
+    public function setCreated($created)
     {
-        $this->attribute = $attribute;
+        $this->created = $created;
 
         return $this;
     }
 
     /**
-     * Get attribute
+     * Get created
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getAttribute()
+    public function getCreated()
     {
-        return $this->attribute;
+        return $this->created;
     }
 
     /**
-     * Add parameters
+     * Set updated
      *
-     * @param Parameter $parameters
+     * @param \DateTime $updated
+     * @return Item
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param string $createdBy
+     * @return Item
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return string
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set updatedBy
+     *
+     * @param string $updatedBy
+     * @return Item
+     */
+    public function setUpdatedBy($updatedBy)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy
+     *
+     * @return string
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+
+    /**
+     * Add parameter
+     *
+     * @param Parameter $parameter
      * @return Item
      */
     public function addParameter($parameter)
@@ -500,5 +680,16 @@ class Item
     public function getParameters()
     {
         return $this->parameters;
+    }
+
+    /**
+     * @param string $locale
+     * @return $this
+     */
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
     }
 }

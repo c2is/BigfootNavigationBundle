@@ -24,9 +24,6 @@ $(function() {
                 url:   Routing.generate('admin_menu_item_edit_tree_position', { 'id': id, 'parent': parent, 'position': index }),
                 type:  'GET',
                 cache: false,
-                success: function (data) {
-
-                }
             });
         }
     });
@@ -40,12 +37,12 @@ $(function() {
         var link = $(this);
 
         $.ajax({
-            url:   Routing.generate('admin_menu_item_delete', { 'id': link.parent().data('id') }),
+            url:   link.attr('href'),
             type:  'GET',
             cache: false,
             success: function (data) {
                 if (data.status === true) {
-                    var parent = link.parent();
+                    var parent = link.closest('li');
 
                     parent.fadeOut(300, function () {
                         parent.remove();
