@@ -51,7 +51,7 @@ class MenuExtension extends Twig_Extension
     public function getFunctions()
     {
         return array(
-            'menu_item_url'         => new Twig_Function_Method($this, 'menuItemUrl'),
+            'menu_item_url'         => new Twig_Function_Method($this, 'getItemUrl'),
             'knp_breadcrumb_render' => new Twig_Function_Method($this, 'getBreadcrumb', array('is_safe' => array('html')))
         );
     }
@@ -61,7 +61,7 @@ class MenuExtension extends Twig_Extension
      *
      * @return string The generated URL for the $item menu item
      */
-    public function menuItemUrl($item)
+    public function getItemUrl($item)
     {
         return $this->urlManager->getUrl($item);
     }

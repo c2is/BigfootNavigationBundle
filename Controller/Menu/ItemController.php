@@ -46,6 +46,7 @@ class ItemController extends CrudController
         return array(
             'id'   => 'ID',
             'name' => 'Name',
+            'menu' => 'Menu',
         );
     }
 
@@ -132,9 +133,13 @@ class ItemController extends CrudController
     /**
      * PrePersist Item entity.
      */
-    protected function prePersist($item)
+    protected function prePersist($item, $action)
     {
-        $this->getMenuItemManager()->addItem($item, $this->getRequest());
+        if ($action == 'new') {
+            $this->getMenuItemManager()->addItem($item, $this->getRequest());
+        } elseif ($action == 'edit') {
+            $this->getMenuItemManager()->editItem($item, $this->getRequest());
+        }
     }
 
     /**
