@@ -52,6 +52,7 @@ HELP
                 $options = $route->getOptions();
                 $dbRoute = $entityManager->getRepository('BigfootNavigationBundle:Route')->findOneByName($key);
 
+                $routeOptions = $route->getOptions();
                 if ($dbRoute) {
                     if (isset($options['parameters'])) {
                         foreach ($options['parameters'] as $parameter) {
@@ -64,11 +65,11 @@ HELP
                                     ->setLabelField($parameter['label'])
                                     ->setValueField($parameter['value']);
                             } else {
-                                $this->createParameter($route, $parameter);
+                                $this->createParameter($dbRoute, $parameter);
                             }
                         }
                     }
-                } elseif (isset($route->getOptions()['label'])) {
+                } elseif (isset($routeOptions['label'])) {
                     $nRoute = new Route();
                     $nRoute->setName($key)
                            ->setLabel($options['label']);
@@ -77,7 +78,7 @@ HELP
 
                     if (isset($options['parameters'])) {
                         foreach ($options['parameters'] as $parameter) {
-                            $this->createParameter($route, $parameter);
+                            $this->createParameter($nRoute, $parameter);
                         }
                     }
                 }
