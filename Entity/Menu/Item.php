@@ -488,6 +488,29 @@ class Item
     }
 
     /**
+     * @param $type
+     */
+    public function getChildAttributeValueByName($name) {
+        foreach ($this->attributes as $attribute) {
+            if ($attribute->getType() == Attribute::CHILD && $attribute->getName() == $name) {
+                return $attribute->getValue();
+            }
+        }
+
+        return false;
+    }
+
+    public function attributeExist($name, $value) {
+        foreach ($this->attributes as $attribute) {
+            if ($attribute->getName() == $name && $attribute->getValue() == $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @return array
      */
     public function getElementArrayAttributes()

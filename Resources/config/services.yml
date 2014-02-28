@@ -12,9 +12,10 @@ services:
             - @doctrine.orm.entity_manager
             - @router
 
-    # Menu Subscriber
-    bigfoot_navigation.subscriber.menu:
+    # Menu Listener
+    bigfoot_navigation.listener.menu:
         class: Bigfoot\Bundle\NavigationBundle\Subscriber\MenuSubscriber
+        arguments: [@security.context]
         tags:
             - { name: kernel.event_subscriber }
 
