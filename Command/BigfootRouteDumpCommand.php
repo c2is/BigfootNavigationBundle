@@ -52,6 +52,7 @@ HELP
                 $options = $route->getOptions();
                 $dbRoute = $entityManager->getRepository('BigfootNavigationBundle:Route')->findOneByName($key);
 
+                $routeOptions = $route->getOptions();
                 if ($dbRoute) {
                     if (isset($options['parameters'])) {
                         foreach ($options['parameters'] as $parameter) {
@@ -68,7 +69,7 @@ HELP
                             }
                         }
                     }
-                } elseif (isset($route->getOptions()['label'])) {
+                } elseif (isset($routeOptions['label'])) {
                     $nRoute = new Route();
                     $nRoute->setName($key)
                            ->setLabel($options['label']);
