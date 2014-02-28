@@ -64,7 +64,7 @@ HELP
                                     ->setLabelField($parameter['label'])
                                     ->setValueField($parameter['value']);
                             } else {
-                                $this->createParameter($route, $parameter);
+                                $this->createParameter($dbRoute, $parameter);
                             }
                         }
                     }
@@ -77,7 +77,7 @@ HELP
 
                     if (isset($options['parameters'])) {
                         foreach ($options['parameters'] as $parameter) {
-                            $this->createParameter($route, $parameter);
+                            $this->createParameter($nRoute, $parameter);
                         }
                     }
                 }
