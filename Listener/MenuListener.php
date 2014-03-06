@@ -46,7 +46,7 @@ class MenuListener implements EventSubscriberInterface
         $menu          = $event->getSubject();
         $structureMenu = $menu->getChild('structure');
 
-        if ($this->security->isGranted('ROLE_MENU')) {
+        if ($this->security->isGranted('ROLE_ADMIN')) {
             $navigationMenu = $structureMenu->addChild(
                 'navigation_menu',
                 array(
