@@ -46,6 +46,7 @@ class ItemController extends CrudController
         return array(
             'id'   => 'ID',
             'name' => 'Name',
+            'menu' => 'Menu',
         );
     }
 
@@ -132,17 +133,21 @@ class ItemController extends CrudController
     /**
      * PrePersist Item entity.
      */
-    protected function prePersist($item)
+    protected function prePersist($item, $action)
     {
-        $this->getMenuItemManager()->addItem($item, $this->getRequest());
+        if ($action == 'new') {
+            $this->getMenuItemManager()->addItem($item, $this->getRequest());
+        } elseif ($action == 'edit') {
+            $this->getMenuItemManager()->editItem($item, $this->getRequest());
+        }
     }
 
     /**
      * Handle success response.
      */
-    protected function handleSuccessResponse($item = null, $action = null)
+    protected function handleSuccessResponse($action, $item = null)
     {
-        if (!$item) {
+        if ($action == 'delete') {
             return $this->renderAjax(true, 'Success, please wait...');
         }
 
@@ -158,6 +163,6 @@ class ItemController extends CrudController
             'view'     => $itemView
         );
 
-        return $this->renderAjax(true, 'Success, please wait...', $content, $action);
+        return $this->renderAjax(true, 'Success, please wait...', $content);
     }
 }

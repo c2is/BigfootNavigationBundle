@@ -45,14 +45,14 @@ HELP
 
         try {
             $entityManager = $this->getEntityManager();
-            $routeManager  = $this->getRouteManager();
-
-            $routes = $routeManager->getRoutes();
+            $router        = $this->getRouter();
+            $routes        = $router->getRouteCollection();
 
             foreach ($routes as $key => $route) {
                 $options = $route->getOptions();
                 $dbRoute = $entityManager->getRepository('BigfootNavigationBundle:Route')->findOneByName($key);
 
+                $routeOptions = $route->getOptions();
                 if ($dbRoute) {
                     if (isset($options['parameters'])) {
                         foreach ($options['parameters'] as $parameter) {
@@ -65,34 +65,20 @@ HELP
                                     ->setLabelField($parameter['label'])
                                     ->setValueField($parameter['value']);
                             } else {
-                                $nParameter = new Parameter();
-                                $nParameter
-                                    ->setName($parameter['name'])
-                                    ->setType($parameter['type'])
-                                    ->setLabelField($parameter['label'])
-                                    ->setValueField($parameter['value'])
-                                    ->setRoute($dbRoute);
-
-                                $this->getEntityManager()->persist($nParameter);
+                                $this->createParameter($dbRoute, $parameter);
                             }
                         }
                     }
-                } else {
+                } elseif (isset($routeOptions['label'])) {
                     $nRoute = new Route();
                     $nRoute->setName($key)
                            ->setLabel($options['label']);
 
+                    $this->getEntityManager()->persist($nRoute);
+
                     if (isset($options['parameters'])) {
                         foreach ($options['parameters'] as $parameter) {
-                            $nParameter = new Parameter();
-                            $nParameter
-                                ->setName($parameter['name'])
-                                ->setType($parameter['type'])
-                                ->setLabelField($parameter['label'])
-                                ->setValueField($parameter['value'])
-                                ->setRoute($nRoute);
-
-                            $this->getEntityManager()->persist($nParameter);
+                            $this->createParameter($nRoute, $parameter);
                         }
                     }
                 }
@@ -106,20 +92,16 @@ HELP
         }
     }
 
-    protected function handleRouteParameters($route, $parameters)
+    protected function createParameter($route, $parameter)
     {
-        if (isset($parameters)) {
-            foreach ($parameters as $parameter) {
-                $nParameter = new Parameter();
-                $nParameter
-                    ->setName($parameter['name'])
-                    ->setType($parameter['type'])
-                    ->setLabelField($parameter['label'])
-                    ->setValueField($parameter['value'])
-                    ->setRoute($route);
+        $nParameter = new Parameter();
+        $nParameter
+            ->setName($parameter['name'])
+            ->setType($parameter['type'])
+            ->setLabelField($parameter['label'])
+            ->setValueField($parameter['value'])
+            ->setRoute($route);
 
-                $this->getEntityManager()->persist($nParameter);
-            }
-        }
+        $this->getEntityManager()->persist($nParameter);
     }
 }

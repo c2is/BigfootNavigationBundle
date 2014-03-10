@@ -590,14 +590,14 @@ class Item
     public function setCreated($created)
     {
         $this->created = $created;
-    
+
         return $this;
     }
 
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -619,7 +619,7 @@ class Item
     /**
      * Get updated
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdated()
     {
@@ -635,14 +635,14 @@ class Item
     public function setCreatedBy($createdBy)
     {
         $this->createdBy = $createdBy;
-    
+
         return $this;
     }
 
     /**
      * Get createdBy
      *
-     * @return string 
+     * @return string
      */
     public function getCreatedBy()
     {
@@ -665,7 +665,7 @@ class Item
     /**
      * Get updatedBy
      *
-     * @return string 
+     * @return string
      */
     public function getUpdatedBy()
     {
