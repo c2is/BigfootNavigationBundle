@@ -1,4 +1,10 @@
 services:
+    # Link Manager
+    bigfoot_navigation.manager.link:
+        class: Bigfoot\Bundle\NavigationBundle\Manager\LinkManager
+        arguments:
+            - @doctrine.orm.entity_manager
+
     # Menu Item Manager
     bigfoot_navigation.manager.menu_item:
         class: Bigfoot\Bundle\NavigationBundle\Manager\Menu\ItemManager
@@ -12,10 +18,11 @@ services:
             - @doctrine.orm.entity_manager
             - @router
 
-    # Menu Listener
-    bigfoot_navigation.listener.menu:
+    # Menu Subscriber
+    bigfoot_navigation.subscriber.menu:
         class: Bigfoot\Bundle\NavigationBundle\Subscriber\MenuSubscriber
-        arguments: [@security.context]
+        arguments:
+            - @security.context
         tags:
             - { name: kernel.event_subscriber }
 
@@ -28,6 +35,14 @@ services:
             - @bigfoot_navigation.manager.menu_item_url
         tags:
             - { name: twig.extension }
+
+    # Link Type
+    bigfoot_navigation.form.type.link:
+        class: Bigfoot\Bundle\NavigationBundle\Form\Type\LinkType
+        arguments:
+            - @router
+        tags:
+            - { name: form.type, alias: admin_link }
 
     # Menu Type
     bigfoot_navigation.form.type.menu:
@@ -42,7 +57,6 @@ services:
         class: Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\ItemType
         arguments:
             - @doctrine.orm.entity_manager
-            - @bigfoot_core.manager.route
         calls:
             - [setRequest, ["@?request="]]
         tags:
@@ -65,5 +79,8 @@ services:
     # Route Parameter Type
     bigfoot_navigation.form.type.route_parameter:
         class: Bigfoot\Bundle\NavigationBundle\Form\Type\Route\ParameterType
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @router
         tags:
             - { name: form.type, alias: admin_route_parameter }

@@ -115,6 +115,6 @@ class MenuSubscriber implements EventSubscriberInterface
                     )
                 )
             );
-        }
+        // }
     }
 }

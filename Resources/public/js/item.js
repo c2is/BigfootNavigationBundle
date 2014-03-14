@@ -7,80 +7,6 @@ $(function() {
     setTranslatableFields();
 
     /**
-     * Update route parameters
-     */
-    var container = $('#menu-item-route-parameters');
-
-    $('select.menu-item-route-choice').on('change', function (event) {
-        var route = $(this).val();
-
-        $.ajax({
-            url:   Routing.generate('admin_route_parameter_list', { 'route': route }),
-            type:  'GET',
-            cache: false,
-            success: function (data) {
-                container
-                    .empty()
-                    .append(data);
-
-                $('.chosen-select', container).chosen();
-            }
-        });
-    });
-
-    /**
-     * Handle external link
-     */
-    var
-        linkType        = $('#admin_menu_item_linkType'),
-        externalLink    = $('#admin_menu_item_externalLink'),
-        route           = $('#admin_menu_item_route'),
-        routeParameters = $('#menu-item-route-parameters');
-
-    if (externalLink.val() === '') {
-        enable(route);
-        routeParameters.show();
-
-        disable(externalLink);
-    } else {
-        disable(route)
-        routeParameters.hide();
-
-        enable(externalLink);
-    }
-
-    linkType
-        .on('click', function (event) {
-            if ($(this).is(':checked')) {
-                disable(route)
-                routeParameters.hide();
-
-                enable(externalLink);
-            } else {
-                enable(route);
-                routeParameters.show();
-
-                disable(externalLink);
-            }
-    });
-
-    function enable(item)
-    {
-        item
-            .removeAttr('disabled')
-            .parent()
-                .show();
-    }
-
-    function disable(item)
-    {
-        item
-            .attr('disabled','disabled')
-            .parent()
-                .hide();
-    }
-
-    /**
      * Handle modal response
      */
     var options = {
@@ -97,7 +23,7 @@ $(function() {
             var action = form.attr('action');
 
             form
-                .attr('action', action + '?modal=1')
+                .attr('action', action + '?blank=1')
                 .ajaxSubmit(options);
         });
 
