@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use Bigfoot\Bundle\CoreBundle\Annotation\Bigfoot;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu;
 use Bigfoot\Bundle\NavigationBundle\Entity\Route;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Attribute;
@@ -17,6 +18,7 @@ use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter;
  *
  * @ORM\Table(name="bigfoot_menu_item")
  * @ORM\Entity(repositoryClass="Bigfoot\Bundle\NavigationBundle\Entity\Menu\ItemRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Item
 {
@@ -88,24 +90,16 @@ class Item
     /**
      * @var string
      *
-     * @Assert\Url()
-     * @ORM\Column(name="external_link", type="string", length=255, nullable=true)
-     */
-    private $externalLink;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
     private $image;
 
     /**
-     * @var Route
+     * @var array
      *
-     * @ORM\ManyToOne(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Route", inversedBy="items")
+     * @ORM\Column(name="link", type="array", nullable=true)
      */
-    private $route;
+    private $link;
 
     /**
      * @var ArrayCollection
@@ -144,13 +138,6 @@ class Item
     protected $updatedBy;
 
     /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter", mappedBy="item", cascade={"remove"})
-     */
-    private $parameters;
-
-    /**
      * @Gedmo\Locale
      */
     private $locale;
@@ -162,7 +149,6 @@ class Item
     {
         $this->children   = new ArrayCollection();
         $this->attributes = new ArrayCollection();
-        $this->parameters = new ArrayCollection();
     }
 
     /**
@@ -355,21 +341,40 @@ class Item
     }
 
     /**
-     * @param $route
-     * @return $this
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      */
-    public function setRoute($route = null)
+    public function handleLinks()
     {
-        $this->route = $route;
+        $linkType = $this->link['linkType'];
+
+        if ($linkType == 'false') {
+            unset($this->link['name']);
+            unset($this->link['parameters']);
+            $this->link = array('externalLink' => $this->link['externalLink'], 'linkType' => $this->link['linkType']);
+        } else {
+            unset($this->link['externalLink']);
+        }
+
         return $this;
     }
 
     /**
-     * @return Route
+     * @param $link
+     * @return $this
      */
-    public function getRoute()
+    public function setLink($link)
     {
-        return $this->route;
+        $this->link = $link;
+        return $this;
+    }
+
+    /**
+     * @return link
+     */
+    public function getLink()
+    {
+        return $this->link;
     }
 
     /**
@@ -535,29 +540,6 @@ class Item
     }
 
     /**
-     * Set externalLink
-     *
-     * @param string $externalLink
-     * @return Item
-     */
-    public function setExternalLink($externalLink)
-    {
-        $this->externalLink = $externalLink;
-
-        return $this;
-    }
-
-    /**
-     * Get externalLink
-     *
-     * @return string
-     */
-    public function getExternalLink()
-    {
-        return $this->externalLink;
-    }
-
-    /**
      * Set image
      *
      * @param string $image
@@ -670,39 +652,6 @@ class Item
     public function getUpdatedBy()
     {
         return $this->updatedBy;
-    }
-
-    /**
-     * Add parameter
-     *
-     * @param Parameter $parameter
-     * @return Item
-     */
-    public function addParameter($parameter)
-    {
-        $this->parameters[] = $parameter;
-
-        return $this;
-    }
-
-    /**
-     * Remove parameter
-     *
-     * @param Parameter $parameter
-     */
-    public function removeParameter(Parameter $parameter)
-    {
-        $this->parameters->removeElement($parameter);
-    }
-
-    /**
-     * Get parameters
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getParameters()
-    {
-        return $this->parameters;
     }
 
     /**

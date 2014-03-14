@@ -73,7 +73,7 @@ class ItemController extends CrudController
     /**
      * New Item entity.
      *
-     * @Route("/new", name="admin_menu_item_new")
+     * @Route("/new", name="admin_menu_item_new", options={"expose"=true})
      */
     public function newAction(Request $request)
     {
@@ -130,39 +130,27 @@ class ItemController extends CrudController
         return $this->doDelete($request, $id);
     }
 
-    /**
-     * PrePersist Item entity.
-     */
-    protected function prePersist($item, $action)
-    {
-        if ($action == 'new') {
-            $this->getMenuItemManager()->addItem($item, $this->getRequest());
-        } elseif ($action == 'edit') {
-            $this->getMenuItemManager()->editItem($item, $this->getRequest());
-        }
-    }
+    // /**
+    //  * Handle success response.
+    //  */
+    // protected function handleSuccessResponse($action, $item = null)
+    // {
+    //     if ($action == 'delete') {
+    //         return $this->renderAjax(true, 'Success, please wait...');
+    //     }
 
-    /**
-     * Handle success response.
-     */
-    protected function handleSuccessResponse($action, $item = null)
-    {
-        if ($action == 'delete') {
-            return $this->renderAjax(true, 'Success, please wait...');
-        }
+    //     $itemView = $this->renderView(
+    //         $this->getThemeBundle().':navigation:item.html.twig',
+    //         array('item' => $item)
+    //     );
 
-        $itemView = $this->renderView(
-            $this->getThemeBundle().':navigation:item.html.twig',
-            array('item' => $item)
-        );
+    //     $content = array(
+    //         'itemId'   => $item->getId(),
+    //         'itemName' => $item->getName(),
+    //         'parent'   => ($item->getParent()) ? $item->getParent()->getId() : null,
+    //         'view'     => $itemView
+    //     );
 
-        $content = array(
-            'itemId'   => $item->getId(),
-            'itemName' => $item->getName(),
-            'parent'   => ($item->getParent()) ? $item->getParent()->getId() : null,
-            'view'     => $itemView
-        );
-
-        return $this->renderAjax(true, 'Success, please wait...', $content);
-    }
+    //     return $this->renderAjax(true, 'Success, please wait...', $content);
+    // }
 }
