@@ -2,6 +2,7 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Manager\Menu\Item;
 
+use Bigfoot\Bundle\ContextBundle\Model\Context;
 use Symfony\Component\Routing\RouterInterface;
 use Doctrine\ORM\EntityManager;
 
@@ -20,14 +21,18 @@ class UrlManager
      */
     private $router;
 
+    /** @var \Bigfoot\Bundle\ContextBundle\Model\Context */
+    private $context;
+
     /**
      * @param EntityManager $entityManager
      * @param RouterInterface $router
      */
-    public function __construct(EntityManager $entityManager, RouterInterface $router)
+    public function __construct(EntityManager $entityManager, RouterInterface $router, Context $context)
     {
-        $this->entityManager = $entityManager;
-        $this->router        = $router;
+        $this->entityManager    = $entityManager;
+        $this->router           = $router;
+        $this->context          = $context;
     }
 
     public function getUrl(Item $item)
@@ -36,7 +41,8 @@ class UrlManager
 
         $link = $item->getLink();
         if (isset($link['name'])) {
-            $options        = $this->router->getRouteCollection()->get($link['name'])->getOptions();
+            $route          = $link['name'];
+            $options        = $this->router->getRouteCollection()->get($route)->getOptions();
             $parameters     = array();
             $iParameters    = $link['parameters'];
 
@@ -60,7 +66,13 @@ class UrlManager
                 }
             }
 
-            $url = $this->router->generate($link['name'], $parameters);
+            $languageContext = $this->context->getContext('language');
+            $locale = $languageContext['value'];
+            if ($this->router instanceof \BeSimple\I18nRoutingBundle\Routing\Router and $this->router->getRouteCollection()->get(sprintf('%s.%s', $route, $locale))) {
+                $parameters['locale'] = $locale;
+            }
+
+            $url = $this->router->generate($route, $parameters);
         } elseif (isset($link['externalLink']) and $link['externalLink']) {
             $url = ($httpPos = strpos($link['externalLink'], 'http')) === false or $httpPos != 0 ? sprintf('http://%s', $link['externalLink']) : $link['externalLink'];
         }

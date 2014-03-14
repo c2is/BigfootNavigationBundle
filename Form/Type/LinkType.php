@@ -40,6 +40,10 @@ class LinkType extends AbstractType
         $nRoutes = array();
 
         foreach ($routes as $key => $route) {
+            if (($dotPos = strpos($key, '.')) !== false) {
+                $key = substr($key, 0, $dotPos);
+            }
+
             $routeOptions = $route->getOptions();
 
             if (isset($routeOptions['label'])) {

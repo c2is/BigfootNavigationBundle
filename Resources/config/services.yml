@@ -1,5 +1,5 @@
 services:
-    # Link Manager
+    # Link
     bigfoot_navigation.manager.link:
         class: Bigfoot\Bundle\NavigationBundle\Manager\LinkManager
         arguments:
@@ -17,6 +17,7 @@ services:
         arguments:
             - @doctrine.orm.entity_manager
             - @router
+            - @bigfoot_context
 
     # Menu Subscriber
     bigfoot_navigation.subscriber.menu:

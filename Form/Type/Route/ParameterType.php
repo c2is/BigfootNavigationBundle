@@ -45,8 +45,6 @@ class ParameterType extends AbstractType
         if ($link) {
             $route = $this->router->getRouteCollection()->get($link);
 
-            $nRrouteOptions = array();
-
             if ($route) {
                 $routeOptions = $route->getOptions();
             }
