@@ -130,27 +130,27 @@ class ItemController extends CrudController
         return $this->doDelete($request, $id);
     }
 
-    // /**
-    //  * Handle success response.
-    //  */
-    // protected function handleSuccessResponse($action, $item = null)
-    // {
-    //     if ($action == 'delete') {
-    //         return $this->renderAjax(true, 'Success, please wait...');
-    //     }
+    /**
+      * Handle success response.
+      */
+    protected function handleSuccessResponse($action, $item = null)
+    {
+        if ($action == 'delete') {
+            return $this->renderAjax(true, 'Success, please wait...');
+        }
 
-    //     $itemView = $this->renderView(
-    //         $this->getThemeBundle().':navigation:item.html.twig',
-    //         array('item' => $item)
-    //     );
+        $itemView = $this->renderView(
+            $this->getThemeBundle().':navigation:item.html.twig',
+            array('item' => $item)
+        );
 
-    //     $content = array(
-    //         'itemId'   => $item->getId(),
-    //         'itemName' => $item->getName(),
-    //         'parent'   => ($item->getParent()) ? $item->getParent()->getId() : null,
-    //         'view'     => $itemView
-    //     );
+        $content = array(
+            'itemId'   => $item->getId(),
+            'itemName' => $item->getName(),
+            'parent'   => ($item->getParent()) ? $item->getParent()->getId() : null,
+            'view'     => $itemView
+        );
 
-    //     return $this->renderAjax(true, 'Success, please wait...', $content);
-    // }
+        return $this->renderAjax(true, 'Success, please wait...', $content);
+    }
 }

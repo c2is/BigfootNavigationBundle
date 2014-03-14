@@ -34,10 +34,35 @@ class UrlManager
     {
         $url = '#';
 
-        if ($externalLink = $item->getExternalLink()) {
-            $url = ($httpPos = strpos($externalLink, 'http')) === false or $httpPos != 0 ? sprintf('http://%s', $externalLink) : $externalLink;
-        } elseif ($route = $item->getRoute()) {
-            $url = $this->router->generate($item->getRoute()->getName(), $this->getParameters($item));
+        $link = $item->getLink();
+        if (isset($link['name'])) {
+            $options        = $this->router->getRouteCollection()->get($link['name'])->getOptions();
+            $parameters     = array();
+            $iParameters    = $link['parameters'];
+
+            if (isset($options['parameters'])) {
+                foreach ($options['parameters'] as $parameter) {
+                    if (preg_match('/Bundle/i', $parameter['type'])) {
+                        $entity = $this->entityManager->getRepository($parameter['type'])->find($iParameters[$parameter['name']]);
+                        $method = 'get'.ucfirst($parameter['field']);
+
+                        $parameters[$parameter['name']] = $entity->$method();
+
+                        if (isset($parameter['childs'])) {
+                            foreach ($parameter['childs'] as $child) {
+                                $method = 'get'.ucfirst($child);
+                                $parameters[$child] = $entity->$method()->getSlug();
+                            }
+                        }
+                    } else {
+                        $parameters[$parameter['name']] = $iParameters[$parameter['name']];
+                    }
+                }
+            }
+
+            $url = $this->router->generate($link['name'], $parameters);
+        } elseif (isset($link['externalLink']) and $link['externalLink']) {
+            $url = ($httpPos = strpos($link['externalLink'], 'http')) === false or $httpPos != 0 ? sprintf('http://%s', $link['externalLink']) : $link['externalLink'];
         }
 
         return $url;
