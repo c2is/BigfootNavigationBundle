@@ -35,7 +35,7 @@ class UrlManager
         $this->context          = $context;
     }
 
-    public function getUrl(Item $item)
+    public function getUrl(Item $item, $absolute = false)
     {
         $url = '#';
 
@@ -72,7 +72,7 @@ class UrlManager
                 $parameters['locale'] = $locale;
             }
 
-            $url = $this->router->generate($route, $parameters);
+            $url = $this->router->generate($route, $parameters, $absolute);
         } elseif (isset($link['externalLink']) and $link['externalLink']) {
             $url = $link['externalLink'];
             if (($httpPos = strpos($link['externalLink'], 'http')) === false or $httpPos != 0) {

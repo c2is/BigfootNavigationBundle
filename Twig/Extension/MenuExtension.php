@@ -61,9 +61,9 @@ class MenuExtension extends Twig_Extension
      *
      * @return string The generated URL for the $item menu item
      */
-    public function getItemUrl($item)
+    public function getItemUrl($item, $absolute = false)
     {
-        return $this->urlManager->getUrl($item);
+        return $this->urlManager->getUrl($item, $absolute);
     }
 
     /**
