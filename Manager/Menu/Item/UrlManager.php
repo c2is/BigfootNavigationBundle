@@ -74,7 +74,10 @@ class UrlManager
 
             $url = $this->router->generate($route, $parameters);
         } elseif (isset($link['externalLink']) and $link['externalLink']) {
-            $url = ($httpPos = strpos($link['externalLink'], 'http')) === false or $httpPos != 0 ? sprintf('http://%s', $link['externalLink']) : $link['externalLink'];
+            $url = $link['externalLink'];
+            if (($httpPos = strpos($link['externalLink'], 'http')) === false or $httpPos != 0) {
+                $url = sprintf('http://%s', $link['externalLink']);
+            }
         }
 
         return $url;
