@@ -50,17 +50,16 @@ class ItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $entityManager = $this->entityManager;
-        $blank         = ($this->request->query->get('blank')) ?: false;
-        $tpl           = ($this->request->query->get('tpl')) ?: false;
+        $modal         = ($this->request->query->get('layout') == '_modal') ? true : false;
         $referer       = $this->request->headers->get('referer');
         $menuId        = substr($referer, (strrpos($referer, '/') + 1));
+        $menu          = false;
 
-        if ($tpl && $menuId) {
+        if ($menuId) {
             $menu = $this->entityManager->getRepository('BigfootNavigationBundle:Menu')->find($menuId);
-            $options['data']->setMenu($menu);
         }
 
-        if (!$blank || $tpl) {
+        if (!$modal) {
             $builder
                 ->add('menu')
                 ->add('parent');
@@ -73,6 +72,17 @@ class ItemType extends AbstractType
             ->add('image', 'bigfoot_media', array('required' => false))
             ->add('description', 'text', array('required' => false))
             ->add('translation', 'translatable_entity');
+
+        $builder->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function(FormEvent $event) use ($menu) {
+                $form = $event->getForm();
+                $data = $event->getData();
+
+                if ($menu != false) {
+                    $data->setMenu($menu);
+                }
+            });
     }
 
     /**

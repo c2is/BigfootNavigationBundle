@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('bigfoot_navigation');
+        $rootNode    = $treeBuilder->root('bigfoot_navigation');
 
         return $treeBuilder;
     }

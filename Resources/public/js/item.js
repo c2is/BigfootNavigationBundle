@@ -47,8 +47,10 @@ $(function() {
             if (currentItem.length) {
                 currentItem
                     .find('.dd-handle:first')
-                    .html(itemName);
-            } else{
+                    .closest('li')
+                        .empty()
+                        .html(content);
+            } else {
                 if (container.find('.dd-list').length === 0) {
                     container.append('<ol class="dd-list">' + content + '</ol>');
                 } else if (typeof idParent === "undefined" || idParent === null) {
@@ -60,7 +62,7 @@ $(function() {
 
                     if (li.find('.dd-list').length === 0) {
                         li.append('<ol class="dd-list">' + content + '</ol>');
-                    } else{
+                    } else {
                         li
                             .find('.dd-list:first')
                             .append(content);

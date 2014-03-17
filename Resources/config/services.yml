@@ -1,5 +1,5 @@
 services:
-    # Link
+    # Link Manager
     bigfoot_navigation.manager.link:
         class: Bigfoot\Bundle\NavigationBundle\Manager\LinkManager
         arguments:

@@ -3,7 +3,7 @@ $(function() {
     /**
      * Update route parameters
      */
-    $('.chosen-container').css('width', '204px');
+    $('.chosen-container').css('width', '250px');
 
     $('.admin_link_routes').on('change', function (event) {
         var
@@ -17,10 +17,12 @@ $(function() {
             type:  'GET',
             cache: false,
             success: function (data) {
-                that.closest('.form-group').siblings().remove();
+                that
+                    .closest('.form-group')
+                        .siblings()
+                        .remove();
 
-                container
-                    .append(data);
+                container.append(data);
 
                 $('.chosen-select', container).chosen();
             }
