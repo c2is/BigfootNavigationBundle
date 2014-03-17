@@ -144,6 +144,8 @@ class ItemController extends CrudController
             array('item' => $item)
         );
 
+        // var_dump($itemView);die();
+
         $content = array(
             'itemId'   => $item->getId(),
             'itemName' => $item->getName(),

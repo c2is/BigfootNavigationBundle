@@ -1,12 +1,4 @@
-{% if blank == null and tpl == null %}
-    {% set parent = bigfoot_theme_bundle ~ ':crud:form.html.twig' %}
-{% elseif tpl != null %}
-    {% set parent = bigfoot_theme_bundle ~ ':crud:form.html.twig' %}
-{% elseif blank != null and tpl == null %}
-    {% set parent = bigfoot_theme_bundle ~ ':crud:form_blank.html.twig' %}
-{% endif %}
-
-{% extends parent %}
+{% extends bigfoot_theme_bundle ~ ':crud:form' ~ app.request.get('layout') ~ '.html.twig' %}
 
 {% block form %}
     {% if form.menu is defined and form.parent is defined %}

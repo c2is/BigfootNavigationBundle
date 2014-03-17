@@ -5,9 +5,9 @@
 
     <div class="form-group">
         <div class="col-xs-10 col-sm-5 pull-right">
-            <a href="{{ path('admin_menu_item_new', { 'blank': true }) }}" class="modal-trigger btn btn-primary btn-sm" data-toggle="modal" data-target="#add-item">
-                Add a new item
-            </a>
+            <button class="ajax-modal btn btn-primary btn-sm" data-toggle="modal" data-url="{{ path('admin_menu_item_new', { 'layout': '_modal' }) }}" data-title="New item">
+                New item
+            </button>
         </div>
     </div>
 
@@ -18,12 +18,14 @@
     {% endif %}
 
     {{ form_rest(form) }}
-
-    {% include 'BigfootAceThemeBundle:layout:modal.html.twig' with { 'name': 'add-item', 'title': 'Add new item' } %}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+
+    <script type="text/javascript">
+
+    </script>
 
     <script src="{{ asset('bundles/bigfootnavigation/js/menu.js') }}"></script>
 {% endblock %}

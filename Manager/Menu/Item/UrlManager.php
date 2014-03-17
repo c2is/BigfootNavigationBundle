@@ -2,12 +2,12 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Manager\Menu\Item;
 
-use Bigfoot\Bundle\ContextBundle\Model\Context;
 use Symfony\Component\Routing\RouterInterface;
 use Doctrine\ORM\EntityManager;
 
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter;
+use Bigfoot\Bundle\ContextBundle\Model\Context;
 
 class UrlManager
 {
@@ -30,21 +30,21 @@ class UrlManager
      */
     public function __construct(EntityManager $entityManager, RouterInterface $router, Context $context)
     {
-        $this->entityManager    = $entityManager;
-        $this->router           = $router;
-        $this->context          = $context;
+        $this->entityManager = $entityManager;
+        $this->router        = $router;
+        $this->context       = $context;
     }
 
     public function getUrl(Item $item)
     {
-        $url = '#';
-
+        $url  = '#';
         $link = $item->getLink();
+
         if (isset($link['name'])) {
-            $route          = $link['name'];
-            $options        = $this->router->getRouteCollection()->get($route)->getOptions();
-            $parameters     = array();
-            $iParameters    = $link['parameters'];
+            $route       = $link['name'];
+            $options     = $this->router->getRouteCollection()->get($route)->getOptions();
+            $parameters  = array();
+            $iParameters = $link['parameters'];
 
             if (isset($options['parameters'])) {
                 foreach ($options['parameters'] as $parameter) {
@@ -56,7 +56,7 @@ class UrlManager
 
                         if (isset($parameter['childs'])) {
                             foreach ($parameter['childs'] as $child) {
-                                $method = 'get'.ucfirst($child);
+                                $method             = 'get'.ucfirst($child);
                                 $parameters[$child] = $entity->$method()->getSlug();
                             }
                         }
@@ -67,7 +67,8 @@ class UrlManager
             }
 
             $languageContext = $this->context->getContext('language');
-            $locale = $languageContext['value'];
+            $locale          = $languageContext['value'];
+
             if ($this->router instanceof \BeSimple\I18nRoutingBundle\Routing\Router and $this->router->getRouteCollection()->get(sprintf('%s.%s', $route, $locale))) {
                 $parameters['locale'] = $locale;
             }
