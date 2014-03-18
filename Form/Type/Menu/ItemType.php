@@ -61,12 +61,12 @@ class ItemType extends AbstractType
 
         if (!$modal) {
             $builder
-                ->add('menu')
-                ->add('parent');
+                ->add('menu');
         }
 
         $builder
             ->add('name', 'text', array('required' => false))
+            ->add('parent')
             ->add('link', 'admin_link', array('required' => false))
             ->add('attributes')
             ->add('image', 'bigfoot_media', array('required' => false))
