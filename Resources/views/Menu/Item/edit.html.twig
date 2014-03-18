@@ -9,7 +9,7 @@
 
     {{ form_row(form.name) }}
 
-    <div {% if app.request.get('layout') == 'modal' %}class="hidden"{% endif %}>
+    <div {% if app.request.get('layout') == '_modal' %}class="hidden"{% endif %}>
         {{ form_row(form.parent) }}
     </div>
 
