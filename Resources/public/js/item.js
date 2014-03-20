@@ -9,27 +9,22 @@ $(function() {
     /**
      * Handle modal response
      */
-    var options = {
-        success: successResponse,
-    };
+    var
+        modal   = $('#ajax-modal'),
+        options = {
+            success: successResponse,
+        };
 
     $('.modal-save')
         .unbind('click')
         .on('click', function (event) {
             var form = $(this)
                 .closest('.modal')
-                    .find('form');
-
-            var action = form.attr('action');
-
-            form
-                .attr('action', action + '?blank=1')
-                .ajaxSubmit(options);
+                    .find('form')
+                    .ajaxSubmit(options);
         });
 
     function successResponse(responseText, statusText, xhr) {
-        var modal = $('.modal-body').closest('.modal');
-
         if (responseText.status === true) {
             modal
                 .find('.modal-body')

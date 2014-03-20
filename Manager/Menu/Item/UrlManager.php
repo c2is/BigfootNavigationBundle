@@ -54,8 +54,8 @@ class UrlManager
 
                         $parameters[$parameter['name']] = $entity->$method();
 
-                        if (isset($parameter['childs'])) {
-                            foreach ($parameter['childs'] as $child) {
+                        if (isset($parameter['children'])) {
+                            foreach ($parameter['children'] as $child) {
                                 $method             = 'get'.ucfirst($child);
                                 $parameters[$child] = $entity->$method()->getSlug();
                             }
