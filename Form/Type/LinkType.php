@@ -50,7 +50,7 @@ class LinkType extends AbstractType
                 $nRoutes[$key] = $routeOptions['label'];
             }
         }
-        sort($nRoutes);
+        asort($nRoutes);
 
         $formModifier = function(FormInterface $form, $link) {
             if ($link) {
