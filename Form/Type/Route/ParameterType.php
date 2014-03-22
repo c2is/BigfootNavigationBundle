@@ -56,11 +56,15 @@ class ParameterType extends AbstractType
         if (isset($routeOptions['parameters'])) {
             foreach ($routeOptions['parameters'] as $key => $parameter) {
                 if (preg_match('/Bundle/i', $parameter['type'])) {
-                    $method = 'findAll';
+                    $method = 'findBy';
                     if (isset($parameter['repoMethod'])) {
                         $method = $parameter['repoMethod'];
                     }
-                    $entities[$parameter['name']] = $this->entityManager->getRepository($parameter['type'])->$method();
+                    $methodParameters = array();
+                    if ($parameter['label']) {
+                        $methodParameters[$parameter['label']] = 'ASC';
+                    }
+                    $entities[$parameter['name']] = $this->entityManager->getRepository($parameter['type'])->$method(array(), $methodParameters);
                 } else {
                     $parameters[$parameter['name']] = $parameter['name'];
                 }
@@ -74,7 +78,7 @@ class ParameterType extends AbstractType
                         $key,
                         'choice',
                         array(
-                            'choices' => $this->getEntities($entity),
+                            'choices' => $this->getEntities($entity, $routeOptions),
                         )
                     );
             }
