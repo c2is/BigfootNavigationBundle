@@ -3,18 +3,20 @@
 {% block form %}
     {{ form_row(form.name) }}
 
-    <div class="form-group">
-        <div class="col-xs-10 col-sm-5 pull-right">
-            <button class="ajax-modal btn btn-primary btn-sm" data-toggle="modal" data-url="{{ path('admin_menu_item_new', { 'layout': '_modal' }) }}" data-title="New item">
-                New item
-            </button>
+    {% if menu.id is not null %}
+        <div class="form-group">
+            <div class="col-xs-10 col-sm-5 pull-right">
+                <button class="ajax-modal btn btn-primary btn-sm" data-toggle="modal" data-url="{{ path('admin_menu_item_new', { 'layout': '_modal' }) }}" data-title="New item">
+                    New item
+                </button>
+            </div>
         </div>
-    </div>
 
-    {{ form_row(form.items) }}
+        {{ form_row(form.items) }}
 
-    {% if treeViews is defined %}
-        {{ treeViews|raw }}
+        {% if treeViews is defined %}
+            {{ treeViews|raw }}
+        {% endif %}
     {% endif %}
 
     {{ form_rest(form) }}
@@ -22,10 +24,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-
-    <script type="text/javascript">
-
-    </script>
 
     <script src="{{ asset('bundles/bigfootnavigation/js/menu.js') }}"></script>
 {% endblock %}

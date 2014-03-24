@@ -114,6 +114,7 @@ class MenuController extends CrudController
                 'form_action' => $action,
                 'form_submit' => 'Submit',
                 'form_cancel' => $this->getRouteNameForAction('index'),
+                'menu'        => $menu,
                 'treeViews'   => $treeViews,
             )
         );
