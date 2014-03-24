@@ -1,12 +1,6 @@
 $(function() {
 
     /**
-     * Init chosen select and translation fields
-     */
-    $(".chosen-select").chosen();
-    setTranslatableFields();
-
-    /**
      * Handle menu treeview
      */
     $('.dd').nestable({
