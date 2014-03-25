@@ -32,7 +32,7 @@
                 <div id="internal-link" class="tab-pane {% if form.vars.value.link.externalLink is not defined or form.vars.value.link.externalLink is null%}active{% endif %} internal-link-tab">
                     <div class="form-group">
                         {{ form_label(form.link.name) }}
-                        {{ form_widget(form.link.name, {'attr': { 'data-link': 'link' }}) }}
+                        {{ form_widget(form.link.name, { 'attr': { 'data-link': 'link' }}) }}
                     </div>
 
                     {% if form.link.parameters is defined %}
@@ -47,7 +47,7 @@
                         </div>
                     {% endif %}
                 </div>
-                {{ form_widget(form.link.linkType, {'attr': { 'class': 'link-type' }}) }}
+                {{ form_widget(form.link.linkType, { 'attr': { 'class': 'link-type' }}) }}
             </div>
         </div>
     </div>

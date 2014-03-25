@@ -57,13 +57,17 @@ class ParameterType extends AbstractType
             foreach ($routeOptions['parameters'] as $key => $parameter) {
                 if (preg_match('/Bundle/i', $parameter['type'])) {
                     $method = 'findBy';
+
                     if (isset($parameter['repoMethod'])) {
                         $method = $parameter['repoMethod'];
                     }
+
                     $methodParameters = array();
-                    if ($parameter['label']) {
+
+                    if (isset($parameter['label'])) {
                         $methodParameters[$parameter['label']] = 'ASC';
                     }
+
                     $entities[$parameter['name']] = $this->entityManager->getRepository($parameter['type'])->$method(array(), $methodParameters);
                 } else {
                     $parameters[$parameter['name']] = $parameter['name'];
@@ -73,27 +77,25 @@ class ParameterType extends AbstractType
 
         if (count($entities)) {
             foreach ($entities as $key => $entity) {
-                $builder
-                    ->add(
-                        $key,
-                        'choice',
-                        array(
-                            'choices' => $this->getEntities($entity, $routeOptions),
-                        )
-                    );
+                $builder->add(
+                    $key,
+                    'choice',
+                    array(
+                        'choices' => $this->getEntities($entity, $routeOptions),
+                    )
+                );
             }
         }
 
         if (count($parameters)) {
             foreach ($parameters as $key => $parameter) {
-                $builder
-                    ->add(
-                        $parameter,
-                        'text',
-                        array(
-                            'required' => true,
-                        )
-                    );
+                $builder->add(
+                    $parameter,
+                    'text',
+                    array(
+                        'required' => true,
+                    )
+                );
             }
         }
     }
