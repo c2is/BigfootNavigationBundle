@@ -61,7 +61,7 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        var idParent = {{ app.request.query.get('parent') }};
+        var idParent = "{{ app.request.query.get('parent') }}";
     </script>
 
     <script src="{{ asset('bundles/bigfootnavigation/js/item.js') }}"></script>
