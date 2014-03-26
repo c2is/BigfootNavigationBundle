@@ -60,6 +60,10 @@
 {% block javascripts %}
     {{ parent() }}
 
+    <script type="text/javascript">
+        var idParent = {{ app.request.query.get('parent') }};
+    </script>
+
     <script src="{{ asset('bundles/bigfootnavigation/js/item.js') }}"></script>
     <script src="{{ asset('bundles/bigfootnavigation/js/link.js') }}"></script>
 {% endblock %}

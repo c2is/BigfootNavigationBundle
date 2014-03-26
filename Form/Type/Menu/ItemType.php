@@ -52,11 +52,12 @@ class ItemType extends AbstractType
         $entityManager = $this->entityManager;
         $modal         = ($this->request->query->get('layout') == '_modal') ? true : false;
         $referer       = $this->request->headers->get('referer');
+        $parent        = $this->request->query->get('parent');
         $menuId        = substr($referer, (strrpos($referer, '/') + 1));
         $menu          = false;
 
         if ($menuId) {
-            $menu = $this->entityManager->getRepository('BigfootNavigationBundle:Menu')->find($menuId);
+            $menu = $entityManager->getRepository('BigfootNavigationBundle:Menu')->find($menuId);
         }
 
         if (!$modal) {
@@ -75,12 +76,17 @@ class ItemType extends AbstractType
 
         $builder->addEventListener(
             FormEvents::POST_SUBMIT,
-            function(FormEvent $event) use ($menu) {
+            function(FormEvent $event) use ($entityManager, $menu, $parent) {
                 $form = $event->getForm();
                 $data = $event->getData();
 
                 if ($menu != false) {
                     $data->setMenu($menu);
+                }
+
+                if ($parent) {
+                    $cParent = $entityManager->getRepository('BigfootNavigationBundle:Menu\Item')->find($parent);
+                    $data->setParent($cParent);
                 }
             });
     }

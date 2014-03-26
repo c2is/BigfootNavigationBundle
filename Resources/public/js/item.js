@@ -14,8 +14,15 @@ $(function() {
         .on('click', function (event) {
             var form = $(this)
                 .closest('.modal')
-                    .find('form')
-                    .ajaxSubmit(options);
+                    .find('form');
+
+            var action = form.attr('action');
+
+            console.log(idParent);
+
+            form
+                .attr('action', action + '?parent=' + idParent)
+                .ajaxSubmit(options);
         });
 
     function successResponse(responseText, statusText, xhr) {
