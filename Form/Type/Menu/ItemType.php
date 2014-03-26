@@ -69,7 +69,7 @@ class ItemType extends AbstractType
             ->add('name', 'text', array('required' => false))
             ->add('parent')
             ->add('link', 'admin_link', array('required' => false))
-            ->add('attributes')
+            ->add('attributes', null, array('required' => false))
             ->add('image', 'bigfoot_media', array('required' => false))
             ->add('description', 'text', array('required' => false))
             ->add('translation', 'translatable_entity');
