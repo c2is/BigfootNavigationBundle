@@ -11,10 +11,6 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityManager;
 
-use Bigfoot\Bundle\CoreBundle\Manager\RouteManager;
-use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
-use Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\Item\ParameterType;
-
 class ItemType extends AbstractType
 {
     /**
@@ -31,7 +27,6 @@ class ItemType extends AbstractType
      * Construct Item Type
      *
      * @param EntityManager $entityManager
-     * @param RouteManager  $routeManager
      */
     public function __construct(EntityManager $entityManager)
     {
