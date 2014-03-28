@@ -68,6 +68,6 @@ class MenuType extends AbstractType
      */
     public function getName()
     {
-        return 'admin_menu';
+        return 'bigfoot_menu';
     }
 }

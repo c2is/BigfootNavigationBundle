@@ -23,7 +23,7 @@ class AttributeController extends CrudController
      */
     protected function getName()
     {
-        return 'admin_menu_item_attribute';
+        return 'bigfoot_menu_item_attribute';
     }
 
     /**
@@ -44,13 +44,13 @@ class AttributeController extends CrudController
 
     protected function getFormType()
     {
-        return 'admin_menu_item_attribute';
+        return 'bigfoot_menu_item_attribute';
     }
 
     /**
      * Lists Attribute entities.
      *
-     * @Route("/", name="admin_menu_item_attribute")
+     * @Route("/", name="bigfoot_menu_item_attribute")
      */
     public function indexAction()
     {
@@ -60,7 +60,7 @@ class AttributeController extends CrudController
     /**
      * New Attribute entity.
      *
-     * @Route("/new", name="admin_menu_item_attribute_new")
+     * @Route("/new", name="bigfoot_menu_item_attribute_new")
      */
     public function newAction(Request $request)
     {
@@ -70,7 +70,7 @@ class AttributeController extends CrudController
     /**
      * Edit Attribute entity.
      *
-     * @Route("/edit/{id}", name="admin_menu_item_attribute_edit")
+     * @Route("/edit/{id}", name="bigfoot_menu_item_attribute_edit")
      */
     public function editAction(Request $request, $id)
     {
@@ -80,7 +80,7 @@ class AttributeController extends CrudController
     /**
      * Delete Attribute entity.
      *
-     * @Route("/delete/{id}", name="admin_menu_item_attribute_delete")
+     * @Route("/delete/{id}", name="bigfoot_menu_item_attribute_delete")
      */
     public function deleteAction(Request $request, $id)
     {

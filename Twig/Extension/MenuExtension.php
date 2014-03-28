@@ -97,6 +97,6 @@ class MenuExtension extends Twig_Extension
      */
     public function getName()
     {
-        return 'admin_menu';
+        return 'bigfoot_menu';
     }
 }

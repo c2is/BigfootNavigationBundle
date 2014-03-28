@@ -24,19 +24,19 @@ class ParameterController extends BaseController
     /**
      * Lists all parameters for a given route.
      *
-     * @Route("/list/{route}/{field}", name="admin_route_parameter_list", options={"expose"=true})
+     * @Route("/list/{route}/{field}", name="bigfoot_route_parameter_list", options={"expose"=true})
      * @Template()
      */
     public function listAction(Request $request, $route, $field)
     {
         $item       = new Item();
-        $entityForm = $this->createForm('admin_menu_item', $item);
+        $entityForm = $this->createForm('bigfoot_menu_item', $item);
 
         $entityForm
             ->get($field)
             ->add(
                 'parameters',
-                'admin_route_parameter',
+                'bigfoot_route_parameter',
                 array(
                     'link' => $route,
                 )

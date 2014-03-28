@@ -30,7 +30,7 @@ class ItemController extends CrudController
      */
     protected function getName()
     {
-        return 'admin_menu_item';
+        return 'bigfoot_menu_item';
     }
 
     /**
@@ -52,7 +52,7 @@ class ItemController extends CrudController
 
     protected function getFormType()
     {
-        return 'admin_menu_item';
+        return 'bigfoot_menu_item';
     }
 
     public function getFormTemplate()
@@ -63,7 +63,7 @@ class ItemController extends CrudController
     /**
      * Lists Item entities.
      *
-     * @Route("/", name="admin_menu_item")
+     * @Route("/", name="bigfoot_menu_item")
      */
     public function indexAction()
     {
@@ -73,7 +73,7 @@ class ItemController extends CrudController
     /**
      * New Item entity.
      *
-     * @Route("/new", name="admin_menu_item_new", options={"expose"=true})
+     * @Route("/new", name="bigfoot_menu_item_new", options={"expose"=true})
      */
     public function newAction(Request $request)
     {
@@ -83,7 +83,7 @@ class ItemController extends CrudController
     /**
      * Edit Item entity.
      *
-     * @Route("/edit/{id}", name="admin_menu_item_edit")
+     * @Route("/edit/{id}", name="bigfoot_menu_item_edit")
      */
     public function editAction(Request $request, $id)
     {
@@ -93,7 +93,7 @@ class ItemController extends CrudController
     /**
      * Edit Item tree position.
      *
-     * @Route("/edit-item-tree-position/{id}/{parent}/{position}", name="admin_menu_item_edit_tree_position", options={"expose"=true})
+     * @Route("/edit-item-tree-position/{id}/{parent}/{position}", name="bigfoot_menu_item_edit_tree_position", options={"expose"=true})
      */
     public function editItemTreePositionAction(Request $request, $id, $parent, $position)
     {
@@ -123,7 +123,7 @@ class ItemController extends CrudController
     /**
      * Delete Item entity.
      *
-     * @Route("/delete/{id}", name="admin_menu_item_delete", options={"expose"=true})
+     * @Route("/delete/{id}", name="bigfoot_menu_item_delete", options={"expose"=true})
      */
     public function deleteAction(Request $request, $id)
     {

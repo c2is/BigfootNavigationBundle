@@ -134,6 +134,6 @@ class LinkType extends AbstractType
      */
     public function getName()
     {
-        return 'admin_link';
+        return 'bigfoot_link';
     }
 }

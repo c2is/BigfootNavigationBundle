@@ -89,11 +89,11 @@ class MenuSubscriber implements EventSubscriberInterface
             'menu',
             array(
                 'label'  => 'Menu',
-                'route'  => 'admin_menu',
+                'route'  => 'bigfoot_menu',
                 'extras' => array(
                     'routes' => array(
-                        'admin_menu_new',
-                        'admin_menu_edit'
+                        'bigfoot_menu_new',
+                        'bigfoot_menu_edit'
                     )
                 ),
                 'linkAttributes' => array(
@@ -106,11 +106,11 @@ class MenuSubscriber implements EventSubscriberInterface
             'menu_item',
             array(
                 'label'  => 'Item',
-                'route'  => 'admin_menu_item',
+                'route'  => 'bigfoot_menu_item',
                 'extras' => array(
                     'routes' => array(
-                        'admin_menu_item_new',
-                        'admin_menu_item_edit'
+                        'bigfoot_menu_item_new',
+                        'bigfoot_menu_item_edit'
                     )
                 ),
                 'linkAttributes' => array(
@@ -125,11 +125,11 @@ class MenuSubscriber implements EventSubscriberInterface
                 'menu_item_attribute',
                 array(
                     'label'  => 'Attribute',
-                    'route'  => 'admin_menu_item_attribute',
+                    'route'  => 'bigfoot_menu_item_attribute',
                     'extras' => array(
                         'routes' => array(
-                            'admin_menu_item_attribute_new',
-                            'admin_menu_item_attribute_edit'
+                            'bigfoot_menu_item_attribute_new',
+                            'bigfoot_menu_item_attribute_edit'
                         )
                     ),
                     'linkAttributes' => array(

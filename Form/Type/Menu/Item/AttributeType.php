@@ -53,6 +53,6 @@ class AttributeType extends AbstractType
      */
     public function getName()
     {
-        return 'admin_menu_item_attribute';
+        return 'bigfoot_menu_item_attribute';
     }
 }

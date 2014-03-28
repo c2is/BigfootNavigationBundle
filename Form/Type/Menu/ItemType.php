@@ -103,6 +103,6 @@ class ItemType extends AbstractType
      */
     public function getName()
     {
-        return 'admin_menu_item';
+        return 'bigfoot_menu_item';
     }
 }

@@ -124,6 +124,6 @@ class ParameterType extends AbstractType
      */
     public function getName()
     {
-        return 'admin_menu_item_parameter';
+        return 'bigfoot_menu_item_parameter';
     }
 }

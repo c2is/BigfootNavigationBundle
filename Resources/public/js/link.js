@@ -5,7 +5,7 @@ $(function() {
      */
     $('.chosen-container').css('width', '250px');
 
-    $('.admin_link_routes').on('change', function (event) {
+    $('.bigfoot_link_routes').on('change', function (event) {
         var
             that      = $(this),
             route     = $(this).val(),
@@ -13,7 +13,7 @@ $(function() {
             container = $(this).closest('.internal-link-tab');
 
         $.ajax({
-            url:   Routing.generate('admin_route_parameter_list', { 'route': route, 'field': field }),
+            url:   Routing.generate('bigfoot_route_parameter_list', { 'route': route, 'field': field }),
             type:  'GET',
             cache: false,
             success: function (data) {

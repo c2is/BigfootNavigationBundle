@@ -23,7 +23,7 @@ class MenuController extends CrudController
      */
     protected function getName()
     {
-        return 'admin_menu';
+        return 'bigfoot_menu';
     }
 
     /**
@@ -44,7 +44,7 @@ class MenuController extends CrudController
 
     protected function getFormType()
     {
-        return 'admin_menu';
+        return 'bigfoot_menu';
     }
 
     public function getFormTemplate()
@@ -55,7 +55,7 @@ class MenuController extends CrudController
     /**
      * Lists Menu entities.
      *
-     * @Route("/", name="admin_menu")
+     * @Route("/", name="bigfoot_menu")
      */
     public function indexAction()
     {
@@ -65,7 +65,7 @@ class MenuController extends CrudController
     /**
      * New Menu entity.
      *
-     * @Route("/new", name="admin_menu_new")
+     * @Route("/new", name="bigfoot_menu_new")
      */
     public function newAction(Request $request)
     {
@@ -75,7 +75,7 @@ class MenuController extends CrudController
     /**
      * Edit Menu entity.
      *
-     * @Route("/edit/{id}", name="admin_menu_edit")
+     * @Route("/edit/{id}", name="bigfoot_menu_edit")
      */
     public function editAction(Request $request, $id)
     {
@@ -85,7 +85,7 @@ class MenuController extends CrudController
     /**
      * Delete Menu entity.
      *
-     * @Route("/delete/{id}", name="admin_menu_delete")
+     * @Route("/delete/{id}", name="bigfoot_menu_delete")
      */
     public function deleteAction(Request $request, $id)
     {
@@ -101,7 +101,7 @@ class MenuController extends CrudController
             $this->getThemeBundle().':navigation:nestable.html.twig',
             array(
                 'items'  => $menu->getLvl1Items(),
-                'output' => 'admin_menu_items'
+                'output' => 'bigfoot_menu_items'
             )
         );
 

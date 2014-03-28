@@ -15,7 +15,7 @@ $(function() {
             }
 
             $.ajax({
-                url:   Routing.generate('admin_menu_item_edit_tree_position', { 'id': id, 'parent': parent, 'position': index }),
+                url:   Routing.generate('bigfoot_menu_item_edit_tree_position', { 'id': id, 'parent': parent, 'position': index }),
                 type:  'GET',
                 cache: false,
             });
