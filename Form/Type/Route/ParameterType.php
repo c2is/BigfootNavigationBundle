@@ -128,6 +128,6 @@ class ParameterType extends AbstractType
      */
     public function getName()
     {
-        return 'admin_route_parameter';
+        return 'bigfoot_route_parameter';
     }
 }

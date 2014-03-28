@@ -56,7 +56,7 @@ class LinkType extends AbstractType
             if ($link) {
                 $form->add(
                     'parameters',
-                    'admin_route_parameter',
+                    'bigfoot_route_parameter',
                     array(
                         'link' => $link,
                     )
@@ -85,7 +85,7 @@ class LinkType extends AbstractType
                         'choices'     => $nRoutes,
                         'required'    => false,
                         'attr'        => array(
-                            'class' => 'admin_link_routes',
+                            'class' => 'bigfoot_link_routes',
                         )
                     )
                 );
