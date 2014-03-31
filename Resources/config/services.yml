@@ -37,6 +37,14 @@ services:
         tags:
             - { name: twig.extension }
 
+    # Link Extension
+    bigfoot_navigation.twig.extension.link:
+        class: Bigfoot\Bundle\NavigationBundle\Twig\Extension\LinkExtension
+        arguments:
+            - @bigfoot_navigation.manager.menu_item_url
+        tags:
+            - { name: twig.extension }
+
     # Link Type
     bigfoot_navigation.form.type.link:
         class: Bigfoot\Bundle\NavigationBundle\Form\Type\LinkType

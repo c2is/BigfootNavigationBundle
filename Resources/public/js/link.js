@@ -5,7 +5,7 @@ $(function() {
      */
     $('.chosen-container').css('width', '250px');
 
-    $('.bigfoot_link_routes').on('change', function (event) {
+    $('body').on('change', '.bigfoot_link_routes', function (event) {
         var
             that      = $(this),
             route     = $(this).val(),

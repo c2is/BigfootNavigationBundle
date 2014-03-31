@@ -13,44 +13,7 @@
         {{ form_row(form.parent) }}
     </div>
 
-    <div class="form-group">
-        <label class="control-label col-sm-3">Link</label>
-        <div class="tabbable col-sm-5">
-            <ul id="myTab" class="nav nav-tabs">
-                <li class="{% if form.vars.value.link.externalLink is not defined or form.vars.value.link.externalLink is null %}active{% endif %}">
-                    <a href="#internal-link" class="internal-link" data-toggle="tab">
-                        Internal link
-                    </a>
-                </li>
-                <li class="{% if form.vars.value.link.externalLink is defined and form.vars.value.link.externalLink is not null %}active{% endif %}">
-                    <a href="#external-link" class="external-link" data-toggle="tab">
-                        External link
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div id="internal-link" class="tab-pane {% if form.vars.value.link.externalLink is not defined or form.vars.value.link.externalLink is null%}active{% endif %} internal-link-tab">
-                    <div class="form-group">
-                        {{ form_label(form.link.name) }}
-                        {{ form_widget(form.link.name, { 'attr': { 'data-link': 'link' }}) }}
-                    </div>
-
-                    {% if form.link.parameters is defined %}
-                        {{ form_widget(form.link.parameters) }}
-                    {% endif %}
-                </div>
-                <div id="external-link" class="tab-pane {% if form.vars.value.link.externalLink is defined and form.vars.value.link.externalLink is not null%}active{% endif %}">
-                    {% if form.link.externalLink is defined %}
-                        <div class="form-group">
-                            {{ form_label(form.link.externalLink) }}
-                            {{ form_widget(form.link.externalLink) }}
-                        </div>
-                    {% endif %}
-                </div>
-                {{ form_widget(form.link.linkType, { 'attr': { 'class': 'link-type' }}) }}
-            </div>
-        </div>
-    </div>
+    {{ form_row(form.link) }}
 
     <div class="clear"></div>
 
@@ -65,5 +28,4 @@
     </script>
 
     <script src="{{ asset('bundles/bigfootnavigation/js/item.js') }}"></script>
-    <script src="{{ asset('bundles/bigfootnavigation/js/link.js') }}"></script>
 {% endblock %}

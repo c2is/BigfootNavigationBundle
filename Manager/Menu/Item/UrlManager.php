@@ -35,10 +35,26 @@ class UrlManager
         $this->context       = $context;
     }
 
-    public function getUrl(Item $item, $absolute = false)
+    /**
+     * @param Item $item
+     * @param bool $absolute
+     * @return string
+     */
+    public function getUrl(Item $item, $absolute = true)
     {
-        $url  = '#';
         $link = $item->getLink();
+
+        return $this->getLink($link, $absolute);
+    }
+
+    /**
+     * @param array $link
+     * @param bool $absolute
+     * @return string
+     */
+    public function getLink($link, $absolute = true)
+    {
+        $url = '#';
 
         if (isset($link['name'])) {
             $route       = $link['name'];
@@ -84,6 +100,10 @@ class UrlManager
         return $url;
     }
 
+    /**
+     * @param Item $item
+     * @return array
+     */
     public function getParameters(Item $item)
     {
         $parameters = array();
