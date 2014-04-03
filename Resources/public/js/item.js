@@ -18,8 +18,7 @@ $(function() {
 
             var action = form.attr('action');
             action = setUrlParameter(action, 'parent', idParent);
-console.log(action);
-            console.log(idParent);
+            
             form
                 .attr('action', action)
                 .ajaxSubmit(options);
