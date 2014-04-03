@@ -51,7 +51,7 @@ class ItemType extends AbstractType
         $menuId        = substr($referer, (strrpos($referer, '/') + 1));
         $menu          = false;
 
-        if ($menuId) {
+        if ($modal and $menuId) {
             $menu = $entityManager->getRepository('BigfootNavigationBundle:Menu')->find($menuId);
         }
 

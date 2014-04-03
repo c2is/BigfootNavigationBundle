@@ -17,11 +17,11 @@ $(function() {
                     .find('form');
 
             var action = form.attr('action');
-
+            action = setUrlParameter(action, 'parent', idParent);
+console.log(action);
             console.log(idParent);
-
             form
-                .attr('action', action + '?parent=' + idParent)
+                .attr('action', action)
                 .ajaxSubmit(options);
         });
 
@@ -77,3 +77,24 @@ $(function() {
     }
 
 });
+
+function setUrlParameter(url, parameterName, parameterValue)
+{
+    var newAdditionalURL = "";
+    var tempArray = url.split("?");
+    var baseUrl = tempArray[0];
+    var additionalUrl = tempArray[1];
+    var temp = "";
+
+    if (additionalUrl) {
+        tempArray = additionalUrl.split("&");
+        for (var i in tempArray) {
+            if (tempArray[i].indexOf(parameterName) == -1) {
+                newAdditionalURL += temp+tempArray[i];
+                temp = "&";
+            }
+        }
+    }
+
+    return baseUrl+"?"+newAdditionalURL+temp+parameterName+"="+parameterValue;
+}
