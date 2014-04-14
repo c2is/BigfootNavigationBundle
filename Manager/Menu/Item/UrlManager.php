@@ -82,8 +82,7 @@ class UrlManager
                 }
             }
 
-            $languageContext = $this->context->getContext('language');
-            $locale          = $languageContext['value'];
+            $locale          = $this->context->get('language');
 
             if ($this->router instanceof \BeSimple\I18nRoutingBundle\Routing\Router and $this->router->getRouteCollection()->get(sprintf('%s.%s', $route, $locale))) {
                 $parameters['locale'] = $locale;
