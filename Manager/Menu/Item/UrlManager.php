@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter;
-use Bigfoot\Bundle\ContextBundle\Model\Context;
+use Bigfoot\Bundle\ContextBundle\Service\ContextService;
 
 class UrlManager
 {
@@ -21,14 +21,15 @@ class UrlManager
      */
     private $router;
 
-    /** @var \Bigfoot\Bundle\ContextBundle\Model\Context */
+    /** @var ContextService */
     private $context;
 
     /**
      * @param EntityManager $entityManager
      * @param RouterInterface $router
+     * @param ContextService $context
      */
-    public function __construct(EntityManager $entityManager, RouterInterface $router, Context $context)
+    public function __construct(EntityManager $entityManager, RouterInterface $router, ContextService $context)
     {
         $this->entityManager = $entityManager;
         $this->router        = $router;
@@ -82,7 +83,7 @@ class UrlManager
                 }
             }
 
-            $languageContext = $this->context->getContext('language');
+            $languageContext = $this->context->get('language');
             $locale          = $languageContext['value'];
 
             if ($this->router instanceof \BeSimple\I18nRoutingBundle\Routing\Router and $this->router->getRouteCollection()->get(sprintf('%s.%s', $route, $locale))) {
