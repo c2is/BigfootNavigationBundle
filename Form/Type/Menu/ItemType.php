@@ -57,7 +57,14 @@ class ItemType extends AbstractType
 
         if (!$modal) {
             $builder
-                ->add('menu');
+                ->add(
+                    'menu',
+                    'entity',
+                    array(
+                        'class'         => 'Bigfoot\Bundle\NavigationBundle\Entity\Menu',
+                        'contextualize' => true
+                    )
+                );
         }
 
         $builder
@@ -91,6 +98,7 @@ class ItemType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        // var_dump($resolver->getDefaultOptions());die();
         $resolver->setDefaults(
             array(
                 'data_class' => 'Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item',

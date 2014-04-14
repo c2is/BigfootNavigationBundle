@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter;
-use Bigfoot\Bundle\ContextBundle\Model\Context;
+use Bigfoot\Bundle\ContextBundle\Service\ContextService as Context;
 
 class UrlManager
 {
@@ -21,7 +21,7 @@ class UrlManager
      */
     private $router;
 
-    /** @var \Bigfoot\Bundle\ContextBundle\Model\Context */
+    /** @var \Bigfoot\Bundle\ContextBundle\Service\ContextService */
     private $context;
 
     /**
