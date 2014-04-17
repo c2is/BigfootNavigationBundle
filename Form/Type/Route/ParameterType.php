@@ -105,7 +105,7 @@ class ParameterType extends AbstractType
         $nEntities = array();
 
         foreach ($entities as $key => $entity) {
-            $nEntities[$entity->getId()] = $entity;
+            $nEntities[$entity->getId()] = (string) $entity;
         }
 
         return $nEntities;
