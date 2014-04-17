@@ -69,6 +69,7 @@ class LinkType extends AbstractType
             FormEvents::PRE_SET_DATA,
             function(FormEvent $event) use ($formModifier, $nRoutes) {
                 $form         = $event->getForm();
+                $parentForm   = $event->getForm()->getParent();
                 $data         = $event->getData();
                 $parentData   = $form->getParent()->getData();
                 $getMethod    = 'get'.ucfirst($form->getName());
@@ -86,7 +87,8 @@ class LinkType extends AbstractType
                         'choices'     => $nRoutes,
                         'required'    => false,
                         'attr'        => array(
-                            'class' => 'bigfoot_link_routes',
+                            'class'                 => 'bigfoot_link_routes',
+                            'data-parent-form-link' => $parentForm->getName(),
                         )
                     )
                 );
