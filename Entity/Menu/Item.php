@@ -18,7 +18,6 @@ use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter;
  *
  * @ORM\Table(name="bigfoot_menu_item")
  * @ORM\Entity(repositoryClass="Bigfoot\Bundle\NavigationBundle\Entity\Menu\ItemRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class Item
 {

@@ -9,11 +9,11 @@ $(function() {
         var
             that      = $(this),
             route     = $(this).val(),
-            field     = $(this).data('link'),
+            formName  = $(this).data('parent-form-link'),
             container = $(this).closest('.internal-link-tab');
 
         $.ajax({
-            url:   Routing.generate('bigfoot_route_parameter_list', { 'route': route, 'field': field }),
+            url:   Routing.generate('bigfoot_route_parameter_list', { 'route': route, 'formName': formName }),
             type:  'GET',
             cache: false,
             success: function (data) {
