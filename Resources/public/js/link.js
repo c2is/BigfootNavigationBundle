@@ -1,9 +1,8 @@
 $(function() {
-
     /**
      * Update route parameters
      */
-    $('.chosen-container').css('width', '250px');
+    $('.bigfoot-link .chosen-container').css('width', '250px');
 
     $('body').on('change', '.bigfoot_link_routes', function (event) {
         var
