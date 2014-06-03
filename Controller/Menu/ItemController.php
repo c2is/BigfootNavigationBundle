@@ -44,9 +44,19 @@ class ItemController extends CrudController
     protected function getFields()
     {
         return array(
-            'id'   => 'ID',
-            'name' => 'Name',
-            'menu' => 'Menu',
+            'id'   => array(
+                'label' => 'ID',
+                'sort'  => 'e.id'
+            ),
+            'name' => array(
+                'label' => 'Name',
+                'sort'  => 'e.name'
+            ),
+            'menu' => array(
+                'label' => 'Menu',
+                'sort'  => 'm.name',
+                'join'  => 'm'
+            )
         );
     }
 
@@ -61,7 +71,7 @@ class ItemController extends CrudController
     }
 
     /**
-     * Lists Item entities.
+     * 'List's Item entities.
      *
      * @Route("/", name="bigfoot_menu_item")
      */
