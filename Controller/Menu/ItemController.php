@@ -46,11 +46,9 @@ class ItemController extends CrudController
         return array(
             'id'   => array(
                 'label' => 'ID',
-                'sort'  => 'e.id'
             ),
             'name' => array(
                 'label' => 'Name',
-                'sort'  => 'e.name'
             ),
             'menu' => array(
                 'label' => 'Menu',
