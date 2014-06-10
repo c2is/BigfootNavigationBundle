@@ -22,6 +22,9 @@ $(function() {
         }
     });
 
+    // collapse all by default:
+    $('.dd').nestable('collapseAll');
+
     /**
      * Delete menu item tree
      */
