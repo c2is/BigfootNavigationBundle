@@ -30,18 +30,10 @@ class Menu
      * @var string
      *
      * @Assert\NotBlank()
+     * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-
-    /**
-     * @var string
-     *
-     * @Assert\NotBlank()
-     * @Gedmo\Translatable
-     * @ORM\Column(name="label", type="string", length=255)
-     */
-    private $label;
 
     /**
      * @var string
@@ -112,22 +104,6 @@ class Menu
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @param string $label
-     */
-    public function setLabel($label)
-    {
-        $this->label = $label;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->label;
     }
 
     /**
