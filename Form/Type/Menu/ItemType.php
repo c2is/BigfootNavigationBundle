@@ -2,6 +2,7 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Form\Type\Menu;
 
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\AttributeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -10,6 +11,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityManager;
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Attribute;
 
 class ItemType extends AbstractType
 {
@@ -71,10 +73,62 @@ class ItemType extends AbstractType
             ->add('name', 'text', array('required' => false))
             ->add('parent')
             ->add('link', 'bigfoot_link', array('required' => false))
-            ->add('attributes', null, array('required' => false))
+
+//            ->add('attributes', null, array('required' => false))
+
+            ->add('childAttributes', 'entity', array(
+                    'class' => 'BigfootNavigationBundle:Menu\Item\Attribute',
+                    'query_builder' => function(AttributeRepository $er) {
+                            return $er->createQueryBuilder('u')
+                                ->where('u.type = :type')
+                                ->setParameter(":type", Attribute::CHILD);
+                        },
+                    "multiple" => true
+                ))
+
+            ->add('elementAttributes', 'entity', array(
+                    'class' => 'BigfootNavigationBundle:Menu\Item\Attribute',
+                    'query_builder' => function(AttributeRepository $er) {
+                            return $er->createQueryBuilder('u')
+                                ->where('u.type = :type')
+                                ->setParameter(":type", Attribute::ELEMENT);
+                        },
+                    "multiple" => true
+                ))
+
+            ->add('linkAttributes', 'entity', array(
+                    'class' => 'BigfootNavigationBundle:Menu\Item\Attribute',
+                    'query_builder' => function(AttributeRepository $er) {
+                            return $er->createQueryBuilder('u')
+                                ->where('u.type = :type')
+                                ->setParameter(":type", Attribute::LINK);
+                        },
+                    "multiple" => true
+                ))
+
             ->add('image', 'bigfoot_media', array('required' => false))
             ->add('description', 'text', array('required' => false))
             ->add('translation', 'translatable_entity');
+//
+//        $builder->addEventListener(
+//            FormEvents::PRE_SUBMIT,
+//            function (FormEvent $event) {
+//
+//                $data = $event->getData();
+//                $data["attributes"] = array_merge($data["attributesChild"],$data["attributesElement"], $data["attributesLink"]);
+//
+//                $event->setData($data);
+//
+//                $form = $event->getForm();
+//
+//                $form->add('attributes', 'entity', array(
+//                        'class'       => 'BigfootNavigationBundle:Menu\Item\Attribute',
+//                        'empty_value' => '',
+//                        'multiple'    => true
+//                    ));
+//
+//            }
+//        );
 
         $builder->addEventListener(
             FormEvents::POST_SUBMIT,

@@ -472,6 +472,42 @@ class Item
         return $this->getAttributesByType(Attribute::CHILD);
     }
 
+    public function setElementByType($attributes, $type) {
+        $newAttribute = new ArrayCollection();
+
+        foreach($this->attributes as $attribute )
+        {
+            if ($attribute->getType() != $type) {
+                $newAttribute->add($attribute);
+            }
+        }
+
+        foreach($attributes as $attribute)
+        {
+            $newAttribute->add($attribute);
+        }
+
+        $this->setAttributes($newAttribute);
+
+        return $this;
+    }
+
+    public function setElementAttributes($attributes)
+    {
+        return $this->setElementByType($attributes, Attribute::ELEMENT);
+    }
+
+    public function setLinkAttributes($attributes)
+    {
+        return $this->setElementByType($attributes, Attribute::LINK);
+    }
+
+    public function setChildAttributes($attributes)
+    {
+        return $this->setElementByType($attributes, Attribute::CHILD);
+    }
+
+
     /**
      * @param $type
      * @return array
