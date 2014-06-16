@@ -69,6 +69,7 @@ class ItemType extends AbstractType
 
         $builder
             ->add('name', 'text', array('required' => false))
+            ->add('label', 'text', array('required' => false))
             ->add('parent')
             ->add('link', 'bigfoot_link', array('required' => false))
             ->add('attributes', null, array('required' => false))
