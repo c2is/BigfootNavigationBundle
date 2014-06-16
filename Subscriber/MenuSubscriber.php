@@ -43,86 +43,83 @@ class MenuSubscriber implements EventSubscriberInterface
      */
     public function onGenerateMain(GenericEvent $event)
     {
-        $menu          = $event->getSubject();
-        $root          = $menu->getRoot();
-        $structureMenu = $root->getChild('structure');
+        $builder = $event->getSubject();
 
-        if (!$structureMenu) {
-            $structureMenu = $root->addChild(
+        if (!$builder->childExists('structure')) {
+            $builder
+                ->addChild(
+                    'structure',
+                    array(
+                        'label'          => 'Structure',
+                        'url'            => '#',
+                        'linkAttributes' => array(
+                            'class' => 'dropdown-toggle',
+                            'icon'  => 'building',
+                        )
+                    ),
+                    array(
+                        'children-attributes' => array(
+                            'class' => 'submenu'
+                        )
+                    )
+                );
+        }
+
+        $builder
+            ->addChildFor(
                 'structure',
+                'structure_navigation',
                 array(
-                    'label'          => 'Structure',
+                    'label'          => 'Navigation',
                     'url'            => '#',
                     'linkAttributes' => array(
                         'class' => 'dropdown-toggle',
-                        'icon'  => 'building',
-                    )
-                )
-            );
-        }
-
-        $structureMenu->setChildrenAttributes(
-            array(
-                'class' => 'submenu',
-            )
-        );
-
-        $navigationMenu = $structureMenu->addChild(
-            'navigation_menu',
-            array(
-                'label'          => 'Navigation',
-                'url'            => '#',
-                'linkAttributes' => array(
-                    'class' => 'dropdown-toggle',
-                    'icon'  => 'sitemap',
-                )
-            )
-        );
-
-        $navigationMenu->setChildrenAttributes(
-            array(
-                'class' => 'submenu',
-            )
-        );
-
-        $navigationMenu->addChild(
-            'menu',
-            array(
-                'label'  => 'Menu',
-                'route'  => 'bigfoot_menu',
-                'extras' => array(
-                    'routes' => array(
-                        'bigfoot_menu_new',
-                        'bigfoot_menu_edit'
+                        'icon'  => 'sitemap',
                     )
                 ),
-                'linkAttributes' => array(
-                    'icon' => 'double-angle-right',
-                )
-            )
-        );
-
-        $navigationMenu->addChild(
-            'menu_item',
-            array(
-                'label'  => 'Item',
-                'route'  => 'bigfoot_menu_item',
-                'extras' => array(
-                    'routes' => array(
-                        'bigfoot_menu_item_new',
-                        'bigfoot_menu_item_edit'
+                array(
+                    'children-attributes' => array(
+                        'class' => 'submenu'
                     )
-                ),
-                'linkAttributes' => array(
-                    'icon' => 'double-angle-right',
                 )
             )
-        );
-
-
-        if ($this->security->isGranted('ROLE_ADMIN')) {
-            $navigationMenu->addChild(
-                'menu_item_attribute',
+            ->addChildFor(
+                'structure_navigation',
+                'structure_navigation_menu',
+                array(
+                    'label'  => 'Menu',
+                    'route'  => 'bigfoot_menu',
+                    'extras' => array(
+                        'routes' => array(
+                            'bigfoot_menu_new',
+                            'bigfoot_menu_edit'
+                        )
+                    ),
+                    'linkAttributes' => array(
+                        'icon' => 'double-angle-right',
+                    )
+                )
+            )
+            ->addChildFor(
+                'structure_navigation',
+                'structure_navigation_item',
+                array(
+                    'label'  => 'Item',
+                    'route'  => 'bigfoot_menu_item',
+                    'extras' => array(
+                        'routes' => array(
+                            'bigfoot_menu_item_new',
+                            'bigfoot_menu_item_edit'
+                        )
+                    ),
+                    'linkAttributes' => array(
+                        'icon' => 'double-angle-right',
+                    )
+                )
+            )
+            ->addChildFor(
+                'structure_navigation',
+                'structure_navigation_attribute',
                 array(
                     'label'  => 'Attribute',
                     'route'  => 'bigfoot_menu_item_attribute',
@@ -137,6 +134,5 @@ class MenuSubscriber implements EventSubscriberInterface
                     )
                 )
             );
-        }
     }
 }
