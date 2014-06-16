@@ -109,26 +109,6 @@ class ItemType extends AbstractType
             ->add('image', 'bigfoot_media', array('required' => false))
             ->add('description', 'text', array('required' => false))
             ->add('translation', 'translatable_entity');
-//
-//        $builder->addEventListener(
-//            FormEvents::PRE_SUBMIT,
-//            function (FormEvent $event) {
-//
-//                $data = $event->getData();
-//                $data["attributes"] = array_merge($data["attributesChild"],$data["attributesElement"], $data["attributesLink"]);
-//
-//                $event->setData($data);
-//
-//                $form = $event->getForm();
-//
-//                $form->add('attributes', 'entity', array(
-//                        'class'       => 'BigfootNavigationBundle:Menu\Item\Attribute',
-//                        'empty_value' => '',
-//                        'multiple'    => true
-//                    ));
-//
-//            }
-//        );
 
         $builder->addEventListener(
             FormEvents::POST_SUBMIT,
