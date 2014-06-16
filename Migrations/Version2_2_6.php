@@ -6,9 +6,9 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Auto-generated Migration: Please modify to your needs!
+ * Migration introduced in BigfootNavigatioBundle v2.2.x
  */
-class Version20140612113321 extends AbstractMigration
+class Version2_2_6 extends AbstractMigration
 {
     public function up(Schema $schema)
     {
