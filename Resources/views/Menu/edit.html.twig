@@ -4,15 +4,7 @@
     {{ form_row(form.name) }}
 
     {% if menu.id is not null %}
-        <div class="form-group">
-            <div class="col-xs-10 col-sm-5 pull-right">
-                <button class="ajax-modal btn btn-primary btn-sm" data-toggle="modal" data-url="{{ path('bigfoot_menu_item_new', { 'layout': '_modal' }) }}" data-title="New item">
-                    New item
-                </button>
-            </div>
-        </div>
-
-        {{ form_row(form.items) }}
+        {{ form_widget(form.items) }}
 
         {% if treeViews is defined %}
             {{ treeViews|raw }}
