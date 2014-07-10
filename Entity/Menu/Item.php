@@ -34,7 +34,7 @@ class Item
      * @var string
      *
      * @Assert\NotBlank()
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 
@@ -43,7 +43,7 @@ class Item
      *
      * @Assert\NotBlank()
      * @Gedmo\Translatable
-     * @ORM\Column(name="label", type="string", length=255)
+     * @ORM\Column(name="label", type="string", length=255, nullable=true)
      */
     private $label;
 
