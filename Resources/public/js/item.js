@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
 
     /**
      * Handle modal response
@@ -18,7 +18,7 @@ $(function() {
 
             var action = form.attr('action');
             action = setUrlParameter(action, 'parent', idParent);
-            
+
             form
                 .attr('action', action)
                 .ajaxSubmit(options);
@@ -80,10 +80,10 @@ $(function() {
 function setUrlParameter(url, parameterName, parameterValue)
 {
     var newAdditionalURL = "";
-    var tempArray = url.split("?");
-    var baseUrl = tempArray[0];
-    var additionalUrl = tempArray[1];
-    var temp = "";
+    var tempArray        = url.split("?");
+    var baseUrl          = tempArray[0];
+    var additionalUrl    = tempArray[1];
+    var temp             = "";
 
     if (additionalUrl) {
         tempArray = additionalUrl.split("&");
@@ -95,5 +95,5 @@ function setUrlParameter(url, parameterName, parameterValue)
         }
     }
 
-    return baseUrl+"?"+newAdditionalURL+temp+parameterName+"="+parameterValue;
+    return baseUrl + "?" + newAdditionalURL + temp + parameterName + "=" + parameterValue;
 }
