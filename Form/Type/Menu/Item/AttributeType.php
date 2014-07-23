@@ -33,7 +33,8 @@ class AttributeType extends AbstractType
             )
             ->add('name', 'text', array('required' => false))
             ->add('value', 'text', array('required' => false))
-            ->add('label', 'text', array('required' => false));
+            ->add('label', 'text', array('required' => false))
+            ->add('translation', 'translatable_entity');
     }
 
     /**
