@@ -67,6 +67,11 @@ class Attribute
      * @ORM\ManyToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item", mappedBy="attributes")
      */
     private $items;
+    
+    /**
+     * @Gedmo\Locale
+     */
+    private $locale;
 
     /**
      * Construct Attribute
@@ -224,5 +229,13 @@ class Attribute
     public function getLabel()
     {
         return $this->label;
+    }
+    
+    /**
+     * @param $locale
+     */
+    public function setTranslatableLocale($locale)
+    {
+        return $this->locale = $locale;
     }
 }
