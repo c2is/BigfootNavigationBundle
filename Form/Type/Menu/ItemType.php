@@ -84,7 +84,8 @@ class ItemType extends AbstractType
                                 ->where('u.type = :type')
                                 ->setParameter(":type", Attribute::CHILD);
                         },
-                    "multiple" => true
+                    'multiple' => true,
+                    'required' => false
                 ))
 
             ->add('elementAttributes', 'entity', array(
@@ -94,7 +95,8 @@ class ItemType extends AbstractType
                                 ->where('u.type = :type')
                                 ->setParameter(":type", Attribute::ELEMENT);
                         },
-                    "multiple" => true
+                    'multiple' => true,
+                    'required' => false
                 ))
 
             ->add('linkAttributes', 'entity', array(
@@ -104,7 +106,8 @@ class ItemType extends AbstractType
                                 ->where('u.type = :type')
                                 ->setParameter(":type", Attribute::LINK);
                         },
-                    "multiple" => true
+                    'multiple' => true,
+                    'required' => false
                 ))
 
             ->add('image', 'bigfoot_media', array('required' => false))
