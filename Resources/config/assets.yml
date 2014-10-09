@@ -1,0 +1,7 @@
+assetic:
+    bundles:
+        - 'BigfootAceThemeBundle'
+    assets:
+        admin_js:
+            inputs:
+               - 'bundles/bigfootnavigation/js/link.js'
