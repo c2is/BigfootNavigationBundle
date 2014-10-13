@@ -1,6 +1,4 @@
 assetic:
-    bundles:
-        - 'BigfootAceThemeBundle'
     assets:
         admin_js:
             inputs:
