@@ -24,7 +24,7 @@ $(function () {
 
                 container.append(data);
 
-                $('.chosen-select', container).chosen();
+                $('.chosen-select', container).chosen({width: '300px'});
             }
         });
     });
