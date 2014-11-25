@@ -496,6 +496,11 @@ class Item
         return $this->getAttributesByType(Attribute::CHILD);
     }
 
+    /**
+     * @param $attributes
+     * @param $type
+     * @return $this
+     */
     public function setElementByType($attributes, $type) {
         $newAttribute = new ArrayCollection();
 
@@ -516,21 +521,32 @@ class Item
         return $this;
     }
 
+    /**
+     * @param $attributes
+     * @return $this
+     */
     public function setElementAttributes($attributes)
     {
         return $this->setElementByType($attributes, Attribute::ELEMENT);
     }
 
+    /**
+     * @param $attributes
+     * @return $this
+     */
     public function setLinkAttributes($attributes)
     {
         return $this->setElementByType($attributes, Attribute::LINK);
     }
 
+    /**
+     * @param $attributes
+     * @return $this
+     */
     public function setChildAttributes($attributes)
     {
         return $this->setElementByType($attributes, Attribute::CHILD);
     }
-
 
     /**
      * @param $type
@@ -552,7 +568,8 @@ class Item
     }
 
     /**
-     * @param $type
+     * @param $name
+     * @return bool
      */
     public function getChildAttributeValueByName($name) {
         foreach ($this->attributes as $attribute) {
@@ -564,6 +581,11 @@ class Item
         return false;
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @return bool
+     */
     public function attributeExist($name, $value) {
         foreach ($this->attributes as $attribute) {
             if ($attribute->getName() == $name && $attribute->getValue() == $value) {
@@ -602,7 +624,7 @@ class Item
      * Set image
      *
      * @param string $image
-     * @return Page
+     * @return $this
      */
     public function setImage($image)
     {
