@@ -11,6 +11,7 @@ use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
 /**
  * Attribute
  *
+ * @Gedmo\TranslationEntity(class="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Translation\AttributeTranslation")
  * @ORM\Table(name="bigfoot_menu_item_attribute")
  * @ORM\Entity(repositoryClass="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\AttributeRepository")
  */
@@ -74,11 +75,21 @@ class Attribute
     private $locale;
 
     /**
+     * @ORM\OneToMany(
+     *   targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Translation\AttributeTranslation",
+     *   mappedBy="object",
+     *   cascade={"persist", "remove"}
+     * )
+     */
+    private $translations;
+
+    /**
      * Construct Attribute
      */
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+        $this->items        = new ArrayCollection();
+        $this->translations = new ArrayCollection();
     }
 
     /**
@@ -237,5 +248,24 @@ class Attribute
     public function setTranslatableLocale($locale)
     {
         return $this->locale = $locale;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    /**
+     * @param Item\Translation\AttributeTranslation $t
+     */
+    public function addTranslation(Item\Translation\AttributeTranslation $t)
+    {
+        if (!$this->translations->contains($t)) {
+            $this->translations[] = $t;
+            $t->setObject($this);
+        }
     }
 }

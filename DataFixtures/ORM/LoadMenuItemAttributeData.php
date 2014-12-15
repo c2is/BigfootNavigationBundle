@@ -2,6 +2,7 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\DataFixtures\ORM;
 
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Translation\AttributeTranslation;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -33,8 +34,7 @@ class LoadMenuItemAttributeData extends AbstractFixture implements ContainerAwar
             ->setLabel('Active element')
             ->setValue('active');
 
-        $repository = $manager->getRepository('Gedmo\Translatable\Entity\Translation');
-        $repository->translate($attribute, 'label', 'fr', 'Element ayant la class "active"');
+        $attribute->addTranslation(new AttributeTranslation('fr', 'label', 'Element ayant la class "active"'));
 
         $manager->persist($attribute);
 
@@ -45,8 +45,7 @@ class LoadMenuItemAttributeData extends AbstractFixture implements ContainerAwar
             ->setLabel('Active link')
             ->setValue('active');
 
-        $repository = $manager->getRepository('Gedmo\Translatable\Entity\Translation');
-        $repository->translate($attribute, 'label', 'fr', 'Lien ayant la class "active"');
+        $attribute->addTranslation(new AttributeTranslation('fr', 'label', 'Lien ayant la class "active"'));
 
         $manager->persist($attribute);
 
@@ -57,8 +56,7 @@ class LoadMenuItemAttributeData extends AbstractFixture implements ContainerAwar
             ->setLabel('Active child')
             ->setValue('active');
 
-        $repository = $manager->getRepository('Gedmo\Translatable\Entity\Translation');
-        $repository->translate($attribute, 'label', 'fr', 'Enfant ayant la class "active"');
+        $attribute->addTranslation(new AttributeTranslation('fr', 'label', 'Enfant ayant la class "active"'));
 
         $manager->persist($attribute);
 

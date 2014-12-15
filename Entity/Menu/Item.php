@@ -2,6 +2,7 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Entity\Menu;
 
+use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Translation\ItemTranslation;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,6 +17,7 @@ use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter;
 /**
  * Item
  *
+ * @Gedmo\TranslationEntity(class="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Translation\ItemTranslation")
  * @ORM\Table(name="bigfoot_menu_item")
  * @ORM\Entity(repositoryClass="Bigfoot\Bundle\NavigationBundle\Entity\Menu\ItemRepository")
  */
@@ -150,12 +152,22 @@ class Item
     private $locale;
 
     /**
+     * @ORM\OneToMany(
+     *   targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Translation\ItemTranslation",
+     *   mappedBy="object",
+     *   cascade={"persist", "remove"}
+     * )
+     */
+    private $translations;
+
+    /**
      * Construct Item
      */
     public function __construct()
     {
-        $this->children   = new ArrayCollection();
-        $this->attributes = new ArrayCollection();
+        $this->children     = new ArrayCollection();
+        $this->attributes   = new ArrayCollection();
+        $this->translations = new ArrayCollection();
     }
 
     /**
@@ -744,5 +756,24 @@ class Item
         $this->locale = $locale;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    /**
+     * @param ItemTranslation $t
+     */
+    public function addTranslation(ItemTranslation $t)
+    {
+        if (!$this->translations->contains($t)) {
+            $this->translations[] = $t;
+            $t->setObject($this);
+        }
     }
 }
