@@ -58,9 +58,16 @@ class UrlManager
         $url = '#';
 
         if (isset($link['name'])) {
-            $route       = $link['name'];
-            $options     = $this->router->getRouteCollection()->get($route)->getOptions();
+
             $parameters  = array();
+            $locale = $this->context->get('language');
+            $route       = $link['name'];
+            if ($this->router instanceof \BeSimple\I18nRoutingBundle\Routing\Router and $this->router->getRouteCollection()->get(sprintf('%s.%s', $route, $locale))) {
+                $parameters['locale'] = $locale;
+                $options     = $this->router->getRouteCollection()->get($route.'.'.$locale)->getOptions();
+            } else {
+                $options     = $this->router->getRouteCollection()->get($route)->getOptions();
+            }
             $iParameters = $link['parameters'];
 
             if (isset($options['parameters'])) {
@@ -81,12 +88,6 @@ class UrlManager
                         $parameters[$parameter['name']] = $iParameters[$parameter['name']];
                     }
                 }
-            }
-
-            $locale          = $this->context->get('language');
-
-            if ($this->router instanceof \BeSimple\I18nRoutingBundle\Routing\Router and $this->router->getRouteCollection()->get(sprintf('%s.%s', $route, $locale))) {
-                $parameters['locale'] = $locale;
             }
 
             $url = $this->router->generate($route, $parameters, $absolute);
