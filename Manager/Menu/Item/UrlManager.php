@@ -90,7 +90,11 @@ class UrlManager
                 }
             }
 
-            $url = $this->router->generate($route, $parameters, $absolute);
+            try {
+                $url = $this->router->generate($route, $parameters, $absolute);
+            } catch (\Exception $e) {
+                $url = '#';
+            }
         } elseif (isset($link['externalLink']) and $link['externalLink']) {
             $url = $link['externalLink'];
             if (($httpPos = strpos($link['externalLink'], 'http')) === false or $httpPos != 0) {
