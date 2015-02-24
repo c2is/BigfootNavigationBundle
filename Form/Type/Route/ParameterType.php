@@ -24,14 +24,20 @@ class ParameterType extends AbstractType
     private $router;
 
     /**
+     * @var string
+     */
+    private $locale;
+
+    /**
      * Construct Item Type
      *
      * @param Router $router
      */
-    public function __construct(EntityManager $entityManager, Router $router)
+    public function __construct(EntityManager $entityManager, Router $router, $locale)
     {
         $this->entityManager = $entityManager;
         $this->router        = $router;
+        $this->locale        = $locale;
     }
 
     /**
@@ -43,7 +49,8 @@ class ParameterType extends AbstractType
         $link = $options['link'];
 
         if ($link) {
-            $route = $this->router->getRouteCollection()->get($link);
+            $routeName = $this->router instanceof \BeSimple\I18nRoutingBundle\Routing\Router ? sprintf('%s.%s', $link, $this->locale) : $link;
+            $route = $this->router->getRouteCollection()->get($routeName);
 
             if ($route) {
                 $routeOptions = $route->getOptions();
