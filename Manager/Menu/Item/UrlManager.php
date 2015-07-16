@@ -74,6 +74,11 @@ class UrlManager
                 foreach ($options['parameters'] as $parameter) {
                     if (preg_match('/Bundle/i', $parameter['type'])) {
                         $entity = $this->entityManager->getRepository($parameter['type'])->find($iParameters[$parameter['name']]);
+
+                        if (!$entity) {
+                            return '#';
+                        }
+
                         $method = 'get'.ucfirst($parameter['field']);
 
                         $parameters[$parameter['name']] = $entity->$method();
