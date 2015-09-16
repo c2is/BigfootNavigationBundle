@@ -68,7 +68,7 @@ class UrlManager
             } else {
                 $options     = $this->router->getRouteCollection()->get($route)->getOptions();
             }
-            $iParameters = $link['parameters'];
+            $iParameters = isset($link['parameters']) ? $link['parameters'] : array();
 
             if (isset($options['parameters'])) {
                 foreach ($options['parameters'] as $parameter) {
