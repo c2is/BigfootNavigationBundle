@@ -72,10 +72,12 @@ class ItemController extends CrudController
      * 'List's Item entities.
      *
      * @Route("/", name="bigfoot_menu_item")
+     * @param Request $request
+     * @return array
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->doIndex();
+        return $this->doIndex($request);
     }
 
     /**
