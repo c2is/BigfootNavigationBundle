@@ -1,15 +1,17 @@
 services:
     # Link Manager
-    bigfoot_navigation.manager.link:
-        class: Bigfoot\Bundle\NavigationBundle\Manager\LinkManager
-        arguments:
-            - '@doctrine.orm.entity_manager'
+    ## NPH : To fix : such a class doesn't exist.
+#    bigfoot_navigation.manager.link:
+#        class: Bigfoot\Bundle\NavigationBundle\Manager\LinkManager
+#        arguments:
+#            - '@doctrine.orm.entity_manager'
 
     # Menu Item Manager
-    bigfoot_navigation.manager.menu_item:
-        class: Bigfoot\Bundle\NavigationBundle\Manager\Menu\ItemManager
-        arguments:
-            - '@doctrine.orm.entity_manager'
+    ## NPH : To fix : such a class doesn't exist.
+#    bigfoot_navigation.manager.menu_item:
+#        class: Bigfoot\Bundle\NavigationBundle\Manager\Menu\ItemManager
+#        arguments:
+#            - '@doctrine.orm.entity_manager'
 
     # Menu Item Url Manager
     bigfoot_navigation.manager.menu_item_url:
@@ -72,12 +74,13 @@ services:
             - { name: form.type, alias: bigfoot_menu_item }
 
     # Menu Item Parameter Type
-    bigfoot_navigation.form.type.menu_item_parameter:
-        class: Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\Item\ParameterType
-        arguments:
-            - '@doctrine.orm.entity_manager'
-        tags:
-            - { name: form.type, alias: bigfoot_menu_item_parameter }
+    ## NPH : To fix : such a class doesn't exist.
+#    bigfoot_navigation.form.type.menu_item_parameter:
+#        class: Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\Item\ParameterType
+#        arguments:
+#            - '@doctrine.orm.entity_manager'
+#        tags:
+#            - { name: form.type, alias: bigfoot_menu_item_parameter }
 
     # Menu Item Attribute Type
     bigfoot_navigation.form.type.menu_item_attribute:

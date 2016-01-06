@@ -15,7 +15,6 @@ use Bigfoot\Bundle\CoreBundle\Controller\CrudController;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter as ItemParameter;
 use Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\ItemType;
-use Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\Item\ParameterType;
 
 /**
  * Item Controller
