@@ -2,10 +2,11 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Twig\Extension;
 
+use Knp\Menu\ItemInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Doctrine\ORM\EntityManager;
 use Twig_Extension;
-use Twig_Function_Method;
+use Twig_SimpleFunction;
 use Knp\Menu\Twig\Helper;
 use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Iterator\RecursiveItemIterator;
@@ -51,8 +52,8 @@ class MenuExtension extends Twig_Extension
     public function getFunctions()
     {
         return array(
-            'menu_item_url'         => new Twig_Function_Method($this, 'getItemUrl'),
-            'knp_breadcrumb_render' => new Twig_Function_Method($this, 'getBreadcrumb', array('is_safe' => array('html')))
+            new Twig_SimpleFunction('menu_item_url', array($this, 'getItemUrl')),
+            new Twig_SimpleFunction('knp_breadcrumb_render', array($this, 'getBreadcrumb'), array('is_safe' => array('html')))
         );
     }
 

@@ -15,7 +15,6 @@ use Bigfoot\Bundle\CoreBundle\Controller\CrudController;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter as ItemParameter;
 use Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\ItemType;
-use Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\Item\ParameterType;
 
 /**
  * Item Controller
@@ -72,10 +71,12 @@ class ItemController extends CrudController
      * 'List's Item entities.
      *
      * @Route("/", name="bigfoot_menu_item")
+     * @param Request $request
+     * @return array
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->doIndex();
+        return $this->doIndex($request);
     }
 
     /**

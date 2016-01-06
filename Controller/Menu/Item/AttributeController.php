@@ -55,10 +55,12 @@ class AttributeController extends CrudController
      * Lists Attribute entities.
      *
      * @Route("/", name="bigfoot_menu_item_attribute")
+     * @param Request $request
+     * @return array
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->doIndex();
+        return $this->doIndex($request);
     }
 
     /**

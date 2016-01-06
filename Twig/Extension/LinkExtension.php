@@ -36,7 +36,7 @@ class LinkExtension extends Twig_Extension
     public function getFilters()
     {
         return array(
-            'link_url' => new \Twig_Filter_Method($this, 'getLink'),
+            new \Twig_SimpleFilter('link_url', array($this, 'getLink')),
         );
     }
 
