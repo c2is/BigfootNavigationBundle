@@ -101,7 +101,7 @@ class MenuController extends CrudController
     /**
      * Render form
      */
-    protected function renderForm($form, $action, $menu, $visibility = null)
+    protected function renderForm(Request $request, $form, $action, $menu, $visibility = null)
     {
         $treeViews = $this->renderView(
             $this->getThemeBundle().':navigation:nestable.html.twig',
