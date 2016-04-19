@@ -2,6 +2,7 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Controller\Menu\Item;
 
+use Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\Item\AttributeType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -48,7 +49,7 @@ class AttributeController extends CrudController
 
     protected function getFormType()
     {
-        return 'bigfoot_menu_item_attribute';
+        return AttributeType::class;
     }
 
     /**

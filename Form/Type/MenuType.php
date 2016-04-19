@@ -2,7 +2,10 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Form\Type;
 
+use Bigfoot\Bundle\CoreBundle\Form\Type\TranslatedEntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManager;
@@ -36,15 +39,15 @@ class MenuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array('required' => false))
+            ->add('name', TextType::class, array('required' => false))
             ->add(
                 'items',
-                'hidden',
+                HiddenType::class,
                 array(
                     'attr' => array('class' => 'treeView'),
                 )
             )
-            ->add('translation', 'translatable_entity');
+            ->add('translation', TranslatedEntityType::class);
 
         $builder
             ->get('items')
@@ -52,7 +55,7 @@ class MenuType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {

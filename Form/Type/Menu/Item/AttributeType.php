@@ -2,7 +2,10 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\Item;
 
+use Bigfoot\Bundle\CoreBundle\Form\Type\TranslatedEntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -23,22 +26,22 @@ class AttributeType extends AbstractType
         $builder
             ->add(
                 'type',
-                'choice',
+                ChoiceType::class,
                 array(
-                    'choices'     => Attribute::$types,
+                    'choices'     => array_flip(Attribute::$types),
                     'multiple'    => false,
-                    'empty_value' => 'Choose a type',
+                    'placeholder' => 'Choose a type',
                     'required'    => true,
                 )
             )
-            ->add('name', 'text', array('required' => false))
-            ->add('value', 'text', array('required' => false))
-            ->add('label', 'text', array('required' => false))
-            ->add('translation', 'translatable_entity');
+            ->add('name', TextType::class, array('required' => false))
+            ->add('value', TextType::class, array('required' => false))
+            ->add('label', TextType::class, array('required' => false))
+            ->add('translation', TranslatedEntityType::class);
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {

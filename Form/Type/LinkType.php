@@ -2,6 +2,10 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Form\Type;
 
+use Bigfoot\Bundle\NavigationBundle\Form\Type\Route\ParameterType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -57,7 +61,7 @@ class LinkType extends AbstractType
             if ($link) {
                 $form->add(
                     'parameters',
-                    'bigfoot_route_parameter',
+                    ParameterType::class,
                     array(
                         'link' => $link,
                     )
@@ -80,11 +84,11 @@ class LinkType extends AbstractType
 
                 $form->add(
                     'name',
-                    'choice',
+                    ChoiceType::class,
                     array(
                         'data'        => $name,
-                        'empty_value' => 'Choose a link',
-                        'choices'     => $nRoutes,
+                        'placeholder' => 'Choose a link',
+                        'choices'     => array_flip($nRoutes),
                         'required'    => false,
                         'attr'        => array(
                             'class'                 => 'bigfoot_link_routes',
@@ -95,7 +99,7 @@ class LinkType extends AbstractType
 
                 $form->add(
                     'externalLink',
-                    'text',
+                    TextType::class,
                     array(
                         'data'     => $externalLink,
                         'required' => false,
@@ -104,7 +108,7 @@ class LinkType extends AbstractType
 
                 $form->add(
                     'linkType',
-                    'hidden',
+                    HiddenType::class,
                     array(
                         'data'     => $linkType,
                         'required' => false,

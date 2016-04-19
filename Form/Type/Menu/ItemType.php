@@ -2,13 +2,19 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Form\Type\Menu;
 
+use Bigfoot\Bundle\CoreBundle\Form\Type\TranslatedEntityType;
+use Bigfoot\Bundle\MediaBundle\Form\Type\BigfootMediaType;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\AttributeRepository;
+use Bigfoot\Bundle\NavigationBundle\Form\Type\LinkType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManager;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Attribute;
@@ -35,9 +41,9 @@ class ItemType extends AbstractType
         $this->entityManager = $entityManager;
     }
 
-    public function setRequest(Request $request = null)
+    public function setRequest(RequestStack $requestStack)
     {
-        $this->request = $request;
+        $this->request = $requestStack->getCurrentRequest();
     }
 
     /**
@@ -61,7 +67,7 @@ class ItemType extends AbstractType
             $builder
                 ->add(
                     'menu',
-                    'entity',
+                    EntityType::class,
                     array(
                         'class'         => 'Bigfoot\Bundle\NavigationBundle\Entity\Menu',
                         'contextualize' => true
@@ -70,53 +76,49 @@ class ItemType extends AbstractType
         }
 
         $builder
-            ->add('name', 'text', array('required' => false))
-            ->add('label', 'text', array('required' => false))
+            ->add('name', TextType::class, array('required' => false))
+            ->add('label', TextType::class, array('required' => false))
             ->add('parent')
-            ->add('link', 'bigfoot_link', array('required' => false))
-
+            ->add('link', LinkType::class, array('required' => false))
 //            ->add('attributes', null, array('required' => false))
 
-            ->add('childAttributes', 'entity', array(
-                    'class' => 'BigfootNavigationBundle:Menu\Item\Attribute',
-                    'query_builder' => function(AttributeRepository $er) {
-                            return $er->createQueryBuilder('u')
-                                ->where('u.type = :type')
-                                ->setParameter(":type", Attribute::CHILD);
-                        },
-                    'multiple' => true,
-                    'required' => false
-                ))
-
-            ->add('elementAttributes', 'entity', array(
-                    'class' => 'BigfootNavigationBundle:Menu\Item\Attribute',
-                    'query_builder' => function(AttributeRepository $er) {
-                            return $er->createQueryBuilder('u')
-                                ->where('u.type = :type')
-                                ->setParameter(":type", Attribute::ELEMENT);
-                        },
-                    'multiple' => true,
-                    'required' => false
-                ))
-
-            ->add('linkAttributes', 'entity', array(
-                    'class' => 'BigfootNavigationBundle:Menu\Item\Attribute',
-                    'query_builder' => function(AttributeRepository $er) {
-                            return $er->createQueryBuilder('u')
-                                ->where('u.type = :type')
-                                ->setParameter(":type", Attribute::LINK);
-                        },
-                    'multiple' => true,
-                    'required' => false
-                ))
-
-            ->add('image', 'bigfoot_media', array('required' => false))
-            ->add('description', 'text', array('required' => false))
-            ->add('translation', 'translatable_entity');
+            ->add('childAttributes', EntityType::class, array(
+                'class'         => 'BigfootNavigationBundle:Menu\Item\Attribute',
+                'query_builder' => function (AttributeRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->where('u.type = :type')
+                        ->setParameter(":type", Attribute::CHILD);
+                },
+                'multiple'      => true,
+                'required'      => false
+            ))
+            ->add('elementAttributes', EntityType::class, array(
+                'class'         => 'BigfootNavigationBundle:Menu\Item\Attribute',
+                'query_builder' => function (AttributeRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->where('u.type = :type')
+                        ->setParameter(":type", Attribute::ELEMENT);
+                },
+                'multiple'      => true,
+                'required'      => false
+            ))
+            ->add('linkAttributes', EntityType::class, array(
+                'class'         => 'BigfootNavigationBundle:Menu\Item\Attribute',
+                'query_builder' => function (AttributeRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->where('u.type = :type')
+                        ->setParameter(":type", Attribute::LINK);
+                },
+                'multiple'      => true,
+                'required'      => false
+            ))
+            ->add('image', BigfootMediaType::class, array('required' => false))
+            ->add('description', TextType::class, array('required' => false))
+            ->add('translation', TranslatedEntityType::class);
 
         $builder->addEventListener(
             FormEvents::POST_SUBMIT,
-            function(FormEvent $event) use ($entityManager, $menu, $parent) {
+            function (FormEvent $event) use ($entityManager, $menu, $parent) {
                 $form = $event->getForm();
                 $data = $event->getData();
 
@@ -132,7 +134,7 @@ class ItemType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {

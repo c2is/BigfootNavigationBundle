@@ -69,7 +69,7 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
         calls:
-            - [setRequest, ['@?request=']]
+            - [setRequest, ['@request_stack']]
         tags:
             - { name: form.type, alias: bigfoot_menu_item }
 

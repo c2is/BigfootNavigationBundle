@@ -5,6 +5,8 @@ namespace Bigfoot\Bundle\NavigationBundle\Form\Type\Route;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -86,9 +88,9 @@ class ParameterType extends AbstractType
             foreach ($entities as $key => $entity) {
                 $builder->add(
                     $key,
-                    'choice',
+                    ChoiceType::class,
                     array(
-                        'choices' => $this->getEntities($entity, $routeOptions),
+                        'choices' => array_flip($this->getEntities($entity, $routeOptions)),
                     )
                 );
             }
@@ -98,7 +100,7 @@ class ParameterType extends AbstractType
             foreach ($parameters as $key => $parameter) {
                 $builder->add(
                     $parameter,
-                    'text',
+                    TextType::class,
                     array(
                         'required' => true,
                     )
@@ -119,7 +121,7 @@ class ParameterType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
