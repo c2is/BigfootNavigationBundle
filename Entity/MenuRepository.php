@@ -3,6 +3,8 @@
 namespace Bigfoot\Bundle\NavigationBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
+use Gedmo\Translatable\TranslatableListener;
 
 /**
  * MenuRepository
@@ -12,4 +14,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class MenuRepository extends EntityRepository
 {
+    public function getOrderedMenu($slug, $locale)
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin('m.items', 'i')
+            ->leftJoin('i.children', 'ii')
+            ->leftJoin('ii.children', 'iii')
+            ->addSelect('i, ii, iii')
+            ->where('m.slug = :slug')
+            ->setParameter(':slug', $slug)
+            ->orderBy('i.position', 'ASC')
+            ->addOrderBy('ii.position', 'ASC')
+            ->addOrderBy('iii.position', 'ASC')
+            ->getQuery()
+            ->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
+            ->getOneOrNullResult();
+    }
 }

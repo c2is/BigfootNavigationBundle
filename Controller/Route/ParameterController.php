@@ -2,6 +2,7 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Controller\Route;
 
+use Bigfoot\Bundle\NavigationBundle\Form\Type\Menu\ItemType;
 use Bigfoot\Bundle\NavigationBundle\Form\Type\Route\ParameterType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,9 @@ class ParameterController extends BaseController
      */
     public function listAction(Request $request, $route, $formName)
     {
+        if ($formName == 'item') {
+            $formName = ItemType::class;
+        }
         $entityForm = $this->createForm($formName);
 
         $entityForm

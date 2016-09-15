@@ -276,7 +276,7 @@ class Item
     /**
      * Set menu
      *
-     * @param integer $menu
+     * @param Menu $menu
      * @return Item
      */
     public function setMenu($menu)
@@ -289,7 +289,7 @@ class Item
     /**
      * Get menu
      *
-     * @return integer
+     * @return Menu
      */
     public function getMenu()
     {
