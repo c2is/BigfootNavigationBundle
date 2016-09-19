@@ -84,7 +84,7 @@ class Item
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Item", mappedBy="parent", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Item", mappedBy="parent", cascade={"remove", "persist", "merge"}, orphanRemoval=true)
      */
     private $children;
 
