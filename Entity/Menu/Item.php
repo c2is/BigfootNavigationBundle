@@ -70,6 +70,7 @@ class Item
      *
      * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu", inversedBy="items")
+     * @ORM\JoinColumn(name="menu_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $menu;
 
@@ -78,6 +79,7 @@ class Item
      *
      * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="Item", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $parent;
 
