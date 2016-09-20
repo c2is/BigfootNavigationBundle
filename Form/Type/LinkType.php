@@ -92,7 +92,7 @@ class LinkType extends AbstractType
                         'required'    => false,
                         'attr'        => array(
                             'class'                 => 'bigfoot_link_routes',
-                            'data-parent-form-link' => $parentForm->getName(),
+                            'data-parent-form-link' => get_class($parentForm->getConfig()->getType()->getInnerType()),
                         )
                     )
                 );
