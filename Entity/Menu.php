@@ -48,7 +48,7 @@ class Menu
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item", mappedBy="menu", cascade={"persist", "merge", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item", mappedBy="menu", cascade={"persist", "merge", "remove"})
      */
     private $items;
 
