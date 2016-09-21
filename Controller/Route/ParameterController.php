@@ -31,9 +31,6 @@ class ParameterController extends BaseController
      */
     public function listAction(Request $request, $route, $formName)
     {
-        if ($formName == 'item') {
-            $formName = ItemType::class;
-        }
         $entityForm = $this->createForm($formName);
 
         $entityForm

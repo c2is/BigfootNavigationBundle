@@ -103,6 +103,8 @@ class ItemController extends CrudController
     {
         $item = $this->getRepository($this->getEntity())->find($id);
 
+
+
         if (!$item) {
             return new JsonResponse(sprintf('Unable to find %s entity.', $this->getEntity()));
         }
@@ -114,6 +116,7 @@ class ItemController extends CrudController
                 $item->setParent($parent);
             }
         } else {
+            $item->setMenu($item->getParentMenu());
             $item->setParent(null);
         }
 

@@ -78,15 +78,15 @@ class Item
      * @var Item
      *
      * @Gedmo\SortableGroup
-     * @ORM\ManyToOne(targetEntity="Item", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Item", inversedBy="children", cascade={"persist", "merge"})
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
     private $parent;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Item", mappedBy="parent", cascade={"remove", "persist", "merge"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Item", mappedBy="parent", cascade={"persist", "merge"})
      */
     private $children;
 
@@ -515,18 +515,17 @@ class Item
      * @param $type
      * @return $this
      */
-    public function setElementByType($attributes, $type) {
+    public function setElementByType($attributes, $type)
+    {
         $newAttribute = new ArrayCollection();
 
-        foreach($this->attributes as $attribute )
-        {
+        foreach ($this->attributes as $attribute) {
             if ($attribute->getType() != $type) {
                 $newAttribute->add($attribute);
             }
         }
 
-        foreach($attributes as $attribute)
-        {
+        foreach ($attributes as $attribute) {
             $newAttribute->add($attribute);
         }
 
@@ -566,7 +565,8 @@ class Item
      * @param $type
      * @return array
      */
-    public function getArrayAttributesByType($type) {
+    public function getArrayAttributesByType($type)
+    {
         $toReturn = array();
 
         foreach ($this->attributes as $attribute) {
@@ -585,7 +585,8 @@ class Item
      * @param $name
      * @return bool
      */
-    public function getChildAttributeValueByName($name) {
+    public function getChildAttributeValueByName($name)
+    {
         foreach ($this->attributes as $attribute) {
             if ($attribute->getType() == Attribute::CHILD && $attribute->getName() == $name) {
                 return $attribute->getValue();
@@ -600,7 +601,8 @@ class Item
      * @param $value
      * @return bool
      */
-    public function attributeExist($name, $value) {
+    public function attributeExist($name, $value)
+    {
         foreach ($this->attributes as $attribute) {
             if ($attribute->getName() == $name && $attribute->getValue() == $value) {
                 return true;
@@ -777,5 +779,15 @@ class Item
             $this->translations[] = $t;
             $t->setObject($this);
         }
+    }
+
+    public function getParentMenu()
+    {
+        $item = $this;
+        while (null !== $item->getParent()) {
+            $item = $item->getParent();
+        }
+
+        return $item->getMenu();
     }
 }
