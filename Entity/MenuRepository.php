@@ -22,6 +22,7 @@ class MenuRepository extends EntityRepository
             ->leftJoin('ii.children', 'iii')
             ->addSelect('i, ii, iii')
             ->where('m.slug = :slug')
+            ->andWhere('i.parent is NULL')
             ->setParameter(':slug', $slug)
             ->orderBy('i.position', 'ASC')
             ->addOrderBy('ii.position', 'ASC')
