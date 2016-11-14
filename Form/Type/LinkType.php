@@ -12,24 +12,21 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use BeSimple\I18nRoutingBundle\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 class LinkType extends AbstractType
 {
     /**
-     * @var Router
+     * @var RouterInterface
      */
     private $router;
 
     /**
      * Construct Item Type
      *
-     * @param Router $router
+     * @param RouterInterface $router
      */
-    public function __construct(Router $router)
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
     }
