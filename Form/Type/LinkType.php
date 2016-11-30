@@ -125,10 +125,12 @@ class LinkType extends AbstractType
                 $parentData = $form->getParent()->getData();
                 $setMethod  = 'set'.ucfirst($form->getName());
 
-                $parentData->$setMethod($data);
+                if ($parentData) {
+                    $parentData->$setMethod($data);
 
-                if (isset($data['name'])) {
-                    $formModifier($event->getForm(), $data['name']);
+                    if (isset($data['name'])) {
+                        $formModifier($event->getForm(), $data['name']);
+                    }
                 }
             });
     }
