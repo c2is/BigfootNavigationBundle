@@ -3,39 +3,36 @@
 namespace Bigfoot\Bundle\NavigationBundle\Form\Type\Route;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use BeSimple\I18nRoutingBundle\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Class ParameterType
+ *
+ * @package Bigfoot\Bundle\NavigationBundle\Form\Type\Route
+ */
 class ParameterType extends AbstractType
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
+    /** @var \Doctrine\ORM\EntityManager */
     private $entityManager;
 
-    /**
-     * @var Router
-     */
+    /** @var \Symfony\Component\Routing\RouterInterface */
     private $router;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $locale;
 
     /**
-     * Construct Item Type
-     *
-     * @param Router $router
+     * @param \Doctrine\ORM\EntityManager                $entityManager
+     * @param \Symfony\Component\Routing\RouterInterface $router
+     * @param                                            $locale
      */
-    public function __construct(EntityManager $entityManager, Router $router, $locale)
+    public function __construct(EntityManager $entityManager, RouterInterface $router, $locale)
     {
         $this->entityManager = $entityManager;
         $this->router        = $router;
@@ -51,7 +48,7 @@ class ParameterType extends AbstractType
         $link = $options['link'];
 
         if ($link) {
-            $routeName = $this->router instanceof \BeSimple\I18nRoutingBundle\Routing\Router ? sprintf('%s.%s', $link, $this->locale) : $link;
+            $routeName = $this->router instanceof Router ? sprintf('%s.%s', $link, $this->locale) : $link;
             $route = $this->router->getRouteCollection()->get($routeName);
 
             if ($route) {
