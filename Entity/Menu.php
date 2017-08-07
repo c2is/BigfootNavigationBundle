@@ -158,6 +158,8 @@ class Menu
     public function addItem(Item $item)
     {
         $this->items->add($item);
+        $item->setMenu($this);
+
         return $this;
     }
 
@@ -168,6 +170,8 @@ class Menu
     public function removeItem(Item $item)
     {
         $this->items->removeElement($item);
+        $item->setMenu(null);
+
         return $this;
     }
 

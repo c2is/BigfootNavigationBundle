@@ -87,6 +87,7 @@ class Item
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Item", mappedBy="parent", cascade={"persist", "merge"})
+     * @ORM\OrderBy(value={"position" = "ASC"})
      */
     private $children;
 
@@ -337,7 +338,12 @@ class Item
      */
     public function addChildren(Item $children)
     {
-        $this->children->add($children);
+        if (!$this->children->contains($children)) {
+            $this->children->add($children);
+            $children->setParent($this);
+            $children->setMenu($this->getMenu());
+        }
+
         return $this;
     }
 
@@ -348,11 +354,14 @@ class Item
     public function removeChildren(Item $children)
     {
         $this->children->removeElement($children);
+        $children->setItem(null);
+        $children->setMenu(null);
+
         return $this;
     }
 
     /**
-     * @return ArrayCollection
+     * @return \Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item[]|ArrayCollection
      */
     public function getChildren()
     {
@@ -360,21 +369,19 @@ class Item
     }
 
     /**
-     * @return ArrayCollection
+     * @return \Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item[]|ArrayCollection
      */
     public function getOrderedChildren()
     {
-        $items = array();
+        return $this->getChildren();
+    }
 
-        foreach ($this->children as $item) {
-            if (!$item->getParent() != $this->getId()) {
-                $items[$item->getPosition()] = $item;
-            }
-        }
-
-        ksort($items);
-
-        return $items;
+    /**
+     * @return int
+     */
+    public function countChildren()
+    {
+        return $this->children->count();
     }
 
     /**
