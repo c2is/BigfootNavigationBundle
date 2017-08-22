@@ -61,7 +61,7 @@ class ParameterType extends AbstractType
 
         if (isset($routeOptions['parameters'])) {
             foreach ($routeOptions['parameters'] as $key => $parameter) {
-                if (preg_match('/Bundle/i', $parameter['type'])) {
+                if (isset($parameter['type']) && preg_match('/Bundle/i', $parameter['type'])) {
                     $method = 'findBy';
 
                     if (isset($parameter['repoMethod'])) {
@@ -76,7 +76,7 @@ class ParameterType extends AbstractType
 
                     $entities[$parameter['name']] = $this->entityManager->getRepository($parameter['type'])->$method(array(), $methodParameters);
                 } else {
-                    $parameters[$parameter['name']] = $parameter['name'];
+                    $parameters[$parameter['name']] = isset($parameter['fieldLabel']) ? $parameter['fieldLabel'] : $parameter['name'];
                 }
             }
         }
@@ -96,11 +96,12 @@ class ParameterType extends AbstractType
         if (count($parameters)) {
             foreach ($parameters as $key => $parameter) {
                 $builder->add(
-                    $parameter,
+                    $key,
                     TextType::class,
-                    array(
+                    [
                         'required' => true,
-                    )
+                        'label' => $parameter
+                    ]
                 );
             }
         }
