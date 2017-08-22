@@ -52,6 +52,7 @@ services:
         class: Bigfoot\Bundle\NavigationBundle\Form\Type\LinkType
         arguments:
             - '@router'
+            - '@property_accessor'
         tags:
             - { name: form.type, alias: bigfoot_link }
 

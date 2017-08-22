@@ -26,15 +26,15 @@ class ParameterController extends BaseController
     /**
      * Lists all parameters for a given route.
      *
-     * @Route("/list/{route}/{formName}", name="bigfoot_route_parameter_list", options={"expose"=true})
+     * @Route("/list/{route}/{formName}/{fieldName}", name="bigfoot_route_parameter_list", options={"expose"=true})
      * @Template()
      */
-    public function listAction(Request $request, $route, $formName)
+    public function listAction(Request $request, $route, $formName, $fieldName)
     {
         $entityForm = $this->createForm($formName);
 
         $entityForm
-            ->get('link')
+            ->get($fieldName)
             ->add(
                 'parameters',
                 ParameterType::class,
@@ -44,7 +44,7 @@ class ParameterController extends BaseController
             );
 
         return array(
-            'form' => $entityForm->get('link')->get('parameters')->createView()
+            'form' => $entityForm->get($fieldName)->get('parameters')->createView()
         );
     }
 }
