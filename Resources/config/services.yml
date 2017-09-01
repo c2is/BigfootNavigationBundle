@@ -95,6 +95,7 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@router'
-            - %locale%
+            - '%locale%'
+            - '@property_accessor'
         tags:
             - { name: form.type, alias: bigfoot_route_parameter }
