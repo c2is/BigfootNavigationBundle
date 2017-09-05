@@ -2,12 +2,11 @@
 
 namespace Bigfoot\Bundle\NavigationBundle\Manager\Menu\Item;
 
-use Symfony\Component\Routing\RouterInterface;
-use Doctrine\ORM\EntityManager;
-
+use Bigfoot\Bundle\ContextBundle\Service\ContextService as Context;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter;
-use Bigfoot\Bundle\ContextBundle\Service\ContextService as Context;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\Routing\RouterInterface;
 
 class UrlManager
 {
@@ -25,9 +24,9 @@ class UrlManager
     private $context;
 
     /**
-     * @param EntityManager $entityManager
+     * @param EntityManager   $entityManager
      * @param RouterInterface $router
-     * @param Context $context
+     * @param Context         $context
      */
     public function __construct(EntityManager $entityManager, RouterInterface $router, Context $context)
     {
@@ -39,6 +38,7 @@ class UrlManager
     /**
      * @param Item $item
      * @param bool $absolute
+     *
      * @return string
      */
     public function getUrl(Item $item, $absolute = true)
@@ -50,7 +50,8 @@ class UrlManager
 
     /**
      * @param array $link
-     * @param bool $absolute
+     * @param bool  $absolute
+     *
      * @return string
      */
     public function getLink($link, $absolute = true)
@@ -62,22 +63,30 @@ class UrlManager
             $locale = $this->context->get('language');
             $route       = $link['name'];
 
-            if ($this->router instanceof \BeSimple\I18nRoutingBundle\Routing\Router and $this->router->getRouteCollection()->get(sprintf('%s.%s', $route, $locale))) {
+            if ($this->router instanceof \BeSimple\I18nRoutingBundle\Routing\Router and $this->router->getRouteCollection(
+                )->get(sprintf('%s.%s', $route, $locale))) {
                 $parameters['locale'] = $locale;
-                $options     = $this->router->getRouteCollection()->get($route.'.'.$locale)->getOptions();
-            } elseif ($this->router instanceof \JMS\I18nRoutingBundle\Router\I18nRouter and $this->router->getRouteCollection()->get(sprintf('%s__RG__%s', $locale, $route))) {
+                $sfRoute              = $this->router->getRouteCollection()->get($route.'.'.$locale);
+            } elseif ($this->router instanceof \JMS\I18nRoutingBundle\Router\I18nRouter and $this->router->getRouteCollection()->get(sprintf('%s__RG__%s', $locale, $route))){
                 $parameters['locale'] = $locale;
-                $options     = $this->router->getRouteCollection()->get($locale.'__RG__'.$route)->getOptions();
+                $sfRoute = $this->router->getRouteCollection()->get($locale.'__RG__'.$route);
             } else {
-                $options     = $this->router->getRouteCollection()->get($route)->getOptions();
+                $sfRoute = $this->router->getRouteCollection()->get($route);
             }
 
-            $iParameters = isset($link['parameters']) ? $link['parameters'] : array();
+            if (!$sfRoute) {
+                return $url;
+            }
+
+            $options     = $sfRoute->getOptions();
+            $iParameters = isset($link['parameters']) ? $link['parameters'] : [];
 
             if (isset($options['parameters'])) {
                 foreach ($options['parameters'] as $parameter) {
                     if (isset($parameter['type']) && preg_match('/Bundle/i', $parameter['type'])) {
-                        $entity = $this->entityManager->getRepository($parameter['type'])->find($iParameters[$parameter['name']]);
+                        $entity = $this->entityManager->getRepository($parameter['type'])->find(
+                            $iParameters[$parameter['name']]
+                        );
                         $method = 'get'.ucfirst($parameter['field']);
 
                         $parameters[$parameter['name']] = $entity->$method();
@@ -113,19 +122,20 @@ class UrlManager
 
     /**
      * @param Item $item
+     *
      * @return array
      */
     public function getParameters(Item $item)
     {
-        $parameters = array();
+        $parameters = [];
 
         foreach ($item->getParameters() as $itemParameter) {
             $routeParameter = $itemParameter->getParameter();
             $parameterName  = $routeParameter->getName();
 
             if ($routeParameter->getType()) {
-                $repository     = $this->entityManager->getRepository($routeParameter->getType());
-                $entity         = $repository->find($itemParameter->getValue());
+                $repository = $this->entityManager->getRepository($routeParameter->getType());
+                $entity     = $repository->find($itemParameter->getValue());
                 // USE PROPERTY ACCESSOR !!!
                 $getter         = sprintf('get%s', ucfirst($routeParameter->getValueField()));
                 $parameterValue = $entity->$getter();

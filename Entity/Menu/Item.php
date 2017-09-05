@@ -404,7 +404,7 @@ class Item
     }
 
     /**
-     * @param $link
+     * @param array $link
      * @return $this
      */
     public function setLink($link)
@@ -414,7 +414,7 @@ class Item
     }
 
     /**
-     * @return link
+     * @return array
      */
     public function getLink()
     {
