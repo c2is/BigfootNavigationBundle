@@ -83,11 +83,15 @@ class UrlManager
 
             if (isset($options['parameters'])) {
                 foreach ($options['parameters'] as $parameter) {
-                    if (isset($parameter['type']) && preg_match('/Bundle/i', $parameter['type'])) {
+                    if (isset($parameter['name']) && isset($parameter['type']) && preg_match(
+                            '/Bundle/i',
+                            $parameter['type']
+                        )) {
+                        $field  = isset($parameter['field']) ? $parameter['field'] : $parameter['name'];
                         $entity = $this->entityManager->getRepository($parameter['type'])->find(
                             $iParameters[$parameter['name']]
                         );
-                        $method = 'get'.ucfirst($parameter['field']);
+                        $method = 'get'.ucfirst($field);
 
                         $parameters[$parameter['name']] = $entity->$method();
 
@@ -97,10 +101,8 @@ class UrlManager
                                 $parameters[$child] = $entity->$method()->getSlug();
                             }
                         }
-                    } else {
-                        if (isset($parameter['name'])) {
-                            $parameters[$parameter['name']] = $iParameters[$parameter['name']];
-                        }
+                    } elseif (isset($parameter['name']) && isset($iParameters[$parameter['name']])) {
+                        $parameters[$parameter['name']] = $iParameters[$parameter['name']];
                     }
                 }
             }
