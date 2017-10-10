@@ -12,9 +12,7 @@ $(function () {
             formName  = $(this).data('parent-form-link'),
             fieldName = $(this).data('parent-form-field'),
             container = $(this).closest('.internal-link-tab');
-console.log(fieldName);
-console.log({ 'route': route, 'formName': formName, 'fieldName': fieldName });
-console.log(Routing.generate('bigfoot_route_parameter_list', { 'route': route, 'formName': formName, 'fieldName': fieldName }));
+
         $.ajax({
             url:   Routing.generate('bigfoot_route_parameter_list', { 'route': route, 'formName': formName, 'fieldName': fieldName }),
             type:  'GET',
