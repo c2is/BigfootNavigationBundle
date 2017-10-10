@@ -72,7 +72,7 @@ class ParameterType extends AbstractType
         $parameters = [];
 
         if (isset($routeOptions['parameters'])) {
-            foreach ($routeOptions['parameters'] as $key => $parameter) {
+            foreach ($routeOptions['parameters'] as $parameter) {
                 if (isset($parameter['type']) && preg_match('/Bundle/i', $parameter['type'])) {
                     $method = 'findBy';
 
@@ -81,15 +81,20 @@ class ParameterType extends AbstractType
                     }
 
                     $methodParameters = [];
+                    $label            = null;
 
                     if (isset($parameter['label'])) {
+                        $label                                 = $parameter['label'];
                         $methodParameters[$parameter['label']] = 'ASC';
                     }
 
-                    $entities[$parameter['name']] = $this->entityManager->getRepository($parameter['type'])->$method(
-                        [],
-                        $methodParameters
-                    );
+                    $entities[$parameter['name']] = [
+                        'label' => $label,
+                        'entities' => $this->entityManager->getRepository($parameter['type'])->$method(
+                            [],
+                            $methodParameters
+                        )
+                    ];
                 } else {
                     $parameters[$parameter['name']] = isset($parameter['fieldLabel']) ? $parameter['fieldLabel'] : $parameter['name'];
                 }
@@ -97,12 +102,12 @@ class ParameterType extends AbstractType
         }
 
         if (count($entities)) {
-            foreach ($entities as $key => $entity) {
+            foreach ($entities as $key => $entityArray) {
                 $builder->add(
                     $key,
                     ChoiceType::class,
                     [
-                        'choices' => array_flip($this->getEntities($entity, $routeOptions)),
+                        'choices' => array_flip($this->getEntities($entityArray['entities'], $entityArray['label'])),
                     ]
                 );
             }
@@ -124,17 +129,17 @@ class ParameterType extends AbstractType
 
     /**
      * @param array $entities
-     * @param array $options
+     * @param string|null $labelProperty
      *
      * @return array
      */
-    public function getEntities($entities = [], $options = [])
+    public function getEntities($entities = [], $labelProperty)
     {
         $nEntities = [];
 
         foreach ($entities as $key => $entity) {
-            if (isset($options['property']) && $options['property']) {
-                $label = $this->propertyAccessor->getValue($entity, $options['property']);
+            if ($labelProperty) {
+                $label = $this->propertyAccessor->getValue($entity, $labelProperty);
             } else {
                 $label = (string)$entity;
             }
