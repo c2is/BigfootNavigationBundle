@@ -88,7 +88,8 @@ class ParameterType extends AbstractType
                         $methodParameters[$parameter['label']] = 'ASC';
                     }
 
-                    $entities[$parameter['name']] = [
+                    $parameterName = is_array($parameter['name']) ? $parameter['name'][0] : $parameter['name'];
+                    $entities[$parameterName] = [
                         'label' => $label,
                         'entities' => $this->entityManager->getRepository($parameter['type'])->$method(
                             [],

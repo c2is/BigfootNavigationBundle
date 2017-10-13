@@ -87,13 +87,23 @@ class UrlManager
                             '/Bundle/i',
                             $parameter['type']
                         )) {
-                        $field  = isset($parameter['field']) ? $parameter['field'] : $parameter['name'];
-                        $entity = $this->entityManager->getRepository($parameter['type'])->find(
-                            $iParameters[$parameter['name']]
-                        );
-                        $method = 'get'.ucfirst($field);
+                        if (is_array($parameter['name'])) {
+                            $mainParameter = $parameter['name'][0];
+                            $parameterNames = $parameter['name'];
+                        } else {
+                            $field  = isset($parameter['field']) ? $parameter['field'] : $parameter['name'];
+                            $mainParameter = $parameter['name'];
+                            $parameterNames = [$field => $parameter['name']];
+                        }
 
-                        $parameters[$parameter['name']] = $entity->$method();
+                        $entity = $this->entityManager->getRepository($parameter['type'])->find(
+                            $iParameters[$mainParameter]
+                        );
+
+                        foreach ($parameterNames as $parameterField => $parameterName) {
+                            $method = 'get'.ucfirst(is_string($parameterField) ? $parameterField : $parameterName);
+                            $parameters[$parameterName] = $entity->$method();
+                        }
 
                         if (isset($parameter['children'])) {
                             foreach ($parameter['children'] as $child) {
@@ -108,8 +118,10 @@ class UrlManager
             }
 
             try {
+                dump($route, $parameters);
                 $url = $this->router->generate($route, $parameters, $absolute);
             } catch (\Exception $e) {
+                dump($e);
                 $url = '#';
             }
         } elseif (isset($link['externalLink']) and $link['externalLink']) {
