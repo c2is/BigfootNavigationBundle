@@ -118,10 +118,8 @@ class UrlManager
             }
 
             try {
-                dump($route, $parameters);
                 $url = $this->router->generate($route, $parameters, $absolute);
             } catch (\Exception $e) {
-                dump($e);
                 $url = '#';
             }
         } elseif (isset($link['externalLink']) and $link['externalLink']) {
