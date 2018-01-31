@@ -24,6 +24,7 @@ class ItemRepository extends EntityRepository
             ->andWhere('m.slug = :slug')
             ->andWhere('e.parent IS NULL')
             ->setParameter(':slug', $slug)
+            ->orderBy('e.position', 'ASC')
             ->getQuery()
             ->getResult();
     }
