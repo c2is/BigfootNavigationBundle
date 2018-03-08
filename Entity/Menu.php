@@ -145,9 +145,14 @@ class Menu
      * @param ArrayCollection $items
      * @return $this
      */
-    public function setItems(ArrayCollection $items)
+    public function setItems(ArrayCollection $items = null)
     {
         $this->items = $items;
+
+        foreach ($items as $item) {
+            $item->setMenu($this);
+        }
+
         return $this;
     }
 

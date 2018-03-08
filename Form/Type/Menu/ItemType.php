@@ -129,6 +129,7 @@ class ItemType extends AbstractType
                 if ($parent) {
                     $cParent = $entityManager->getRepository('BigfootNavigationBundle:Menu\Item')->find($parent);
                     $data->setParent($cParent);
+                    $data->setMenu($cParent->getMenu());
                 }
             });
     }
