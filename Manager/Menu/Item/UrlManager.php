@@ -68,7 +68,6 @@ class UrlManager
                 $parameters['locale'] = $locale;
                 $sfRoute              = $this->router->getRouteCollection()->get($route.'.'.$locale);
             } elseif ($this->router instanceof \JMS\I18nRoutingBundle\Router\I18nRouter and $this->router->getRouteCollection()->get(sprintf('%s__RG__%s', $locale, $route))){
-                $parameters['locale'] = $locale;
                 $sfRoute = $this->router->getRouteCollection()->get($locale.'__RG__'.$route);
             } else {
                 $sfRoute = $this->router->getRouteCollection()->get($route);
