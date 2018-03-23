@@ -60,7 +60,8 @@ class Item
     /**
      * @var string
      *
-     * @Gedmo\Slug(fields={"name"}, updatable=true, unique=true)
+     * @Gedmo\Slug(fields={"label"}, updatable=true, unique=true)
+     * @Gedmo\Translatable
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
