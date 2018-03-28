@@ -100,6 +100,10 @@ class UrlManager
                             $iParameters[$mainParameter]
                         );
 
+                        if (!$entity) {
+                            return $url;
+                        }
+
                         foreach ($parameterNames as $parameterField => $parameterName) {
                             $method = 'get'.ucfirst(is_string($parameterField) ? $parameterField : $parameterName);
                             $parameters[$parameterName] = $entity->$method();
