@@ -6,6 +6,7 @@ use Bigfoot\Bundle\ContextBundle\Service\ContextService as Context;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item;
 use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Parameter;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
 
 class UrlManager
@@ -37,11 +38,11 @@ class UrlManager
 
     /**
      * @param Item $item
-     * @param bool $absolute
+     * @param int $absolute
      *
      * @return string
      */
-    public function getUrl(Item $item, $absolute = true)
+    public function getUrl(Item $item, $absolute = Router::ABSOLUTE_URL)
     {
         $link = $item->getLink();
 
@@ -50,11 +51,11 @@ class UrlManager
 
     /**
      * @param array $link
-     * @param bool  $absolute
+     * @param int  $absolute
      *
      * @return string
      */
-    public function getLink($link, $absolute = true)
+    public function getLink($link, $absolute = Router::ABSOLUTE_URL)
     {
         $url = '#';
 
