@@ -96,6 +96,10 @@ class UrlManager
                             $parameterNames = [$field => $parameter['name']];
                         }
 
+                        if (!$iParameters[$mainParameter]) {
+                            return $url;
+                        }
+
                         $entity = $this->entityManager->getRepository($parameter['type'])->find(
                             $iParameters[$mainParameter]
                         );
