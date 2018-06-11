@@ -64,6 +64,10 @@ class MenuExtension extends Twig_Extension
      */
     public function getItemUrl($item, $absolute = false)
     {
+        if ($item->getExternalLink()) {
+            return $item->getExternalLink();
+        }
+
         return $this->urlManager->getUrl($item, $absolute);
     }
 

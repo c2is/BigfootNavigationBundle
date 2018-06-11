@@ -115,6 +115,14 @@ class Item
     private $link;
 
     /**
+     * @var string
+     *
+     * @Gedmo\Translatable
+     * @ORM\Column(name="external_link", type="string", nullable=true)
+     */
+    private $externalLink;
+
+    /**
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\Attribute", inversedBy="items")
@@ -420,6 +428,26 @@ class Item
     public function getLink()
     {
         return $this->link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExternalLink()
+    {
+        return $this->externalLink;
+    }
+
+    /**
+     * @param string $externalLink
+     *
+     * @return $this
+     */
+    public function setExternalLink($externalLink)
+    {
+        $this->externalLink = $externalLink;
+
+        return $this;
     }
 
     /**

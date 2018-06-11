@@ -8,6 +8,7 @@ use Bigfoot\Bundle\NavigationBundle\Entity\Menu\Item\AttributeRepository;
 use Bigfoot\Bundle\NavigationBundle\Form\Type\LinkType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -82,7 +83,7 @@ class ItemType extends AbstractType
             ->add('parent')
             ->add('link', LinkType::class, array('required' => false))
 //            ->add('attributes', null, array('required' => false))
-
+            ->add('externalLink', UrlType::class, array('required' => false))
             ->add('childAttributes', EntityType::class, array(
                 'class'         => 'BigfootNavigationBundle:Menu\Item\Attribute',
                 'query_builder' => function (AttributeRepository $er) {
