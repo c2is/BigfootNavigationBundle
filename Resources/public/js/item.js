@@ -67,11 +67,15 @@ $(function () {
 
             modal.modal('hide');
         } else {
+          var $responseContent = $('<div>'+responseText.content+'</div>')
+
+          console.log($responseContent.find('.modal-body'))
             modal
                 .find('.modal-body')
-                .empty()
+                .replaceWith($responseContent.find('.modal-body'))
                 .prepend("<div class='alert alert-block alert-danger'>" + responseText.message + '</div>')
-                .append(responseText.content);
+          initSelects()
+          setupTranslatableFields(modal.find('div.translatable-fields'));
         }
     }
 
