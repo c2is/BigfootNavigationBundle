@@ -152,10 +152,11 @@ class ItemController extends CrudController
         );
 
         $content = array(
-            'itemId'   => $item->getId(),
-            'itemName' => $item->getName(),
-            'parent'   => ($item->getParent()) ? $item->getParent()->getId() : null,
-            'view'     => $itemView
+            'itemId'       => $item->getId(),
+            'itemName'     => $item->getName(),
+            'itemPosition' => $item->getPosition(),
+            'parent'       => ($item->getParent()) ? $item->getParent()->getId() : null,
+            'view'         => $itemView
         );
 
         return $this->renderAjax(true, 'Success, please wait...', $content);

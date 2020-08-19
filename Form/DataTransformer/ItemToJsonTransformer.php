@@ -104,12 +104,13 @@ class ItemToJsonTransformer implements DataTransformerInterface
 
         foreach ($items as $item) {
             $toAdd = $repository->findOneById($item->id);
+            if ($toAdd) {
+                if (array_key_exists('children', $item)) {
+                    $this->recursiveReverseTransform($item->children, $collection, $toAdd);
+                }
 
-            if (array_key_exists('children', $item)) {
-                $this->recursiveReverseTransform($item->children, $collection, $toAdd);
+                $collection->add($toAdd);
             }
-
-            $collection->add($toAdd);
         }
     }
 }
