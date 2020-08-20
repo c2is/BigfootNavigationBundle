@@ -27,7 +27,7 @@ class ParameterController extends BaseController
      * Lists all parameters for a given route.
      *
      * @Route("/list/{route}/{formName}/{fieldName}", name="bigfoot_route_parameter_list", options={"expose"=true})
-     * @Template()
+     * @Template("BigfootNavigationBundle:Route:Parameter/list.html.twig")
      */
     public function listAction(Request $request, $route, $formName, $fieldName)
     {
